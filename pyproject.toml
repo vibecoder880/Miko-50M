@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "miko"
+version = "0.1.0"
+description = "Miko 50M — a from-scratch ~50M-parameter CPU-trained decoder-only Transformer language model."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "qkhalk", email = "qk08082009@gmail.com" }]
+keywords = ["llm", "transformer", "language-model", "cpu-training"]
+dependencies = [
+    "torch>=2.2",
+    "tokenizers>=0.19",
+    "safetensors>=0.4",
+    "numpy>=1.24",
+    "tqdm>=4.66",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+include = ["miko*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Datasets and training artifacts (large, generated locally)
+data/cleaned/
+data/tokenized/
+data/manifests/
+checkpoints/
+logs/
+*.bin
+*.safetensors
+*.pt
+*.model
+
+# Tokenizer artifacts
+miko_tokenizer/
+*.json.tok
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
