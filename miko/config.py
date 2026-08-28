@@ -42,7 +42,7 @@ class MikoConfig:
 
     # --- Architecture ---
     hidden_size: int = 384
-    num_layers: int = 15
+    num_layers: int = 13
     num_heads: int = 6
     ffn_size: int = 2048
     context_length: int = 512
@@ -83,24 +83,25 @@ class MikoConfig:
         # Miko v0.1 uses full attention (no GQA); kept as a property so future
         # tiers can switch to grouped-query attention without API churn.
         return self.num_heads
-
     def parameter_count(self) -> int:
         """Exact parameter count matching ``miko.model.MikoModel``.
 
-        Layout (no biases, RMSNorm = weight vector only, tied embeddings):
+        Layout (no biases; RMSNorm = weight vector only; tied embeddings):
           - token embedding : vocab_size * hidden_size
-          - per layer       : hidden^2 * 6  (Q,K,V,O = 4; gate,up = 2) + 2*h*ffn
+          - per layer       : 4 * h^2            (Q, K, V, O projections)
+                              + 3 * h * ffn     (SwiGLU gate/up/down)
+                              | 2 * h * ffn     (GELU up/down)
           - norms           : (2*num_layers + 1) * hidden
-          - lm_head         : hidden*vocab  (0 when tied to token embedding)
+          - lm_head         : 0 when tied to token embedding
         """
         h = self.hidden_size
         f = self.ffn_size
-        per_layer = h * h * 6 + 2 * h * f
+        mlp_factor = 3 if self.activation == "swiglu" else 2
+        per_layer = 4 * h * h + mlp_factor * h * f
         tok_emb = self.vocab_size * h
         norms = (2 * self.num_layers + 1) * h
         lm_head = 0 if self.tie_embeddings else h * self.vocab_size
         return tok_emb + per_layer * self.num_layers + norms + lm_head
-
     @property
     def approx_params_millions(self) -> float:
         return self.parameter_count() / 1_000_000.0
