@@ -1,0 +1,213 @@
+{
+  "checkpoint": "checkpoints_real/latest",
+  "categories": {
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " một, và các."
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": ", and the S."
+        }
+      ]
+    },
+    "code_basic": {
+      "score": 0.0833,
+      "passed": 1,
+      "total": 12,
+      "items": [
+        {
+          "id": "code_py_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "code_py_002",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "code_py_003",
+          "passed": false,
+          "generated": " the, and the S."
+        },
+        {
+          "id": "code_py_004",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "code_py_005",
+          "passed": true,
+          "generated": ", and the S."
+        },
+        {
+          "id": "code_sql_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "code_sql_002",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "code_sh_001",
+          "passed": false,
+          "generated": ", and the S, and the T, and the, and the, and the, and the, and the,"
+        },
+        {
+          "id": "code_js_001",
+          "passed": false,
+          "generated": ", and the T, and the S."
+        },
+        {
+          "id": "code_json_001",
+          "passed": false,
+          "generated": ", và các."
+        },
+        {
+          "id": "code_py_006",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "code_py_007",
+          "passed": false,
+          "generated": ", and the S."
+        }
+      ]
+    },
+    "vi_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 16,
+      "items": [
+        {
+          "id": "vi_cap_001",
+          "passed": false,
+          "generated": " một số, và các."
+        },
+        {
+          "id": "vi_cap_002",
+          "passed": false,
+          "generated": " các."
+        },
+        {
+          "id": "vi_cap_003",
+          "passed": false,
+          "generated": ", và các."
+        },
+        {
+          "id": "vi_num_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "vi_seq_001",
+          "passed": false,
+          "generated": ", and the, and the S."
+        },
+        {
+          "id": "vi_cls_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "vi_sea_001",
+          "passed": false,
+          "generated": " các."
+        },
+        {
+          "id": "vi_geo_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "vi_fes_001",
+          "passed": false,
+          "generated": ", có thể được b b b b b b b b b b b b b b b b b b b b"
+        },
+        {
+          "id": "vi_idn_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "vi_gram_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "vi_gram_002",
+          "passed": false,
+          "generated": ", và các."
+        },
+        {
+          "id": "vi_cmp_001",
+          "passed": false,
+          "generated": " các."
+        },
+        {
+          "id": "vi_abc_001",
+          "passed": false,
+          "generated": ", and the S."
+        },
+        {
+          "id": "vi_fam_001",
+          "passed": false,
+          "generated": ", và các."
+        },
+        {
+          "id": "vi_foo_001",
+          "passed": false,
+          "generated": " các."
+        }
+      ]
+    }
+  },
+  "val_loss": 7.7699,
+  "perplexity": 2368.18,
+  "summary": {
+    "chat_basic": 0.0,
+    "code_basic": 0.0833,
+    "vi_basic": 0.0
+  }
+}
