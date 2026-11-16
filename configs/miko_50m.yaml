@@ -1,0 +1,13 @@
+# Miko 50M — base model architecture (plan §3).
+# Closed-form parameter count: 50,636,928 (~50.6M) — verify with:
+#   python tools/count_params.py --config configs/miko_50m.yaml
+vocab_size: 32000
+hidden_size: 384
+num_layers: 13
+num_heads: 6
+ffn_size: 2048
+context_length: 512
+activation: swiglu
+use_rope: true
+tie_embeddings: true
+norm_eps: 1.0e-6

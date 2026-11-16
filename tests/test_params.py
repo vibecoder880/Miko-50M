@@ -34,7 +34,7 @@ def test_non_tied_adds_hidden_times_vocab():
 
 
 def test_small_config_matches_manual_formula():
-    cfg = MikoConfig(hidden_size=64, num_layers=2, ffn_size=128, activation="swiglu")
+    cfg = MikoConfig(hidden_size=64, num_layers=2, num_heads=8, ffn_size=128, activation="swiglu")
     model = MikoModel(cfg)
     h, f, L = 64, 128, 2
     tok_emb = cfg.vocab_size * h
@@ -49,11 +49,11 @@ def test_small_config_matches_manual_formula():
 
 
 def test_params_dtype_and_tie_assignment():
-    cfg = MikoConfig(hidden_size=64, num_layers=2, ffn_size=128)
+    cfg = MikoConfig(hidden_size=64, num_layers=2, num_heads=8, ffn_size=128)
     model = MikoModel(cfg)
     # Tied: lm_head.weight is the very same Parameter object as tok_emb.weight.
     assert model.lm_head.weight is model.tok_emb.weight
     # Untied: distinct Parameter objects.
-    model2 = MikoModel(MikoConfig(hidden_size=64, num_layers=2, ffn_size=128,
+    model2 = MikoModel(MikoConfig(hidden_size=64, num_layers=2, num_heads=8, ffn_size=128,
                                   tie_embeddings=False))
     assert model2.lm_head.weight is not model2.tok_emb.weight

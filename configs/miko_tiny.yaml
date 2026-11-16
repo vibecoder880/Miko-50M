@@ -1,0 +1,15 @@
+# Miko Tiny — ~1M-parameter prototype (plan §61: first technical target).
+# Used to validate the full pipeline (train -> overfit -> generate ->
+# checkpoint -> resume) before any large run.
+# Closed-form parameter count: ~0.98M — verify with:
+#   python tools/count_params.py --config configs/miko_tiny.yaml
+vocab_size: 4096
+hidden_size: 96
+num_layers: 4
+num_heads: 6
+ffn_size: 384
+context_length: 128
+activation: swiglu
+use_rope: true
+tie_embeddings: true
+norm_eps: 1.0e-6

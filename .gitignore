@@ -13,7 +13,10 @@ env/
 data/cleaned/
 data/tokenized/
 data/manifests/
+data/shards/
+data/raw/seed/
 checkpoints/
+checkpoints_*/
 logs/
 *.bin
 *.safetensors

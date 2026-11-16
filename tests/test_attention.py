@@ -15,7 +15,7 @@ from miko.utils import seed_everything
 
 
 def _make_model() -> MikoModel:
-    cfg = MikoConfig(hidden_size=64, num_layers=2, ffn_size=128, use_rope=True)
+    cfg = MikoConfig(hidden_size=64, num_layers=2, num_heads=8, ffn_size=128, use_rope=True)
     return MikoModel(cfg).eval()
 
 
@@ -48,7 +48,7 @@ def test_causal_mask_isolation():
 
 
 def test_deterministic_seed():
-    cfg = MikoConfig(hidden_size=64, num_layers=2, ffn_size=128)
+    cfg = MikoConfig(hidden_size=64, num_layers=2, num_heads=8, ffn_size=128)
     input_ids = torch.randint(0, cfg.vocab_size, (2, 16))
 
     seed_everything(42)

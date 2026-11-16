@@ -1,0 +1,38 @@
+# CPU pretraining run — Miko Tiny (~1M params, plan §16 stage A sanity).
+# Purpose: prove loss decreases, checkpoint/resume works, generation runs.
+
+model:
+  vocab_size: 1160  # must match tokenizer/tokenizer.json
+  hidden_size: 96
+  num_layers: 4
+  num_heads: 6
+  ffn_size: 384
+  context_length: 128
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards/train
+  val_dir: data/shards/val
+
+train:
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 4
+  max_steps: 300
+  lr: 1.0e-3
+  min_lr_ratio: 0.1
+  warmup_pct: 0.05
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 25
+  eval_every: 100
+  eval_batches: 10
+  checkpoint_every: 150
+  milestone_every: 300
+  keep_last: 2
+  out_dir: checkpoints_tiny
+  log_csv: logs/train_tiny.csv

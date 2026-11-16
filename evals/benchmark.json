@@ -1,0 +1,22 @@
+{
+  "tiny_0_7m": {
+    "params": 702048,
+    "seq_len": 128,
+    "grad_accum": 4,
+    "first_step_sec": 1.39,
+    "steady_step_sec": 2.32,
+    "window_sec": 0.58,
+    "tokens_per_sec": 220.6,
+    "peak_rss_mb": 343.6
+  },
+  "target_50m": {
+    "params": 50636928,
+    "seq_len": 128,
+    "grad_accum": 4,
+    "first_step_sec": 10.242,
+    "steady_step_sec": 14.356,
+    "window_sec": 3.589,
+    "tokens_per_sec": 35.7,
+    "peak_rss_mb": 1438.2
+  }
+}
