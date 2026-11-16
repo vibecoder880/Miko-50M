@@ -1,0 +1,14 @@
+{
+  "target_50m": {
+    "params": 50636928,
+    "optimizer": "adafactor",
+    "optimizer_state_mb": 0.7,
+    "seq_len": 128,
+    "grad_accum": 1,
+    "first_step_sec": 3.047,
+    "steady_step_sec": 2.74,
+    "window_sec": 2.74,
+    "tokens_per_sec": 46.7,
+    "peak_rss_mb": 937.4
+  }
+}

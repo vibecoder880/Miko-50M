@@ -1,0 +1,40 @@
+# Stage-1 real pretraining — Miko Tiny (~1M) on the real Wikipedia mini
+# corpus (dataset-v0.1-mini: vi-wiki + en-wiki, plan §22 Stage 1).
+# Purpose: prove validation loss decreases on real Vietnamese text.
+
+model:
+  vocab_size: 4096      # matches tokenizer/real_v0.1/tokenizer.json
+  hidden_size: 96
+  num_layers: 4
+  num_heads: 6
+  ffn_size: 384
+  context_length: 128
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_real/train
+  val_dir: data/shards_real/val
+
+train:
+  optimizer: adamw      # tiny fits easily; 50M-class models use adafactor
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 4
+  max_steps: 1000
+  lr: 1.0e-3
+  min_lr_ratio: 0.1
+  warmup_pct: 0.05
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 50
+  eval_every: 200
+  eval_batches: 16
+  checkpoint_every: 250
+  milestone_every: 1000
+  keep_last: 2
+  out_dir: checkpoints_real
+  log_csv: logs/train_real.csv

@@ -18,6 +18,7 @@ data:
   val_dir: data/shards/val
 
 train:
+  optimizer: adamw      # this box has RAM; use adafactor on the 1 GB box
   seq_len: 128          # stage A: 128 -> 256 -> 512
   batch_size: 1
   grad_accum: 16

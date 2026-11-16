@@ -1,0 +1,10 @@
+# Basic conversational continuation eval (plan §27). For the base LM these
+# are completion-style; the chat-tuned tier will reuse the same file.
+{"id": "chat_001", "prompt": "Xin chào! Tôi tên là", "expected": ["miko", "bạn", "tôi"], "metric": "contains"}
+{"id": "chat_002", "prompt": "Cảm ơn bạn đã", "expected": ["giúp", "hỗ trợ", "quan tâm", "đọc"], "metric": "contains"}
+{"id": "chat_003", "prompt": "Chào buổi sáng! Chúc bạn một ngày", "expected": ["tốt lành", "vui vẻ", "đẹp", "may mắn"], "metric": "contains"}
+{"id": "chat_004", "prompt": "Bạn có thể giúp tôi", "expected": ["không", "gì", "một"], "metric": "contains"}
+{"id": "chat_005", "prompt": "Tôi rất vui khi được", "expected": ["gặp", "nhận", "biết", "làm"], "metric": "contains"}
+{"id": "chat_006", "prompt": "Hẹn gặp lại bạn", "expected": ["sau", "nhé", "lần"], "metric": "contains"}
+{"id": "chat_007", "prompt": "Chúc bạn ngủ ngon và có giấc mơ", "expected": ["đẹp", "ngon"], "metric": "contains"}
+{"id": "chat_008", "prompt": "Thời tiết hôm nay khá", "expected": ["đẹp", "nóng", "lạnh", "mát", "mưa"], "metric": "contains"}

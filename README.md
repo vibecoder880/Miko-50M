@@ -63,9 +63,56 @@ python tools/train.py --config configs/train_tiny_cpu.yaml \
 python tools/generate.py --checkpoint checkpoints_tiny/latest \
     --tokenizer tokenizer/tokenizer.json --prompt "Xin chào" --greedy
 
-# 5. The real run (50M, staged context 128 -> 512)
+# 5. Real corpus slice (CC BY-SA, provenance in data/manifests/)
+python scripts/fetch_corpus.py --source vi-wiki --docs 500
+python scripts/fetch_corpus.py --source en-wiki --docs 150
+python tools/train_tokenizer.py --input "data/cleaned/*.txt" \
+    --vocab-size 4096 --output tokenizer/real_v0.1/tokenizer.json
+python tools/pack_dataset.py --input "data/cleaned/*.txt" \
+    --tokenizer tokenizer/real_v0.1/tokenizer.json \
+    --out-train data/shards_real/train --out-val data/shards_real/val
+python tools/train.py --config configs/train_tiny_real.yaml
+
+# 6. The real run (50M, staged context 128 -> 512)
 python tools/train.py --config configs/train_cpu.yaml
 ```
+
+### Optimizer choice for a 1 GB box
+
+The optimizer state is the largest RAM block (plan §17/§46). Measured on this
+box (seq 128, micro-batch 1, grad-accum 1):
+
+| Model | Optimizer | Peak RSS | tok/s |
+|---|---|---|---|
+| 50M (32K vocab) | AdamW | 1375 MB | 46.8 |
+| 50M (32K vocab) | Adafactor | **937 MB** | 46.7 |
+| 38M (16K vocab) | Adafactor | **798 MB** | 58.0 |
+
+- `configs/train_cpu.yaml` (50M) uses AdamW — fits this 6 GB dev box.
+- On the strict 1 GB target box: switch the train config to
+  `optimizer: adafactor` and use `configs/miko_38m_1gb.yaml`
+  (38M params, 16K vocab) — ~798 MB RSS leaves headroom for OS + SSH.
+  Adafactor keeps factored second moments (~0.7 MB state vs ~405 MB) with
+  self-limiting step size (`min(lr, 1/sqrt(t))`).
+
+## Evaluation
+
+Fixed benchmark suite (plan §49) — every checkpoint runs the same files:
+
+```bash
+python tools/evaluate.py --checkpoint checkpoints_tiny/latest \
+    --tokenizer tokenizer/tokenizer.json \
+    --data-dir data/shards_real/val \
+    --out evals/results.json
+```
+
+- `evals/vi_basic.jsonl` (16 items), `code_basic.jsonl` (12),
+  `chat_basic.jsonl` (8): greedy completion scored by accepted-answer
+  containment, aggregated per category.
+- `--data-dir` adds val loss + perplexity from packed shards.
+- Output JSON includes a plan §49-style flat summary for version diffs:
+  `{"vi_basic": 0.12, "code_basic": 0.17, "chat_basic": 0.12, ...}`.
+
 
 Notes:
 
@@ -84,10 +131,11 @@ pip install -e ".[dev]"
 python -m pytest tests/ -q
 ```
 
-42 tests: attention shape/causal-mask/determinism/grad-flow, tokenizer
+55 tests: attention shape/causal-mask/determinism/grad-flow, tokenizer
 roundtrips (Vietnamese / code / byte-fallback), shard writer & mmap dataset,
 checkpoint save/load/resume (incl. RNG restore), sampling behaviour, LR
-schedule, and the Gate A tiny-overfit.
+schedule, optimizer factory (AdamW vs memory-saving Adafactor), the eval
+harness, and the Gate A tiny-overfit.
 
 ## Repository layout
 

@@ -1,0 +1,213 @@
+{
+  "checkpoint": "checkpoints_tiny/latest",
+  "categories": {
+    "chat_basic": {
+      "score": 0.125,
+      "passed": 1,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " nền tảng của mô hình ngôn ngữ."
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": "ãããããããããããããããã"
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": " nền tảng của mô hình ngôn ngữ."
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": " đi dạo quanh công viên gần nhà."
+        },
+        {
+          "id": "chat_005",
+          "passed": true,
+          "generated": " làm sạch và dấu sắc huyền hỏi ngã nặng."
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": "):\n        self."
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": " kee kee kee kee kee kee kee kee kee kee kee kee kee kee kee kee"
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": "áááááááááááááááá"
+        }
+      ]
+    },
+    "code_basic": {
+      "score": 0.1667,
+      "passed": 2,
+      "total": 12,
+      "items": [
+        {
+          "id": "code_py_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "code_py_002",
+          "passed": false,
+          "generated": "n = 0:\n        self."
+        },
+        {
+          "id": "code_py_003",
+          "passed": false,
+          "generated": " a\n    def."
+        },
+        {
+          "id": "code_py_004",
+          "passed": false,
+          "generated": "n):\n    a\n        self."
+        },
+        {
+          "id": "code_py_005",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "code_sql_001",
+          "passed": false,
+          "generated": " FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM"
+        },
+        {
+          "id": "code_sql_002",
+          "passed": false,
+          "generated": " WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE"
+        },
+        {
+          "id": "code_sh_001",
+          "passed": true,
+          "generated": " thích lập trình bằng Python vì cú pháp rõ ràng dễ đọc vài trang sách."
+        },
+        {
+          "id": "code_js_001",
+          "passed": false,
+          "generated": " a\n    defVVVVVVVVVVVV"
+        },
+        {
+          "id": "code_json_001",
+          "passed": false,
+          "generated": " số"
+        },
+        {
+          "id": "code_py_006",
+          "passed": false,
+          "generated": "                                                                "
+        },
+        {
+          "id": "code_py_007",
+          "passed": true,
+          "generated": "\n        self."
+        }
+      ]
+    },
+    "vi_basic": {
+      "score": 0.125,
+      "passed": 2,
+      "total": 16,
+      "items": [
+        {
+          "id": "vi_cap_001",
+          "passed": true,
+          "generated": " Hà Nội, một thành phố ngàn năm văn hiến."
+        },
+        {
+          "id": "vi_cap_002",
+          "passed": false,
+          "generated": " mô hình ngôn ngữ."
+        },
+        {
+          "id": "vi_cap_003",
+          "passed": false,
+          "generated": "uuuuuuuuuuuuuuuu"
+        },
+        {
+          "id": "vi_num_001",
+          "passed": false,
+          "generated": " Python vì cú pháp rõ ràng dễ đọc. Miko sẽ học cách gọi công cụ"
+        },
+        {
+          "id": "vi_seq_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_cls_001",
+          "passed": false,
+          "generated": "\n    def."
+        },
+        {
+          "id": "vi_sea_001",
+          "passed": false,
+          "generated": " dấu sắc huyền hỏi ngã nặng."
+        },
+        {
+          "id": "vi_geo_001",
+          "passed": false,
+          "generated": " là nền tảng của mô hình ngôn ngữ."
+        },
+        {
+          "id": "vi_fes_001",
+          "passed": false,
+          "generated": "ênênênênênênênênênênênênênênênên"
+        },
+        {
+          "id": "vi_idn_001",
+          "passed": false,
+          "generated": " trả lời theo từng bước."
+        },
+        {
+          "id": "vi_gram_001",
+          "passed": false,
+          "generated": "e."
+        },
+        {
+          "id": "vi_gram_002",
+          "passed": true,
+          "generated": " đẹp đẹp đẹp đẹp, tôi đi dạo quanh công viên gần nhà."
+        },
+        {
+          "id": "vi_cmp_001",
+          "passed": false,
+          "generated": " dấu sắc huyền hỏi ngã nặng."
+        },
+        {
+          "id": "vi_abc_001",
+          "passed": false,
+          "generated": " i i."
+        },
+        {
+          "id": "vi_fam_001",
+          "passed": false,
+          "generated": " com com com com com com com com com com com com com com com com"
+        },
+        {
+          "id": "vi_foo_001",
+          "passed": false,
+          "generated": " mô hình ngôn ngữ."
+        }
+      ]
+    }
+  },
+  "val_loss": 2.7083,
+  "perplexity": 15.0,
+  "summary": {
+    "chat_basic": 0.125,
+    "code_basic": 0.1667,
+    "vi_basic": 0.125
+  }
+}

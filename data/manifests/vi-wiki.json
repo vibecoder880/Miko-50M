@@ -1,0 +1,21 @@
+{
+  "name": "vi-wiki",
+  "dataset": "wikimedia/wikipedia",
+  "config": "20231101.vi",
+  "license": "CC BY-SA 3.0 (GFDL)",
+  "url_template": "https://vi.wikipedia.org/?curid={id}",
+  "fetched_at": "2026-11-16T23:42:26.705940+00:00",
+  "requested_docs": 500,
+  "written_docs": 500,
+  "duplicates_skipped": 0,
+  "filtered_out": 18,
+  "bytes": 10125310,
+  "output": "data/cleaned/vi-wiki.txt",
+  "cleaning": {
+    "min_chars": 200,
+    "max_chars": 100000,
+    "dedup": "md5 exact-text",
+    "heading_removal": true,
+    "letter_ratio_min": 0.6
+  }
+}

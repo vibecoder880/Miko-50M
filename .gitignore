@@ -9,12 +9,12 @@ dist/
 venv/
 env/
 
-# Datasets and training artifacts (large, generated locally)
+# Datasets and training artifacts (large, generated locally).
+# NOTE: data/manifests/ is NOT ignored — provenance metadata is committed.
 data/cleaned/
 data/tokenized/
-data/manifests/
-data/shards/
-data/raw/seed/
+data/shards*/
+data/raw/
 checkpoints/
 checkpoints_*/
 logs/

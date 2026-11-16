@@ -1,0 +1,21 @@
+{
+  "name": "en-wiki",
+  "dataset": "wikimedia/wikipedia",
+  "config": "20231101.en",
+  "license": "CC BY-SA 3.0 (GFDL)",
+  "url_template": "https://en.wikipedia.org/?curid={id}",
+  "fetched_at": "2026-11-16T23:42:42.149327+00:00",
+  "requested_docs": 150,
+  "written_docs": 150,
+  "duplicates_skipped": 0,
+  "filtered_out": 4,
+  "bytes": 4675312,
+  "output": "data/cleaned/en-wiki.txt",
+  "cleaning": {
+    "min_chars": 200,
+    "max_chars": 100000,
+    "dedup": "md5 exact-text",
+    "heading_removal": true,
+    "letter_ratio_min": 0.6
+  }
+}

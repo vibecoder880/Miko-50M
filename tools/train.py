@@ -39,6 +39,7 @@ from miko.checkpoint import (  # noqa: E402
 from miko.config import MikoConfig  # noqa: E402
 from miko.dataset import ShardedTokenDataset, find_shards, shard_stats  # noqa: E402
 from miko.model import MikoModel  # noqa: E402
+from miko.optim import build_optimizer  # noqa: E402
 from miko.trainer import cosine_lr, next_token_loss  # noqa: E402
 from miko.utils import get_logger, seed_everything  # noqa: E402
 
@@ -58,19 +59,6 @@ CSV_FIELDS = [
 
 def build_model(model_cfg: dict) -> MikoModel:
     return MikoModel(MikoConfig.from_dict(dict(model_cfg)))
-
-
-def param_groups(model: MikoModel, weight_decay: float) -> list[dict]:
-    """No weight decay on norms / embeddings (standard small-GPT recipe)."""
-    decay, no_decay = [], []
-    for name, p in model.named_parameters():
-        if not p.requires_grad:
-            continue
-        (no_decay if (p.dim() <= 1 or "emb" in name) else decay).append(p)
-    return [
-        {"params": decay, "weight_decay": weight_decay},
-        {"params": no_decay, "weight_decay": 0.0},
-    ]
 
 
 def prune_old_checkpoints(out_dir: str, keep_last: int, milestones: set[str]) -> None:
@@ -153,10 +141,8 @@ def main() -> None:
     logger.info("model params: %d (%.2fM)", model.param_count(),
                 model.param_count() / 1e6)
 
-    opt = torch.optim.AdamW(
-        param_groups(model, weight_decay), lr=peak_lr, betas=betas, eps=1e-8,
-        fused=False,
-    )
+    opt = build_optimizer(model, tr.get("optimizer", "adamw"), peak_lr,
+                          weight_decay, betas)
 
     warmup_steps = int(warmup_pct * max_steps)
     step = 0

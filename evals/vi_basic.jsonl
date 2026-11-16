@@ -1,0 +1,18 @@
+# Vietnamese basic completion eval (plan §25). Greedy continuation must
+# contain one of the accepted answers (case/whitespace-insensitive).
+{"id": "vi_cap_001", "prompt": "Thủ đô của Việt Nam là", "expected": ["hà nội", "hà nội."], "metric": "contains"}
+{"id": "vi_cap_002", "prompt": "Hà Nội là thủ đô của", "expected": ["việt nam"], "metric": "contains"}
+{"id": "vi_cap_003", "prompt": "Quốc kỳ Việt Nam có màu", "expected": ["đỏ", "đỏ và vàng"], "metric": "contains"}
+{"id": "vi_num_001", "prompt": "Một cộng một bằng", "expected": ["hai", "2"], "metric": "contains"}
+{"id": "vi_seq_001", "prompt": "1 2 3 4 5 6 7 8", "expected": ["9"], "metric": "contains"}
+{"id": "vi_cls_001", "prompt": "Mèo, chó, gà đều là động", "expected": ["vật"], "metric": "contains"}
+{"id": "vi_sea_001", "prompt": "Bốn mùa trong năm là xuân, hạ, thu và", "expected": ["đông"], "metric": "contains"}
+{"id": "vi_geo_001", "prompt": "Việt Nam nằm ở khu vực Đông Nam", "expected": ["á"], "metric": "contains"}
+{"id": "vi_fes_001", "prompt": "Ngày tết truyền thống của Việt Nam là tết nguyên", "expected": ["đán"], "metric": "contains"}
+{"id": "vi_idn_001", "prompt": "Xin chào! Tôi là Miko, một trợ lý", "expected": ["ảo", "ai", "trí tuệ", "tiếng việt"], "metric": "contains"}
+{"id": "vi_gram_001", "prompt": "Tôi đi học bằng xe", "expected": ["đạp", "bus", "xe"], "metric": "contains"}
+{"id": "vi_gram_002", "prompt": "Hôm nay trời", "expected": ["đẹp", "nắng", "mưa", "vui"], "metric": "contains"}
+{"id": "vi_cmp_001", "prompt": "Miko học tiếng Việt, tiếng Anh và", "expected": ["code", "lập trình", "máy"], "metric": "contains"}
+{"id": "vi_abc_001", "prompt": "a b c d e f g h i", "expected": ["j"], "metric": "contains"}
+{"id": "vi_fam_001", "prompt": "Cha mẹ anh em trong gia đình là người", "expected": ["thân"], "metric": "contains"}
+{"id": "vi_foo_001", "prompt": "Cơm, phở, bún đều là món ăn của", "expected": ["việt nam", "người việt"], "metric": "contains"}

@@ -27,7 +27,14 @@
 
 ## Training data
 
-Categories and target mixture (plan §11):
+Dataset versions (plan §63):
+
+- **dataset-v0.1-mini** (current): `wikimedia/wikipedia` slices —
+  vi-wiki 500 docs (10.1 MB) + en-wiki 150 docs (4.7 MB) → 3.84M packed
+  tokens (3.65M train / 183K val). Cleaning per plan §12: length filter,
+  md5 exact-text dedup, letter-ratio garbage filter. Provenance + license
+  (CC BY-SA 3.0) in `data/manifests/*.json`.
+- Target mixture for the full corpus (plan §11):
 
 ```
 Vietnamese text      50%   (Wikipedia-like, public-domain, cleaned)
@@ -36,19 +43,22 @@ Code                 25%   (Python, JS/TS, Go, SQL, HTML/CSS, Bash, JSON/YAML)
 Markdown/JSON         5%
 ```
 
-- Cleaning: dedup, Unicode normalization, language filter, length filter,
-  garbage removal. Packed as `<bos> doc <eos>` streams into uint16 shards.
-- Data provenance and per-source license tracking live in `data/manifests/`.
-- Dataset versions: `dataset-v0.1` (tiny) → `dataset-v0.2` (small) → ...
+Packed as `<bos> doc <eos>` streams into uint16 shards. Code and longer
+corpus slices are the next dataset increments.
 
 ## Training compute
 
 - Hardware: CPU-only (1–3 cores), ~1–2 GB usable RAM.
 - Objective: next-token prediction (cross-entropy).
 - Optimizer: AdamW (β = 0.9 / 0.95, wd 0.1 on 2-D params), LR 3e-4,
-  3% linear warmup + cosine decay to 10%.
+  3% linear warmup + cosine decay to 10%. On the strict 1 GB box switch to
+  `optimizer: adafactor` (factored state ≈ 0.7 MB vs ≈ 405 MB for AdamW).
 - Batch: micro-batch 1 × grad accumulation 16 (effective 16) at seq 128,
   staged up to seq 512.
+- Measured CPU throughput (3 cores, seq 128, micro-batch 1):
+  tiny ~0.7M: 221 tok/s @ 344 MB RSS; 50M: 46.8 tok/s; 50M+Adafactor
+  937 MB RSS; 38M+Adafactor 798 MB RSS / 58 tok/s (1 GB-box fit variant,
+  `configs/miko_38m_1gb.yaml`).
 - Checkpoints: `step-*` + `latest`; resume restores weights, optimizer,
   schedule position, and RNG states.
 

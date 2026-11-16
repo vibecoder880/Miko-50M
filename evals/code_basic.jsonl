@@ -1,0 +1,13 @@
+# Basic code continuation eval (plan §25, §26).
+{"id": "code_py_001", "prompt": "def add(a, b):\n    return", "expected": ["a + b"], "metric": "contains"}
+{"id": "code_py_002", "prompt": "for i in range(10):\n    print(", "expected": ["i"], "metric": "contains"}
+{"id": "code_py_003", "prompt": "import numpy as", "expected": ["np"], "metric": "contains"}
+{"id": "code_py_004", "prompt": "x = [1, 2, 3]\nprint(len(", "expected": ["x"], "metric": "contains"}
+{"id": "code_py_005", "prompt": "def fib(n):\n    if n <= 1:\n        return", "expected": ["n"], "metric": "contains"}
+{"id": "code_sql_001", "prompt": "SELECT name FROM", "expected": ["users", "table"], "metric": "contains"}
+{"id": "code_sql_002", "prompt": "SELECT * FROM users WHERE", "expected": ["id", "name", "active"], "metric": "contains"}
+{"id": "code_sh_001", "prompt": "$ curl -s https://api.example.com | jq", "expected": [".", "'"], "metric": "contains"}
+{"id": "code_js_001", "prompt": "const sum = (a, b) =>", "expected": ["a + b"], "metric": "contains"}
+{"id": "code_json_001", "prompt": "{\"name\": \"miko\", \"version\": ", "expected": ["0", "1"], "metric": "contains"}
+{"id": "code_py_006", "prompt": "if x == 5:\n    pass\nelse:\n    ", "expected": ["pass", "print", "x"], "metric": "contains"}
+{"id": "code_py_007", "prompt": "class Counter:\n    def __init__(self):", "expected": ["self", "def"], "metric": "contains"}
