@@ -63,17 +63,23 @@ python tools/train.py --config configs/train_tiny_cpu.yaml \
 python tools/generate.py --checkpoint checkpoints_tiny/latest \
     --tokenizer tokenizer/tokenizer.json --prompt "Xin chào" --greedy
 
-# 5. Real corpus slice (CC BY-SA, provenance in data/manifests/)
-python scripts/fetch_corpus.py --source vi-wiki --docs 500
-python scripts/fetch_corpus.py --source en-wiki --docs 150
-python tools/train_tokenizer.py --input "data/cleaned/*.txt" \
-    --vocab-size 4096 --output tokenizer/real_v0.1/tokenizer.json
-python tools/pack_dataset.py --input "data/cleaned/*.txt" \
-    --tokenizer tokenizer/real_v0.1/tokenizer.json \
-    --out-train data/shards_real/train --out-val data/shards_real/val
-python tools/train.py --config configs/train_tiny_real.yaml
+# 5. Real corpus (dataset-v0.2, 48M tokens; provenance in data/manifests/)
+python scripts/fetch_corpus.py --source vi-wiki --docs 7000 --out data/cleaned_v2
+python scripts/fetch_corpus.py --source en-wiki --docs 2100 --out data/cleaned_v2
+python scripts/fetch_corpus.py --source py-code --docs 15000 --out data/cleaned_v2
+python tools/train_tokenizer.py --input "data/cleaned_v2/*.txt" \
+    --vocab-size 16000 --output tokenizer/real_v0.2/tokenizer.json
+python tools/pack_dataset.py --input "data/cleaned_v2/*.txt" \
+    --tokenizer tokenizer/real_v0.2/tokenizer.json \
+    --out-train data/shards_v2/train --out-val data/shards_v2/val \
+    --val-frac 0.02 --docs-per-shard 2000 \
+    --report data/manifests/dataset-v0.2.json
 
-# 6. The real run (50M, staged context 128 -> 512)
+# 6. Dataset probe (tiny, ~30 min) then the real 38M run (multi-day)
+python tools/train.py --config configs/train_tiny_v2.yaml
+python tools/train.py --config configs/train_38m_v2.yaml   # adafactor, ~800MB
+
+# 7. The 50M run on boxes with >= 1.3 GB free (staged context 128 -> 512)
 python tools/train.py --config configs/train_cpu.yaml
 ```
 

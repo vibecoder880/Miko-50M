@@ -11,7 +11,7 @@ env/
 
 # Datasets and training artifacts (large, generated locally).
 # NOTE: data/manifests/ is NOT ignored — provenance metadata is committed.
-data/cleaned/
+data/cleaned*/
 data/tokenized/
 data/shards*/
 data/raw/

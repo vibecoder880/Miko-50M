@@ -1,0 +1,42 @@
+# Real pretraining — Miko 38M (1GB-box fit) on dataset-v0.2 (48M tokens).
+# Adafactor keeps peak RSS ~800MB; explicit lr lets the warmup/cosine
+# schedule drive it. 20000 steps x 2048 tokens = ~41M tokens (~8-9 days on
+# 3 CPU cores) — resume with: python tools/train.py --config
+# configs/train_38m_v2.yaml --resume auto
+
+model:
+  vocab_size: 16000    # matches tokenizer/real_v0.2/tokenizer.json
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_v2/train
+  val_dir: data/shards_v2/val
+
+train:
+  optimizer: adafactor
+  seq_len: 128          # stage A; raise to 256/512 in later stages
+  batch_size: 1
+  grad_accum: 16
+  max_steps: 20000
+  lr: 3.0e-4
+  min_lr_ratio: 0.1
+  warmup_pct: 0.03
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 50
+  eval_every: 500
+  eval_batches: 24
+  checkpoint_every: 500
+  milestone_every: 5000
+  keep_last: 2
+  out_dir: checkpoints_38m
+  log_csv: logs/train_38m.csv
