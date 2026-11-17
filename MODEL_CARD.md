@@ -55,7 +55,9 @@ sources are the next dataset increments.
 - Measured CPU throughput (3 cores, seq 128, micro-batch 1):
   tiny ~0.7M: 221 tok/s @ 344 MB RSS; 50M: 46.8 tok/s; 50M+Adafactor
   937 MB RSS; 38M+Adafactor 798 MB RSS / 58 tok/s (1 GB-box fit variant,
-  `configs/miko_38m_1gb.yaml`).
+  `configs/miko_38m_1gb.yaml`). Long-run average on the shared box:
+  38M @ 802 tok/s (41M tokens in 14.2 h) — short benchmarks are
+  pessimistic; trust the CSV averages.
 - Checkpoints: `step-*` + `latest`; resume restores weights, optimizer,
   schedule position, and RNG states.
 
@@ -100,3 +102,4 @@ Metrics: train loss, val loss, perplexity, tokens/sec, generation latency.
 | Version | Date | Notes |
 |---|---|---|
 | v0.1 | 2026-11-16 | Base LM skeleton: model, tokenizer, dataset, training, checkpoint, generation. Pretraining in progress. |
+| v0.2 | 2026-11-17 | dataset-v0.2 (48M tokens, vi/en/code). Miko-38M run 1: 20000 steps / 40.96M tokens, val loss 8.23 (ppl ~3700 first-N) / 7.41 spread-sampled (ppl 1646); eval suite vi 0.06 / code 0.17. Training extended to 40000 steps. Note: CSV train-loss values in logs before commit 9db2823 are scaled by 1/grad_accum (see evals/train_38m_full.csv). |
