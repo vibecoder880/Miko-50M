@@ -1,0 +1,213 @@
+{
+  "checkpoint": "checkpoints_38m/latest",
+  "categories": {
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " một số các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": " được thành lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập lập"
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": " ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày"
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": ", và các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": " thành thành thành thành thành thành thành thành thành thành thành thành thành thành."
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": " bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn"
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": ", và các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        }
+      ]
+    },
+    "code_basic": {
+      "score": 0.1667,
+      "passed": 2,
+      "total": 12,
+      "items": [
+        {
+          "id": "code_py_001",
+          "passed": false,
+          "generated": " self.\n        self.assertEqual(self):\n        self.assertEqual(self):\n        self.assertEqual("
+        },
+        {
+          "id": "code_py_002",
+          "passed": true,
+          "generated": "self.assertEqual(self,\n    def test_id = self.get_id)\n        self.assertEqual"
+        },
+        {
+          "id": "code_py_003",
+          "passed": false,
+          "generated": " a a a a a a a a a a a a a a a a a a a a a a a a"
+        },
+        {
+          "id": "code_py_004",
+          "passed": false,
+          "generated": "self.get_name, and the himself himself himself himself himself himself himself himself himself himself himself himself h"
+        },
+        {
+          "id": "code_py_005",
+          "passed": false,
+          "generated": " self.assertEqual(self):\n        self.assertEqual(self):\n        self.assertEqual(self):\n       "
+        },
+        {
+          "id": "code_sql_001",
+          "passed": false,
+          "generated": " FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM"
+        },
+        {
+          "id": "code_sql_002",
+          "passed": false,
+          "generated": ",,,, and theRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRun"
+        },
+        {
+          "id": "code_sh_001",
+          "passed": false,
+          "generated": ", and theRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRunRun"
+        },
+        {
+          "id": "code_js_001",
+          "passed": false,
+          "generated": "\n            self.\n            self.\n            self.assertEqual(self):\n        self.assertEqual(self):"
+        },
+        {
+          "id": "code_json_001",
+          "passed": false,
+          "generated": ", and the July July July July July July July July July July July July July July July July July July July July July"
+        },
+        {
+          "id": "code_py_006",
+          "passed": false,
+          "generated": "    \n    def test_id = self.\n        self.assertEqual(self):\n        self.assertEqual("
+        },
+        {
+          "id": "code_py_007",
+          "passed": true,
+          "generated": "\n    def test_id = self.\n        self.assertEqual(self):\n        self.assertEqual(self"
+        }
+      ]
+    },
+    "vi_basic": {
+      "score": 0.0625,
+      "passed": 1,
+      "total": 16,
+      "items": [
+        {
+          "id": "vi_cap_001",
+          "passed": false,
+          "generated": " một số số các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_cap_002",
+          "passed": false,
+          "generated": " các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_cap_003",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_num_001",
+          "passed": false,
+          "generated": " bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng"
+        },
+        {
+          "id": "vi_seq_001",
+          "passed": false,
+          "generated": ", và các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_cls_001",
+          "passed": false,
+          "generated": ", và các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_sea_001",
+          "passed": false,
+          "generated": " các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_geo_001",
+          "passed": false,
+          "generated": " Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam"
+        },
+        {
+          "id": "vi_fes_001",
+          "passed": false,
+          "generated": ", và các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_idn_001",
+          "passed": false,
+          "generated": " lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý lý"
+        },
+        {
+          "id": "vi_gram_001",
+          "passed": true,
+          "generated": " xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe"
+        },
+        {
+          "id": "vi_gram_002",
+          "passed": false,
+          "generated": " trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời"
+        },
+        {
+          "id": "vi_cmp_001",
+          "passed": false,
+          "generated": " các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_abc_001",
+          "passed": false,
+          "generated": ", and the\n#\n#\n#\n#\n#\n#\n#\n            'HHHH"
+        },
+        {
+          "id": "vi_fam_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_foo_001",
+          "passed": false,
+          "generated": " người."
+        }
+      ]
+    }
+  },
+  "val_loss": 7.4059,
+  "perplexity": 1645.68,
+  "summary": {
+    "chat_basic": 0.0,
+    "code_basic": 0.1667,
+    "vi_basic": 0.0625
+  }
+}

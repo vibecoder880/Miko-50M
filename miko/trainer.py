@@ -7,8 +7,9 @@ can be unit-tested without touching the CLI.
 from __future__ import annotations
 
 import math
-from typing import Iterator, Optional
+from typing import Optional
 
+import numpy as np
 import torch
 import torch.nn.functional as F
 
@@ -65,28 +66,32 @@ def evaluate(
     batch_size: int = 1,
     max_batches: Optional[int] = None,
 ) -> float:
-    """Mean validation loss over the first ``max_batches`` windows."""
+    """Mean loss over ``max_batches`` windows sampled *evenly* across the set.
+
+    The first-N-windows sample is biased (shard 0 starts with whatever
+    document was written first — e.g. one long Wikipedia article), so the
+    sample is spread over the whole index range instead. Deterministic.
+    """
     model.eval()
-    it: Iterator = dataset.iter_batches(
-        batch_size=batch_size, shuffle=False, drop_last=True
-    )
+    n = batches if batches else max_batches
     if max_batches is not None:
-        it = _take(it, max_batches)
+        n = min(n, max_batches) if n else max_batches
+    n = min(int(n), len(dataset))
+    if n <= 0:
+        raise ValueError("no evaluation batches available")
+
+    # Evenly spaced window indices, independent of sharding.
+    positions = np.linspace(0, len(dataset) - 1, n).astype(np.int64)
     total, count = 0.0, 0
-    for x, y in it:
+    for i in range(0, n, batch_size):
+        chunk = positions[i : i + batch_size]
+        xs, ys = zip(*(dataset[int(j)] for j in chunk))
+        x = torch.stack(xs)
+        y = torch.stack(ys)
         logits = model(x)
         total += next_token_loss(logits, y).item()
         count += 1
-        if batches and count >= batches:
-            break
     model.train()
     if count == 0:
         raise ValueError("no evaluation batches available")
     return total / count
-
-
-def _take(it: Iterator, n: int) -> Iterator:
-    for i, item in enumerate(it):
-        if i >= n:
-            return
-        yield item

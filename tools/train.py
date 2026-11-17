@@ -198,11 +198,15 @@ def main() -> None:
     while not done:
         for x, y in batches:
             logits = model(x)
-            loss = next_token_loss(logits, y) / grad_accum
-            if not torch.isfinite(loss):
+            ce = next_token_loss(logits, y)
+            if not torch.isfinite(ce):
                 emergency_stop(f"non-finite loss at step {step}")
-            loss.backward()
-            accum_loss += loss.item()
+            # Gradient scaling: mean over the accumulation window.
+            (ce / grad_accum).backward()
+            # Log the UNSCALED cross-entropy — dividing here as well made the
+            # CSV report true_loss/grad_accum (a 38M run logged 0.44 while the
+            # real CE was 7.15; caught by re-measuring checkpoint windows).
+            accum_loss += ce.item()
             accum_steps += 1
 
             if accum_steps < grad_accum:
