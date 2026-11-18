@@ -21,6 +21,7 @@ fi
     nice -n 10 "$PY" tools/train.py \
       --config configs/train_38m_v2.yaml \
       --resume auto \
+      --max-steps 40000 \
       >> logs/train_38m.out 2>&1 && break
     attempts=$((attempts + 1))
     echo "$(date '+%F %T') training exited (attempt $attempts) — restart in 60s" \
