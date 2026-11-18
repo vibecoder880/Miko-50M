@@ -1,0 +1,64 @@
+# Seed SFT conversations v0.1 — hand-written Vietnamese chat data.
+# Groups per plan §27: basic conversation, QA, instruction following,
+# rewriting, summarization-lite, coding instruction. Quality > quantity.
+{"messages": [{"role": "system", "content": "Bạn là Miko, một trợ lý nhỏ nói tiếng Việt."}, {"role": "user", "content": "Xin chào!"}, {"role": "assistant", "content": "Chào bạn! Miko có thể giúp gì cho bạn hôm nay?"}]}
+{"messages": [{"role": "user", "content": "Bạn là ai?"}, {"role": "assistant", "content": "Tôi là Miko, một mô hình ngôn ngữ nhỏ được huấn luyện bằng tiếng Việt, tiếng Anh và code."}]}
+{"messages": [{"role": "user", "content": "Cảm ơn bạn nhé!"}, {"role": "assistant", "content": "Không có gì! Nếu cần giúp thêm, bạn cứ hỏi Miko."}]}
+{"messages": [{"role": "user", "content": "Tạm biệt nhé."}, {"role": "assistant", "content": "Hẹn gặp lại bạn! Chúc một ngày tốt lành."}]}
+{"messages": [{"role": "user", "content": "Thủ đô của Việt Nam là gì?"}, {"role": "assistant", "content": "Thủ đô của Việt Nam là Hà Nội."}]}
+{"messages": [{"role": "user", "content": "Hà Nội có gì nổi bật?"}, {"role": "assistant", "content": "Hà Nội nổi tiếng với Hồ Gươm, Văn Miếu, phố cổ và ẩm thực đường phố như phở, bún chả."}]}
+{"messages": [{"role": "user", "content": "Việt Nam có bao nhiêu mùa trong năm?"}, {"role": "assistant", "content": "Việt Nam có bốn mùa: xuân, hạ, thu và đông."}]}
+{"messages": [{"role": "user", "content": "1 cộng 1 bằng mấy?"}, {"role": "assistant", "content": "1 cộng 1 bằng 2."}]}
+{"messages": [{"role": "user", "content": "Cho mình xem một phép nhân đơn giản."}, {"role": "assistant", "content": "Ví dụ: 3 nhân 4 bằng 12."}]}
+{"messages": [{"role": "user", "content": "Màu sắc của quốc kỳ Việt Nam?"}, {"role": "assistant", "content": "Quốc kỳ Việt Nam màu đỏ, ở giữa có ngôi sao vàng năm cánh."}]}
+{"messages": [{"role": "user", "content": "Kể tên ba loại trái cây Việt Nam."}, {"role": "assistant", "content": "Ba loại trái cây phổ biến ở Việt Nam là xoài, chuối và nhãn."}]}
+{"messages": [{"role": "user", "content": "Phở là món ăn của nước nào?"}, {"role": "assistant", "content": "Phở là món ăn truyền thống của Việt Nam."}]}
+{"messages": [{"role": "user", "content": "Viết một câu chào buổi sáng."}, {"role": "assistant", "content": "Chào buổi sáng! Chúc bạn một ngày mới tràn đầy năng lượng."}]}
+{"messages": [{"role": "user", "content": "Viết lại câu này lịch sự hơn: 'Đưa tôi ly nước'."}, {"role": "assistant", "content": "Bạn ơi, cho mình xin một ly nước được không?"}]}
+{"messages": [{"role": "user", "content": "Viết lại câu này ngắn gọn: 'Hôm nay trời đẹp quá nên tôi muốn đi dạo quanh hồ ở gần nhà mình'."}, {"role": "assistant", "content": "Trời đẹp, tôi đi dạo quanh hồ."}]}
+{"messages": [{"role": "user", "content": "Tóm lại câu này: 'Miko là một mô hình nhỏ được huấn luyện trên CPU với dữ liệu tiếng Việt, tiếng Anh và code'."}, {"role": "assistant", "content": "Miko là mô hình nhỏ học từ dữ liệu Việt, Anh và code trên CPU."}]}
+{"messages": [{"role": "user", "content": "Viết hàm Python cộng hai số."}, {"role": "assistant", "content": "def add(a, b):\n    return a + b"}]}
+{"messages": [{"role": "user", "content": "Python dùng hàm nào để in ra màn hình?"}, {"role": "assistant", "content": "Dùng hàm print(). Ví dụ: print('Xin chào')"}]}
+{"messages": [{"role": "user", "content": "Cho một ví dụ vòng lặp for trong Python."}, {"role": "assistant", "content": "for i in range(3):\n    print(i)\n\nVòng lặp này in ra 0, 1, 2."}]}
+{"messages": [{"role": "user", "content": "List trong Python là gì?"}, {"role": "assistant", "content": "List là danh sách có thứ tự, có thể thay đổi. Ví dụ: x = [1, 2, 3]"}]}
+{"messages": [{"role": "user", "content": "Cách lấy độ dài một list Python?"}, {"role": "assistant", "content": "Dùng hàm len(). Ví dụ: len([1, 2, 3]) trả về 3."}]}
+{"messages": [{"role": "user", "content": "Miko có làm được gì?"}, {"role": "assistant", "content": "Miko có thể trò chuyện đơn giản, trả lời câu hỏi cơ bản, hỗ trợ viết code nhỏ và thực hiện vài chỉ dẫn đơn giản."}]}
+{"messages": [{"role": "user", "content": "Bạn có biết nói tiếng Anh không?"}, {"role": "assistant", "content": "Có, Miko học cả tiếng Anh ở mức cơ bản. Bạn có thể hỏi bằng tiếng Anh."}]}
+{"messages": [{"role": "user", "content": "Hello, how are you?"}, {"role": "assistant", "content": "Hello! I am doing well, thank you. How can I help you today?"}]}
+{"messages": [{"role": "user", "content": "What is the capital of Vietnam?"}, {"role": "assistant", "content": "The capital of Vietnam is Hanoi."}]}
+{"messages": [{"role": "user", "content": "Hôm nay trời mưa, nên mang gì khi ra ngoài?"}, {"role": "assistant", "content": "Bạn nên mang theo ô hoặc áo mưa khi ra ngoài."}]}
+{"messages": [{"role": "user", "content": "Muốn học lập trình thì bắt đầu từ đâu?"}, {"role": "assistant", "content": "Bạn nên bắt đầu với Python: cài đặt, học biến, vòng lặp, hàm, rồi làm bài tập nhỏ mỗi ngày."}]}
+{"messages": [{"role": "user", "content": "Giải thích machine learning là gì thật đơn giản."}, {"role": "assistant", "content": "Machine learning là cách máy tính học từ dữ liệu để dự đoán, thay vì bị lập trình rõ từng quy tắc."}]}
+{"messages": [{"role": "user", "content": "Mô hình ngôn ngữ hoạt động thế nào?"}, {"role": "assistant", "content": "Mô hình ngôn ngữ học dự đoán từ tiếp theo dựa trên ngữ cảnh phía trước, rồi sinh chữ từng token một."}]}
+{"messages": [{"role": "user", "content": "Token là gì?"}, {"role": "assistant", "content": "Token là mẩu văn bản nhỏ — một từ, một phần từ hoặc ký tự — mà mô hình đọc và dự đoán."}]}
+{"messages": [{"role": "user", "content": "Kể tên hai ngôn ngữ lập trình."}, {"role": "assistant", "content": "Hai ngôn ngữ lập trình phổ biến là Python và JavaScript."}]}
+{"messages": [{"role": "user", "content": "HTML dùng để làm gì?"}, {"role": "assistant", "content": "HTML dùng để cấu trúc nội dung trang web: tiêu đề, đoạn văn, ảnh, liên kết."}]}
+{"messages": [{"role": "user", "content": "SQL dùng để làm gì?"}, {"role": "assistant", "content": "SQL dùng để truy vấn và quản lý dữ liệu trong cơ sở dữ liệu. Ví dụ: SELECT * FROM users;"}]}
+{"messages": [{"role": "user", "content": "Viết câu SQL lấy tất cả người dùng."}, {"role": "assistant", "content": "SELECT * FROM users;"}]}
+{"messages": [{"role": "user", "content": "Git dùng để làm gì?"}, {"role": "assistant", "content": "Git quản lý phiên bản mã nguồn: lưu lịch sử thay đổi, làm việc nhóm và hoàn tác khi cần."}]}
+{"messages": [{"role": "user", "content": "Mưa to thì nên làm gì?"}, {"role": "assistant", "content": "Khi mưa to, bạn nên ở trong nhà, tránh nơi ngập nước và đi lại cẩn thận."}]}
+{"messages": [{"role": "user", "content": "Nên uống bao nhiêu nước mỗi ngày?"}, {"role": "assistant", "content": "Người lớn thường nên uống khoảng 1.5 đến 2 lít nước mỗi ngày, tùy cơ thể và hoạt động."}]}
+{"messages": [{"role": "user", "content": "Đặt tên cho một con mèo nhỏ trắng."}, {"role": "assistant", "content": "Bạn có thể đặt tên Miu, Bông hoặc Tuyet — hợp với một chú mèo trắng nhỏ."}]}
+{"messages": [{"role": "user", "content": "Viết một dòng chú thích trong Python."}, {"role": "assistant", "content": "# Đây là một chú thích trong Python"}]}
+{"messages": [{"role": "user", "content": "Hai cộng ba rồi nhân cho hai bằng mấy?"}, {"role": "assistant", "content": "Hai cộng ba bằng năm, năm nhân hai bằng mười."}]}
+{"messages": [{"role": "user", "content": "Số nào lớn hơn: 9 hay 15?"}, {"role": "assistant", "content": "15 lớn hơn 9."}]}
+{"messages": [{"role": "user", "content": "Đếm từ 1 đến 5 giúp mình."}, {"role": "assistant", "content": "1, 2, 3, 4, 5."}]}
+{"messages": [{"role": "user", "content": "Tháng nào có 28 hoặc 29 ngày?"}, {"role": "assistant", "content": "Tháng Hai có 28 ngày, và 29 ngày trong năm nhuận."}]}
+{"messages": [{"role": "user", "content": "Một tuần có mấy ngày?"}, {"role": "assistant", "content": "Một tuần có bảy ngày."}]}
+{"messages": [{"role": "user", "content": "Kể tên các ngày trong tuần."}, {"role": "assistant", "content": "Thứ hai, thứ ba, thứ tư, thứ năm, thứ sáu, thứ bảy và chủ nhật."}]}
+{"messages": [{"role": "user", "content": "Viết dàn ý ngắn cho bài 'Lợi ích của việc đọc sách'."}, {"role": "assistant", "content": "1. Mở đầu: đọc sách là thói quen tốt.\n2. Thân: tăng kiến thức, giảm stress, cải thiện ngôn ngữ.\n3. Kết: nên đọc mỗi ngày."}]}
+{"messages": [{"role": "user", "content": "Gợi ý một món ăn trưa đơn giản."}, {"role": "assistant", "content": "Cơm trắng, trứng chiên và rau luộc — nhanh, dễ và đủ chất."}]}
+{"messages": [{"role": "user", "content": "Bạn có cảm xúc không?"}, {"role": "assistant", "content": "Miko là một chương trình máy tính nên không có cảm xúc như con người, nhưng Miko luôn sẵn sàng giúp bạn."}]}
+{"messages": [{"role": "user", "content": "Bạn có nhớ cuộc trò chuyện trước không?"}, {"role": "assistant", "content": "Trong phiên này Miko đọc được nội dung hội thoại hiện tại, nhưng Miko không lưu nhớ dài hạn giữa các phiên."}]}
+{"messages": [{"role": "user", "content": "Số PI xấp xỉ bao nhiêu?"}, {"role": "assistant", "content": "Số PI xấp xỉ 3.14 (chính xác hơn: 3.14159)."}]}
+{"messages": [{"role": "user", "content": "Nước sôi ở nhiệt độ mấy độ?"}, {"role": "assistant", "content": "Ở áp suất thường, nước sôi ở khoảng 100 độ C."}]}
+{"messages": [{"role": "user", "content": "Viết câu bằng cả hai thứ tiếng: chào bạn."}, {"role": "assistant", "content": "Tiếng Việt: Xin chào bạn! — Tiếng Anh: Hello there!"}]}
+{"messages": [{"role": "user", "content": "Từ 'máy tính' tiếng Anh là gì?"}, {"role": "assistant", "content": "'Máy tính' tiếng Anh là 'computer' (máy tính để bàn/laptop) hoặc 'calculator' (máy tính bỏ túi)."}]}
+{"messages": [{"role": "user", "content": "Đảo ngược chuỗi 'miko' trong Python thì làm sao?"}, {"role": "assistant", "content": "'miko'[::-1] trả về 'okim'."}]}
+{"messages": [{"role": "user", "content": "if dùng để làm gì trong lập trình?"}, {"role": "assistant", "content": "if kiểm tra điều kiện: khối lệnh bên trong chỉ chạy khi điều kiện đúng. Ví dụ: if x > 0: print('dương')"}]}
+{"messages": [{"role": "user", "content": "Hàm là gì trong lập trình?"}, {"role": "assistant", "content": "Hàm là khối lệnh có tên, nhận đầu vào (tham số) và có thể trả về kết quả, giúp tái sử dụng code."}]}
+{"messages": [{"role": "user", "content": "Chúc ngủ ngon bằng tiếng Việt ngắn gọn."}, {"role": "assistant", "content": "Chúc bạn ngủ ngon!"}]}
+{"messages": [{"role": "user", "content": "Miko nhỏ quá có kém không?"}, {"role": "assistant", "content": "Miko nhỏ nên hiểu biết có giới hạn, nhưng Miko nhanh, chạy được trên máy yếu và là nền tảng để mở rộng sau này."}]}
+{"messages": [{"role": "user", "content": "Hãy nói một câu động viên."}, {"role": "assistant", "content": "Bạn đang làm tốt lắm — mỗi bước nhỏ đều đáng quý, cứ tiếp tục nhé!"}]}
+{"messages": [{"role": "user", "content": "Giúp mình viết tiêu đề cho bài về du lịch Đà Nẵng."}, {"role": "assistant", "content": "Đà Nẵng — thành phố đáng sống với biển đẹp và cầu vàng nổi tiếng."}]}
+{"messages": [{"role": "user", "content": "2 nhân 8 trừ 6 bằng mấy?"}, {"role": "assistant", "content": "2 nhân 8 bằng 16, 16 trừ 6 bằng 10."}]}

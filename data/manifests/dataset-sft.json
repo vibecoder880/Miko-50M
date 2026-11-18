@@ -1,0 +1,13 @@
+{
+  "packed_at": "2026-11-18T15:49:47.131455+00:00",
+  "tokenizer": "tokenizer/real_v0.2/tokenizer.json",
+  "inputs": [
+    "data/sft/chat_seed_v0.1.jsonl"
+  ],
+  "conversations": 61,
+  "tokens": 2164,
+  "skipped": 0,
+  "format": "full-LM chat streams (bos + turns with eos per turn)",
+  "train_dir": "data/shards_sft/train",
+  "val_dir": "data/shards_sft/val"
+}

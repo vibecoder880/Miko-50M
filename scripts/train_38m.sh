@@ -15,11 +15,20 @@ if pgrep -f "tools/train.py --config configs/train_38m_v2.yaml" > /dev/null; the
   exit 0
 fi
 
-nohup nice -n 10 "$PY" tools/train.py \
-  --config configs/train_38m_v2.yaml \
-  --resume auto \
-  >> logs/train_38m.out 2>&1 &
+(
+  attempts=0
+  while [ "$attempts" -lt 10 ]; do
+    nice -n 10 "$PY" tools/train.py \
+      --config configs/train_38m_v2.yaml \
+      --resume auto \
+      >> logs/train_38m.out 2>&1 && break
+    attempts=$((attempts + 1))
+    echo "$(date '+%F %T') training exited (attempt $attempts) — restart in 60s" \
+      >> logs/train_38m.out
+    sleep 60
+  done
+) &
 
-echo "started 38M run (pid $!, nice 10) — logs: logs/train_38m.out"
-echo "monitor: tail -f logs/train_38m.csv"
-echo "stop:    pkill -f 'train_38m_v2'   (progress kept up to last checkpoint)"
+echo "started 38M run with auto-restart (max 10 attempts), nice 10"
+echo "logs: logs/train_38m.out | monitor: tail -f logs/train_38m.csv"
+echo "stop:  pkill -f 'train_38m_v2'   (progress kept up to last checkpoint)"
