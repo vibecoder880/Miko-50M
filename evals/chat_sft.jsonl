@@ -1,0 +1,17 @@
+# Chat-tier eval (plan §27, used after SFT). format=chat renders the prompt
+# through the chat template (system + user turn + generation prompt), so the
+# SFT model answers as an assistant. Scored by accepted-answer containment.
+{"id": "sft_greet_001", "format": "chat", "prompt": "Xin chào!", "expected": ["chào", "xin chào", "miko"], "metric": "contains"}
+{"id": "sft_id_001", "format": "chat", "system": "Bạn là Miko, một trợ lý nhỏ nói tiếng Việt.", "prompt": "Bạn là ai?", "expected": ["miko"], "metric": "contains"}
+{"id": "sft_cap_001", "format": "chat", "prompt": "Thủ đô của Việt Nam là gì?", "expected": ["hà nội"], "metric": "contains"}
+{"id": "sft_math_001", "format": "chat", "prompt": "1 cộng 1 bằng mấy?", "expected": ["2", "hai"], "metric": "contains"}
+{"id": "sft_season_001", "format": "chat", "prompt": "Việt Nam có mấy mùa?", "expected": ["bốn", "4"], "metric": "contains"}
+{"id": "sft_flag_001", "format": "chat", "prompt": "Quốc kỳ Việt Nam có màu gì?", "expected": ["đỏ"], "metric": "contains"}
+{"id": "sft_code_001", "format": "chat", "prompt": "Viết hàm Python cộng hai số.", "expected": ["def add", "a + b"], "metric": "contains"}
+{"id": "sft_code_002", "format": "chat", "prompt": "Cho mình ví dụ print trong Python.", "expected": ["print"], "metric": "contains"}
+{"id": "sft_thanks_001", "format": "chat", "prompt": "Cảm ơn bạn nhé!", "expected": ["không có gì", "còn gì", "luôn", "giúp"], "metric": "contains"}
+{"id": "sft_bye_001", "format": "chat", "prompt": "Tạm biệt nhé.", "expected": ["hẹn gặp", "tạm biệt", "chúc"], "metric": "contains"}
+{"id": "sft_polite_001", "format": "chat", "prompt": "Viết lại câu này lịch sự hơn: 'Đưa tôi ly nước'.", "expected": ["cho mình", "xin", "bạn"], "metric": "contains"}
+{"id": "sft_boil_001", "format": "chat", "prompt": "Nước sôi ở nhiệt độ bao nhiêu độ C?", "expected": ["100"], "metric": "contains"}
+{"id": "sft_week_001", "format": "chat", "prompt": "Một tuần có mấy ngày?", "expected": ["bảy", "7"], "metric": "contains"}
+{"id": "sft_pi_001", "format": "chat", "prompt": "Số PI xấp xỉ bao nhiêu?", "expected": ["3.14", "3,14"], "metric": "contains"}

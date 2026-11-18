@@ -28,6 +28,7 @@ from typing import Iterable, Optional
 
 import torch
 
+from .chat_template import ChatMessage, encode_chat
 from .generation import GenerationConfig, generate
 from .tokenizer import MikoTokenizer
 
@@ -47,6 +48,8 @@ class EvalItem:
     expected: list[str]
     metric: str = "contains"
     category: str = "misc"
+    format: str = "raw"  # "raw" = plain continuation | "chat" = chat template
+    system: Optional[str] = None  # optional system turn for format=chat
 
 
 def load_eval_sets(paths: Iterable[str]) -> list[EvalItem]:
@@ -70,6 +73,9 @@ def load_eval_sets(paths: Iterable[str]) -> list[EvalItem]:
                     raise ValueError(
                         f"{path}:{line_no}: needs 'prompt' and 'expected'"
                     )
+                fmt = str(row.get("format", "raw"))
+                if fmt not in ("raw", "chat"):
+                    raise ValueError(f"{path}:{line_no}: unsupported format {fmt!r}")
                 items.append(
                     EvalItem(
                         id=str(row.get("id", f"{category}-{line_no}")),
@@ -77,6 +83,8 @@ def load_eval_sets(paths: Iterable[str]) -> list[EvalItem]:
                         expected=[str(e) for e in expected],
                         metric=str(row.get("metric", "contains")),
                         category=str(row.get("category", category)),
+                        format=fmt,
+                        system=(str(row["system"]) if row.get("system") else None),
                     )
                 )
     if not items:
@@ -126,7 +134,14 @@ def evaluate_model(
 
     categories: dict[str, dict] = {}
     for item in items:
-        ids = tokenizer.encode(item.prompt, add_special_tokens=False)
+        if item.format == "chat":
+            msgs: list[ChatMessage] = []
+            if item.system:
+                msgs.append(ChatMessage("system", item.system))
+            msgs.append(ChatMessage("user", item.prompt))
+            ids = encode_chat(tokenizer, msgs, add_generation_prompt=True)
+        else:
+            ids = tokenizer.encode(item.prompt, add_special_tokens=False)
         out = generate(model, torch.tensor([ids], dtype=torch.long), cfg=cfg)
         new_ids = out[0, len(ids):].tolist()
         generated = tokenizer.decode(new_ids, skip_special_tokens=True)

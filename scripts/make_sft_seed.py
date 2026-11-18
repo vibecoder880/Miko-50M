@@ -159,6 +159,16 @@ def build_conversations(rng: random.Random) -> list[dict]:
         msgs.append({"role": "assistant", "content": assistant})
         convs.append({"messages": msgs})
 
+    def add_multi(turns: list[tuple[str, str]], system: str | None = SYSTEM) -> None:
+        """One conversation with several user/assistant exchanges."""
+        msgs = []
+        if system:
+            msgs.append({"role": "system", "content": system})
+        for user, assistant in turns:
+            msgs.append({"role": "user", "content": user})
+            msgs.append({"role": "assistant", "content": assistant})
+        convs.append({"messages": msgs})
+
     # Small talk + facts + identity + vi-en (both orders give variety).
     for q, a in SMALL_TALK:
         add(q, a, system=None if rng.random() < 0.3 else SYSTEM)
@@ -225,6 +235,35 @@ def build_conversations(rng: random.Random) -> list[dict]:
         val = a * b - c
         add(f"{a} nhân {b} trừ {c} bằng mấy?",
             f"{a} nhân {b} bằng {a * b}, {a * b} trừ {c} bằng {val}.")
+
+    # Multi-turn conversations: follow-ups, clarifications, code sessions.
+    for a, b in [(2, 3), (4, 5), (6, 7), (9, 8), (12, 11)]:
+        s = a + b
+        add_multi([
+            (f"{a} cộng {b} bằng mấy?", f"{a} cộng {b} bằng {s}."),
+            ("Nhân đôi kết quả đó nhé.", f"{s} nhân 2 bằng {s * 2}."),
+            ("Cảm ơn bạn!", "Không có gì!"),
+        ])
+    for topic, detail in [
+        ("list trong Python", "List là danh sách có thứ tự, có thể thay đổi: x = [1, 2, 3]"),
+        ("hàm trong Python", "Hàm là khối lệnh có tên và có thể trả về kết quả: def f(x): return x * 2"),
+        ("vòng lặp for", "for lặp qua một dãy: for i in range(3): print(i)"),
+    ]:
+        add_multi([
+            (f"{topic.capitalize()} là gì?", detail),
+            ("Cho mình một ví dụ đầy đủ nhé.", _run_code(
+                "print([1, 2, 3])" if "list" in topic else
+                "def f(x):\n    return x * 2\nprint(f(5))" if "hàm" in topic else
+                "for i in range(3):\n    print(i)"
+            )),
+            ("Ok, hiểu rồi!", "Tốt lắm! Cần giải thích thêm phần nào cứ hỏi."),
+        ])
+    for q, a in FACTS[:6]:
+        add_multi([
+            (q, a),
+            ("Bạn giải thích lại ngắn gọn hơn được không?",
+             a.split(",")[0].rstrip(".") + "."),
+        ])
 
     return convs
 
