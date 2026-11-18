@@ -1,0 +1,30 @@
+{
+  "packed_at": "2026-11-18T15:46:54.522408+00:00",
+  "tokenizer": "tokenizer/real_v0.2/tokenizer.json",
+  "inputs": [
+    "data/cleaned_v2/vi-wiki.txt",
+    "data/cleaned_v3/*.txt"
+  ],
+  "docs": 619647,
+  "tokens": 67691316,
+  "skipped": 161722,
+  "mixture": {
+    "vi-wiki": {
+      "docs": 314884,
+      "tokens": 38328007,
+      "share": 0.5662
+    },
+    "py-code": {
+      "docs": 219060,
+      "tokens": 17717678,
+      "share": 0.2617
+    },
+    "en-wiki": {
+      "docs": 85703,
+      "tokens": 11645631,
+      "share": 0.172
+    }
+  },
+  "train_dir": "data/shards_v3/train",
+  "val_dir": "data/shards_v3/val"
+}

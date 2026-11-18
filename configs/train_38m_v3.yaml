@@ -1,0 +1,42 @@
+# Continuation pretraining — Miko 38M on dataset-v0.3 (67.7M tokens,
+# vi 56.6% / code 26.2% / en 17.2%). Start AFTER the v2 run reaches
+# step 40000: same tokenizer (16K) so the checkpoint resumes directly.
+#   python tools/train.py --config configs/train_38m_v3.yaml --resume auto
+# Adds 20000 steps (~41M tokens; ~1.8 epochs over the v3 corpus total).
+
+model:
+  vocab_size: 16000
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_v3/train
+  val_dir: data/shards_v3/val
+
+train:
+  optimizer: adafactor
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 16
+  max_steps: 60000
+  lr: 3.0e-4
+  min_lr_ratio: 0.1
+  warmup_pct: 0.03
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 50
+  eval_every: 500
+  eval_batches: 24
+  checkpoint_every: 500
+  milestone_every: 5000
+  keep_last: 2
+  out_dir: checkpoints_38m      # continues the same run lineage
+  log_csv: logs/train_38m_v3.csv

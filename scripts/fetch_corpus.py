@@ -97,6 +97,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Fetch a real corpus slice")
     ap.add_argument("--source", required=True, choices=sorted(SOURCES))
     ap.add_argument("--docs", type=int, default=400)
+    ap.add_argument("--skip", type=int, default=0,
+                    help="skip the first N stream rows (fetch fresh docs "
+                    "when re-running with a larger --docs earlier)")
     ap.add_argument("--out", default="data/cleaned")
     ap.add_argument("--manifests", default="data/manifests")
     ap.add_argument("--seed", type=int, default=42,
@@ -108,6 +111,7 @@ def main() -> None:
     os.makedirs(args.manifests, exist_ok=True)
 
     from datasets import load_dataset
+    from itertools import islice
 
     logger.info("streaming %s (%s)", spec["dataset"], spec["config"])
     if spec["config"]:
@@ -115,6 +119,8 @@ def main() -> None:
                               streaming=True)
     else:
         stream = load_dataset(spec["dataset"], split="train", streaming=True)
+    if args.skip:
+        stream = islice(stream, args.skip, None)
 
     is_code = spec["kind"] == "code"
     out_path = os.path.join(args.out, f"{args.source}.txt")
@@ -172,6 +178,7 @@ def main() -> None:
         "url_template": spec.get("url_template"),
         "fetched_at": datetime.now(timezone.utc).isoformat(),
         "requested_docs": args.docs,
+        "stream_skip": args.skip,
         "written_docs": written,
         "duplicates_skipped": dup,
         "filtered_out": filtered,
