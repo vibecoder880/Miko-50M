@@ -30,10 +30,20 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-__all__ = ["PackedShardWriter", "ShardedTokenDataset", "find_shards"]
+__all__ = [
+    "PackedShardWriter",
+    "ShardedTokenDataset",
+    "SFTShardWriter",
+    "SFTShardedDataset",
+    "find_shards",
+    "find_sft_shards",
+]
 
 DTYPE = np.uint16
 MAX_TOKEN_ID = 65535
+# SFT labels use int16 with -100 as the ignore sentinel (masked positions).
+LABEL_DTYPE = np.int16
+IGNORE_LABEL = -100
 
 
 # ---------------------------------------------------------------------------
@@ -126,6 +136,18 @@ def find_shards(directory: str) -> list[str]:
     paths = sorted(glob.glob(os.path.join(directory, "*.bin")))
     if not paths:
         raise FileNotFoundError(f"no .bin shards found in {directory!r}")
+    return paths
+
+
+def find_sft_shards(directory: str) -> list[str]:
+    """All ``*.ids.bin`` SFT shard paths in ``directory``, sorted.
+
+    Deliberately excludes legacy ``part-*.bin`` full-LM files that may sit
+    in the same directory from earlier packing runs.
+    """
+    paths = sorted(glob.glob(os.path.join(directory, "*.ids.bin")))
+    if not paths:
+        raise FileNotFoundError(f"no .ids.bin SFT shards found in {directory!r}")
     return paths
 
 
@@ -267,3 +289,180 @@ def shard_stats(shard_paths: Sequence[str]) -> ShardStats:
         else:  # fall back to file size
             tokens += os.path.getsize(p) // 2
     return ShardStats(shards=len(shard_paths), tokens=tokens, documents=docs)
+
+
+# ---------------------------------------------------------------------------
+# SFT: masked-label windows (plan §26-27, M4)
+# ---------------------------------------------------------------------------
+class SFTShardWriter:
+    """Write window-aligned (ids, targets) SFT shards.
+
+    Each conversation ``(ids, labels)`` from ``encode_chat_masked`` is
+    chunked into ``seq_len`` training windows stored *ready for training*:
+    for a window of ids ``x = ids[t:t+L]`` the stored targets are
+    ``labels[t+1:t+L+1]`` — the label of the token the model must predict
+    at position i. Padded windows use ``pad_id`` ids and ``IGNORE_LABEL``
+    targets, and are written last so they can be dropped cheaply.
+
+    Files: ``part-NNNNN.ids.bin`` (uint16) + ``part-NNNNN.lbl.bin`` (int16).
+    """
+
+    def __init__(self, prefix: str, seq_len: int, pad_id: int,
+                 windows_per_shard: int = 20000) -> None:
+        if seq_len < 1:
+            raise ValueError("seq_len must be >= 1")
+        self.prefix = prefix
+        self.seq_len = seq_len
+        self.pad_id = pad_id
+        self.windows_per_shard = windows_per_shard
+        self._part = -1
+        self._ids_file = None
+        self._lbl_file = None
+        self._windows_in_part = 0
+        self._tokens_in_part = 0
+        self._pad_windows = 0
+
+    def _open_next(self) -> None:
+        self._close_current()
+        self._part += 1
+        self._ids_file = open(f"{self.prefix}-{self._part:05d}.ids.bin", "wb")
+        self._lbl_file = open(f"{self.prefix}-{self._part:05d}.lbl.bin", "wb")
+        self._windows_in_part = 0
+        self._tokens_in_part = 0
+        self._pad_windows = 0
+
+    def _close_current(self) -> None:
+        # Windows are always written whole (padding handled in
+        # write_example), so closing is just flush + metadata sidecar.
+        if self._ids_file is not None and not self._ids_file.closed:
+            self._ids_file.close()
+            self._lbl_file.close()
+        if self._ids_file is not None:
+            meta = {
+                "path": os.path.basename(f"{self.prefix}-{self._part:05d}.ids.bin"),
+                "windows": self._windows_in_part,
+                "tokens": self._tokens_in_part,
+                "pad_windows": self._pad_windows,
+            }
+            with open(f"{self.prefix}-{self._part:05d}.json", "w",
+                      encoding="utf-8") as fh:
+                json.dump(meta, fh, indent=2)
+        self._ids_file = None
+        self._lbl_file = None
+
+    def close(self) -> None:
+        self._close_current()
+
+    def __enter__(self) -> "SFTShardWriter":
+        self._open_next()
+        return self
+
+    def __exit__(self, *exc) -> None:
+        self.close()
+
+    def write_example(self, ids: Sequence[int], labels: Sequence[int]) -> None:
+        """Chunk one ``(ids, labels)`` conversation into training windows."""
+        if len(ids) != len(labels):
+            raise ValueError("ids and labels must be aligned")
+        if len(ids) < 2:
+            return
+        # Slide non-overlapping windows; the last partial window is padded.
+        n = self.seq_len + 1  # need one extra token for shifted targets
+        for start in range(0, len(ids), self.seq_len):
+            chunk = list(ids[start : start + n])
+            chunk_lbl = list(labels[start : start + n])
+            if len(chunk) < n:
+                pad = n - len(chunk)
+                chunk = chunk + [self.pad_id] * pad
+                chunk_lbl = chunk_lbl + [IGNORE_LABEL] * pad
+                self._pad_windows += 1
+            x = chunk[: self.seq_len]
+            targets = chunk_lbl[1 : n]  # label of the predicted token
+            if self._ids_file is None or (
+                self._windows_in_part >= self.windows_per_shard
+            ):
+                self._open_next()
+            self._ids_file.write(np.asarray(x, dtype=DTYPE).tobytes())
+            self._lbl_file.write(np.asarray(targets, dtype=LABEL_DTYPE).tobytes())
+            self._windows_in_part += 1
+            self._tokens_in_part += self.seq_len
+
+
+class SFTShardedDataset(Dataset):
+    """Memory-mapped SFT windows: yields ``(x, targets)`` ready for
+    ``next_token_loss`` (targets carry ``IGNORE_LABEL`` where masked)."""
+
+    def __init__(self, shard_paths: Sequence[str], seq_len: int, seed: int = 42):
+        self.seq_len = seq_len
+        self.seed = int(seed)
+        self._epoch = 0
+        self._paths = [str(p) for p in shard_paths]
+        self._ids_maps: list[Optional[np.memmap]] = [None] * len(self._paths)
+        self._lbl_maps: list[Optional[np.memmap]] = [None] * len(self._paths)
+        self._counts = np.empty(len(self._paths), dtype=np.int64)
+        row_bytes = 2 * seq_len  # uint16 ids + int16 targets per row
+        for i, p in enumerate(self._paths):
+            ids_path = p if p.endswith(".ids.bin") else p.replace(".bin", ".ids.bin")
+            n_bytes = os.path.getsize(ids_path)
+            if n_bytes % row_bytes != 0:
+                raise ValueError(f"{ids_path}: size not a multiple of {row_bytes}")
+            self._counts[i] = n_bytes // row_bytes
+        self._cum = np.cumsum(self._counts)
+        if not len(self._cum) or self._cum[-1] == 0:
+            raise ValueError("no SFT windows found")
+        self._rng = np.random.default_rng(self.seed)
+
+    @property
+    def total_windows(self) -> int:
+        return int(self._cum[-1])
+
+    def __len__(self) -> int:
+        return int(self._cum[-1])
+
+    def close(self) -> None:
+        self._ids_maps = [None] * len(self._paths)
+        self._lbl_maps = [None] * len(self._paths)
+
+    def _maps(self, idx: int) -> tuple[np.memmap, np.memmap]:
+        if self._ids_maps[idx] is None:
+            p = self._paths[idx]
+            ids_path = p if p.endswith(".ids.bin") else p.replace(".bin", ".ids.bin")
+            lbl_path = ids_path.replace(".ids.bin", ".lbl.bin")
+            self._ids_maps[idx] = np.memmap(ids_path, dtype=DTYPE, mode="r")
+            self._lbl_maps[idx] = np.memmap(lbl_path, dtype=LABEL_DTYPE, mode="r")
+        return self._ids_maps[idx], self._lbl_maps[idx]
+
+    def _locate(self, index: int) -> tuple[int, int]:
+        shard = int(np.searchsorted(self._cum, index, side="right"))
+        prev = int(self._cum[shard - 1]) if shard > 0 else 0
+        return shard, index - prev
+
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
+        if index < 0:
+            index += len(self)
+        if not 0 <= index < len(self):
+            raise IndexError(index)
+        shard, local = self._locate(index)
+        ids_map, lbl_map = self._maps(shard)
+        row = local * self.seq_len
+        x = np.asarray(ids_map[row : row + self.seq_len])
+        t = np.asarray(lbl_map[row : row + self.seq_len])
+        return (
+            torch.from_numpy(x.astype(np.int64)),
+            torch.from_numpy(t.astype(np.int64)),
+        )
+
+    def advance_epoch(self) -> None:
+        self._epoch += 1
+        self._rng = np.random.default_rng(self.seed + self._epoch)
+
+    def iter_batches(self, batch_size: int, shuffle: bool = True,
+                     drop_last: bool = True):
+        order = np.arange(len(self))
+        if shuffle:
+            order = self._rng.permutation(order)
+        if drop_last:
+            order = order[: (len(order) // batch_size) * batch_size]
+        for i in range(0, len(order), batch_size):
+            xs, ts = zip(*(self[int(j)] for j in order[i : i + batch_size]))
+            yield torch.stack(xs), torch.stack(ts)

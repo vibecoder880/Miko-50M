@@ -1,0 +1,39 @@
+# SFT smoke config — Miko Tiny on the masked-label chat seed.
+# Proves the --sft training path end-to-end before any real SFT run.
+
+model:
+  vocab_size: 16000    # matches tokenizer/real_v0.2/tokenizer.json
+  hidden_size: 96
+  num_layers: 4
+  num_heads: 6
+  ffn_size: 384
+  context_length: 128
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_sft/train
+  val_dir: data/shards_sft/val
+
+train:
+  optimizer: adamw
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 2
+  max_steps: 30
+  lr: 5.0e-4
+  min_lr_ratio: 0.1
+  warmup_pct: 0.1
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 15
+  eval_batches: 6
+  checkpoint_every: 15
+  milestone_every: 30
+  keep_last: 1
+  out_dir: checkpoints_sft_smoke
+  log_csv: logs/train_sft_smoke.csv

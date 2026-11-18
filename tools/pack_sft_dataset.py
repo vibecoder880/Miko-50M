@@ -1,4 +1,4 @@
-"""Pack instruction/chat JSONL into token shards for SFT (plan §26-27, M4).
+"""Pack instruction/chat JSONL into SFT shards (plan §26-27, M4).
 
 Input format (one per line)::
 
@@ -8,17 +8,17 @@ Input format (one per line)::
         {"role": "assistant", "content": "Chào bạn!"}
     ]}
 
-Each conversation is rendered with the reserved special tokens
-(``miko.chat_template``), wrapped as ``<bos> ... <eos>`` and packed into the
-same uint16 shard format used for pretraining — so the existing training
-loop trains on chat streams unchanged (full-LM SFT; masked-label SFT is a
-later refinement, tracked for M4 follow-up).
+Default mode writes **masked-label SFT windows** (``SFTShardWriter``):
+targets equal ids inside assistant spans and ``-100`` elsewhere, so
+``tools/train.py --sft`` trains only on assistant responses.
+``--full-lm`` keeps the legacy pretraining-style stream packing instead.
 
-Example::
+Examples::
 
-    python tools/pack_sft_dataset.py --input data/sft/chat_v0.1.jsonl \
+    python tools/pack_sft_dataset.py --input "data/sft/*.jsonl" \
         --tokenizer tokenizer/real_v0.2/tokenizer.json \
         --out-train data/shards_sft/train --out-val data/shards_sft/val
+    python tools/pack_sft_dataset.py --input ... --full-lm
 """
 
 from __future__ import annotations
@@ -33,8 +33,12 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from miko.chat_template import ChatMessage, encode_chat  # noqa: E402
-from miko.dataset import PackedShardWriter, shard_stats  # noqa: E402
+from miko.chat_template import ChatMessage, encode_chat, encode_chat_masked  # noqa: E402
+from miko.dataset import (  # noqa: E402
+    PackedShardWriter,
+    SFTShardWriter,
+    shard_stats,
+)
 from miko.tokenizer import MikoTokenizer  # noqa: E402
 from miko.utils import get_logger  # noqa: E402
 
@@ -79,6 +83,11 @@ def main() -> None:
     ap.add_argument("--val-frac", type=float, default=0.02)
     ap.add_argument("--min-chars", type=int, default=6,
                     help="drop conversations whose total text is shorter")
+    ap.add_argument("--seq-len", type=int, default=128,
+                    help="window size for masked SFT shards")
+    ap.add_argument("--full-lm", action="store_true",
+                    help="legacy mode: pretraining-style token streams "
+                    "(no label masking)")
     ap.add_argument("--report", default="data/manifests/dataset-sft.json")
     args = ap.parse_args()
 
@@ -93,18 +102,38 @@ def main() -> None:
     val_every = round(1 / args.val_frac) if args.val_frac > 0 else 0
 
     stats = {"convs": 0, "tokens": 0, "skipped": 0}
-    with PackedShardWriter(os.path.join(args.out_train, "part")) as tw, \
-         PackedShardWriter(os.path.join(args.out_val, "part")) as vw:
-        for conv in convs:
-            total_chars = sum(len(m.content) for m in conv)
-            if total_chars < args.min_chars:
-                stats["skipped"] += 1
-                continue
-            ids = encode_chat(tok, conv)
-            writer = vw if (val_every and rng.randrange(val_every) == 0) else tw
-            writer.write_ids([bos, *ids, eos], documents=1)
-            stats["convs"] += 1
-            stats["tokens"] += len(ids) + 2
+    if args.full_lm:
+        with PackedShardWriter(os.path.join(args.out_train, "part")) as tw, \
+             PackedShardWriter(os.path.join(args.out_val, "part")) as vw:
+            for conv in convs:
+                total_chars = sum(len(m.content) for m in conv)
+                if total_chars < args.min_chars:
+                    stats["skipped"] += 1
+                    continue
+                ids = encode_chat(tok, conv)
+                writer = vw if (val_every and rng.randrange(val_every) == 0) else tw
+                writer.write_ids([bos, *ids, eos], documents=1)
+                stats["convs"] += 1
+                stats["tokens"] += len(ids) + 2
+        fmt = "full-LM chat streams (bos + turns with eos per turn)"
+    else:
+        with SFTShardWriter(os.path.join(args.out_train, "part"), args.seq_len,
+                            tok.pad_id) as tw, \
+             SFTShardWriter(os.path.join(args.out_val, "part"), args.seq_len,
+                            tok.pad_id) as vw:
+            for conv in convs:
+                total_chars = sum(len(m.content) for m in conv)
+                if total_chars < args.min_chars:
+                    stats["skipped"] += 1
+                    continue
+                ids, labels = encode_chat_masked(tok, conv)
+                writer = vw if (val_every and rng.randrange(val_every) == 0) else tw
+                writer.write_example([bos, *ids, eos],
+                                     [-100, *labels, eos])
+                stats["convs"] += 1
+                stats["tokens"] += len(ids) + 2
+        fmt = (f"masked-label SFT windows (seq_len={args.seq_len}, "
+               "targets carry -100 outside assistant spans)")
 
     for name, directory in (("train", args.out_train), ("val", args.out_val)):
         shards = sorted(
@@ -112,9 +141,18 @@ def main() -> None:
             if f.endswith(".bin")
         )
         if shards:
-            s = shard_stats(shards)
-            logger.info("%s: %d shard(s), %.3fM tokens", name, s.shards,
-                        s.tokens / 1e6)
+            if args.full_lm:
+                s = shard_stats(shards)
+                logger.info("%s: %d shard(s), %.3fM tokens", name, s.shards,
+                            s.tokens / 1e6)
+            else:
+                shards = [s for s in shards if s.endswith(".ids.bin")]
+                # Count real windows: rows of seq_len ids (2 bytes each).
+                n_windows = sum(
+                    os.path.getsize(s) // (args.seq_len * 2) for s in shards
+                )
+                logger.info("%s: %d shard(s), %d windows", name, len(shards),
+                            n_windows)
 
     os.makedirs(os.path.dirname(args.report) or ".", exist_ok=True)
     with open(args.report, "w", encoding="utf-8") as fh:
@@ -125,7 +163,7 @@ def main() -> None:
             "conversations": stats["convs"],
             "tokens": stats["tokens"],
             "skipped": stats["skipped"],
-            "format": "full-LM chat streams (bos + turns with eos per turn)",
+            "format": fmt,
             "train_dir": args.out_train,
             "val_dir": args.out_val,
         }, fh, indent=2, ensure_ascii=False)

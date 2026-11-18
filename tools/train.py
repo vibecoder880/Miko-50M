@@ -37,7 +37,13 @@ from miko.checkpoint import (  # noqa: E402
     save_checkpoint,
 )
 from miko.config import MikoConfig  # noqa: E402
-from miko.dataset import ShardedTokenDataset, find_shards, shard_stats  # noqa: E402
+from miko.dataset import (  # noqa: E402
+    SFTShardedDataset,
+    ShardedTokenDataset,
+    find_shards,
+    find_sft_shards,
+    shard_stats,
+)
 from miko.model import MikoModel  # noqa: E402
 from miko.optim import build_optimizer  # noqa: E402
 from miko.trainer import cosine_lr, next_token_loss  # noqa: E402
@@ -89,6 +95,9 @@ def main() -> None:
                     help="checkpoint dir to resume from ('auto' = latest)")
     ap.add_argument("--max-steps", type=int, default=None,
                     help="override max_steps from the config")
+    ap.add_argument("--sft", action="store_true",
+                    help="supervised fine-tuning: data dirs hold masked-label "
+                    "SFT shards (SFTShardWriter format); loss ignores -100")
     args = ap.parse_args()
 
     import yaml
@@ -122,19 +131,31 @@ def main() -> None:
 
     seed_everything(seed)
 
+    def make_dataset(directory: str):
+        if args.sft:
+            return SFTShardedDataset(find_sft_shards(directory), seq_len,
+                                     seed=seed)
+        return ShardedTokenDataset(find_shards(directory), seq_len, seed=seed)
+
     train_shards = find_shards(data_cfg.get("train_dir", "data/shards/train"))
     val_dir = data_cfg.get("val_dir")
-    train_ds = ShardedTokenDataset(train_shards, seq_len, seed=seed)
-    stats = shard_stats(train_shards)
-    logger.info(
-        "train: %d shards / %.2fM tokens / %d windows",
-        stats.shards, stats.tokens / 1e6, len(train_ds),
-    )
+    train_ds = make_dataset(data_cfg.get("train_dir", "data/shards/train"))
+    if args.sft:
+        logger.info("train: %d SFT windows (masked-label)", len(train_ds))
+    else:
+        stats = shard_stats(train_shards)
+        logger.info(
+            "train: %d shards / %.2fM tokens / %d windows",
+            stats.shards, stats.tokens / 1e6, len(train_ds),
+        )
     val_ds = None
     if val_dir and os.path.isdir(val_dir):
-        val_ds = ShardedTokenDataset(find_shards(val_dir), seq_len, seed=seed)
-        logger.info("val: %.2fM tokens / %d windows",
-                    val_ds.total_tokens / 1e6, len(val_ds))
+        val_ds = make_dataset(val_dir)
+        if args.sft:
+            logger.info("val: %d SFT windows", len(val_ds))
+        else:
+            logger.info("val: %.2fM tokens / %d windows",
+                        val_ds.total_tokens / 1e6, len(val_ds))
 
     model = build_model(model_cfg)
     model.train()
