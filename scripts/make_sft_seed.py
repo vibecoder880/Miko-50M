@@ -21,6 +21,15 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from miko.utils import get_logger  # noqa: E402
+from sft_banks import (  # noqa: E402
+    CLASSIFY_SENTIMENT,
+    CLASSIFY_TOPIC,
+    FACTS_EXTRA,
+    MULTI_SCENARIOS,
+    REASONING_LITE,
+    REPHRASE,
+    SUMMARIZE_PAIRS,
+)
 
 logger = get_logger("miko.sft_seed")
 
@@ -274,9 +283,9 @@ def build_conversations(rng: random.Random) -> list[dict]:
     # Small talk + facts + identity + vi-en (both orders give variety).
     for q, a in SMALL_TALK:
         add(q, a, system=None if rng.random() < 0.3 else SYSTEM)
-    for q, a in FACTS:
+    for q, a in FACTS + FACTS_EXTRA:
         add(q, a)
-        if rng.random() < 0.35:
+        if rng.random() < 0.25:
             add(q, a, system=None)
     for q, a in IDENTITY:
         add(q, a)
@@ -290,6 +299,21 @@ def build_conversations(rng: random.Random) -> list[dict]:
         add(q, a)
         if rng.random() < 0.3:
             add(f"Giải thích ngắn gọn: {q}", a.split(" — ")[0].rstrip(".") + ".")
+
+    # Rewrites / summaries / classification / reasoning-lite.
+    for rude, polite in REPHRASE:
+        add(f"Viết lại lịch sự hơn: '{rude}'.", polite)
+    for long, short in SUMMARIZE_PAIRS:
+        add(f"Tóm tắt: {long}", short)
+        add(f"Viết lại câu này ngắn gọn: '{long}'.", short)
+    for text, label in CLASSIFY_SENTIMENT:
+        add(f"Câu sau tích cực hay tiêu cực: '{text}'",
+            f"Câu này mang sắc thái {label}.")
+    for text, label in CLASSIFY_TOPIC:
+        add(f"Nội dung sau thuộc chủ đề gì: '{text}'",
+            f"Chủ đề: {label}.")
+    for q, a in REASONING_LITE:
+        add(q, a)
 
     # Politeness rewrites + shortening + titles.
     for rude, polite in POLITE:
@@ -374,6 +398,61 @@ def build_conversations(rng: random.Random) -> list[dict]:
             ("Bạn giải thích lại ngắn gọn hơn được không?",
              a.split(",")[0].rstrip(".") + "."),
         ])
+    for scenario in MULTI_SCENARIOS:
+        add_multi(scenario)
+
+    # --- Systematic verified generators (scale without hallucination) ---
+    # Reverse counting.
+    add("Đếm ngược từ 10 về 1 giúp mình.",
+        ", ".join(str(i) for i in range(10, 0, -1)) + ".")
+    for start in [5, 8, 12, 15, 20]:
+        lo = max(1, start - 4)
+        add(f"Đếm ngược từ {start} về {lo}.",
+            ", ".join(str(i) for i in range(start, lo - 1, -1)) + ".")
+
+    # English alphabet positions (stable knowledge).
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    for idx in [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 25]:
+        letter = alphabet[idx]
+        ordinal = idx + 1
+        add(f"Chữ thứ {ordinal} trong bảng chữ cái tiếng Anh là gì?",
+            f"Chữ thứ {ordinal} là '{letter}'.")
+    for letter in ["a", "e", "i", "o", "u", "m", "t", "z"]:
+        add(f"'{letter}' là nguyên âm hay phụ âm?",
+            f"'{letter}' là nguyên âm." if letter in "aeiou"
+            else f"'{letter}' là phụ âm.")
+
+    # Number comparison (computed).
+    for x, y in [(3, 7), (12, 9), (25, 25), (101, 99), (48, 84), (7, 70),
+                 (55, 45), (0, 1), (30, 30), (66, 99)]:
+        if x == y:
+            add(f"So sánh {x} và {y}.", f"Hai số bằng nhau: {x} = {y}.")
+        elif x > y:
+            add(f"So sánh {x} và {y}.", f"{x} lớn hơn {y}.")
+        else:
+            add(f"So sánh {x} và {y}.", f"{x} nhỏ hơn {y}.")
+
+    # Word problems (computed at generation time).
+    for a, b in [(5, 3), (8, 4), (12, 7), (10, 10), (6, 9), (20, 5),
+                 (15, 6), (9, 8), (25, 12), (18, 3)]:
+        s = a + b
+        add(f"Mai có {a} quả táo, nhận thêm {b} quả. Mai có mấy quả?",
+            f"Mai có tất cả {a} + {b} = {s} quả táo.")
+        if a > b:
+            d = a - b
+            add(f"Lan có {a} viên kẹo, cho bạn {b} viên. Lan còn mấy viên?",
+                f"Lan còn {a} - {b} = {d} viên kẹo.")
+    for price, qty in [(2, 5), (3, 4), (5, 6), (10, 3)]:
+        total = price * qty
+        add(f"Một chiếc bút giá {price} nghìn đồng. Mua {qty} chiếc hết mấy nghìn?",
+            f"{price} × {qty} = {total} nghìn đồng.")
+
+    # Multiplication-table reading (verified).
+    for n in [2, 5, 10]:
+        rows = [f"{n} × {i} = {n * i}" for i in range(1, 6)]
+        add(f"Hệ số nhân {n} từ 1 đến 5 giúp mình.", "\n".join(rows))
+    for n, k in [(2, 6), (3, 4), (4, 3), (5, 4), (6, 6), (7, 3)]:
+        add(f"{n} nhân {k} bằng mấy?", f"{n} nhân {k} bằng {n * k}.")
 
     return convs
 
