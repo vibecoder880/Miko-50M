@@ -1,7 +1,7 @@
-"""Chat template for instruction tuning (plan §26, §29 — M4 prep).
+"""Chat template for instruction tuning (plan §26, §29, §33 — M4/M5).
 
-Renders ``system`` / ``user`` / ``assistant`` messages using the special
-tokens reserved since day one (ids 4-6 in the v0.1 tokenizer)::
+Renders ``system`` / ``user`` / ``assistant`` / ``tool`` messages using the
+special tokens reserved since day one::
 
     <system>
     Bạn là Miko.
@@ -10,13 +10,22 @@ tokens reserved since day one (ids 4-6 in the v0.1 tokenizer)::
     Xin chào
     <eos>
     <assistant>
-    Chào bạn!
+    <tool_call>
+    {"name": "calculator", "arguments": {"expression": "2+2"}}
+    </tool_call>
+    <eos>
+    <tool_result>
+    4
+    </tool_result>
+    <eos>
+    <assistant>
+    Kết quả là 4.
     <eos>
 
-``encode_chat`` additionally produces SFT labels: every token outside an
-assistant turn is masked to ``-100`` so instruction tuning trains only on
-assistant responses (plan §26-27). Tool roles arrive with M5 and are
-rejected here for now to keep the v0.2 format contract tight.
+The ``tool`` role carries the runtime's result and renders with the
+``<tool_result>`` header (plan §33). Assistant content may embed
+``<tool_call>{json}</tool_call>`` text — parsed and executed by the runtime
+(``miko.tooling``).
 """
 
 from __future__ import annotations
@@ -26,8 +35,12 @@ from typing import Optional, Sequence
 
 __all__ = ["ChatMessage", "render_chat", "encode_chat", "encode_chat_masked"]
 
-SUPPORTED_ROLES = ("system", "user", "assistant")
+SUPPORTED_ROLES = ("system", "user", "assistant", "tool")
 IGNORE_INDEX = -100
+
+# Role -> header token (tool results use the <tool_result> token).
+ROLE_HEADERS = {"system": "system", "user": "user", "assistant": "assistant",
+                "tool": "tool_result"}
 
 
 @dataclass(frozen=True)
@@ -39,7 +52,7 @@ class ChatMessage:
         if self.role not in SUPPORTED_ROLES:
             raise ValueError(
                 f"unsupported role {self.role!r}; expected one of "
-                f"{SUPPORTED_ROLES} (tool roles come with M5)"
+                f"{SUPPORTED_ROLES}"
             )
         if not isinstance(self.content, str):
             raise ValueError("content must be a string")
@@ -55,7 +68,7 @@ def render_chat(messages: Sequence[ChatMessage], add_generation_prompt: bool = F
         raise ValueError("messages must not be empty")
     parts: list[str] = []
     for msg in messages:
-        parts.append(f"<{msg.role}>\n{msg.content}")
+        parts.append(f"<{ROLE_HEADERS[msg.role]}>\n{msg.content}")
     if add_generation_prompt:
         parts.append("<assistant>\n")
     return "\n".join(parts)
@@ -77,7 +90,7 @@ def encode_chat(
     eos = tokenizer.eos_id
     ids: list[int] = [tokenizer.bos_id]
     for msg in messages:
-        ids.append(tokenizer.token_to_id(f"<{msg.role}>"))
+        ids.append(tokenizer.token_to_id(f"<{ROLE_HEADERS[msg.role]}>"))
         ids.extend(tokenizer.encode(msg.content, add_special_tokens=False))
         ids.append(eos)
     if add_generation_prompt:
@@ -105,7 +118,7 @@ def encode_chat_masked(
     ids: list[int] = [tokenizer.bos_id]
     labels: list[int] = [IGNORE_INDEX]
     for msg in messages:
-        role_id = tokenizer.token_to_id(f"<{msg.role}>")
+        role_id = tokenizer.token_to_id(f"<{ROLE_HEADERS[msg.role]}>")
         turn_ids = [role_id, *tokenizer.encode(msg.content, add_special_tokens=False), eos]
         ids.extend(turn_ids)
         # Labels stay aligned 1:1 with ids. For assistant turns the role

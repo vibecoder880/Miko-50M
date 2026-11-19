@@ -1,12 +1,13 @@
 {
-  "packed_at": "2026-11-19T06:59:47.527397+00:00",
+  "packed_at": "2026-11-19T11:09:19.576856+00:00",
   "tokenizer": "tokenizer/real_v0.2/tokenizer.json",
   "inputs": [
     "data/sft/chat_seed_v0.1.jsonl",
-    "data/sft/chat_seed_v0.2.jsonl"
+    "data/sft/chat_seed_v0.2.jsonl",
+    "data/sft/tool_seed_v0.1.jsonl"
   ],
-  "conversations": 679,
-  "tokens": 29601,
+  "conversations": 968,
+  "tokens": 66160,
   "skipped": 0,
   "format": "masked-label SFT windows (seq_len=128, targets carry -100 outside assistant spans)",
   "train_dir": "data/shards_sft/train",

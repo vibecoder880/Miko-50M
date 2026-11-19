@@ -104,9 +104,38 @@ def test_encode_chat_masked_truncation_keeps_alignment(tok):
     assert len(ids) == len(labels) == 50
 
 
+def test_tool_role_renders_with_tool_result_header(tok):
+    """Role 'tool' maps to the <tool_result> token (plan §33)."""
+    ids = encode_chat(tok, [ChatMessage("tool", "56088")])
+    assert ids[0] == tok.bos_id
+    assert ids[1] == tok.token_to_id("<tool_result>")
+    body = ids[2:-1]
+    assert tok.decode(body, skip_special_tokens=False) == "56088"
+
+
+def test_tool_call_conversation_full_shape(tok):
+    """Plan §33 shape: user -> assistant(tool_call) -> tool -> assistant."""
+    msgs = [
+        ChatMessage("system", "Bạn là Miko."),
+        ChatMessage("user", "123*456 = ?"),
+        ChatMessage("assistant", '<tool_call>\n{"name": "calculator", "arguments": {"expression": "123*456"}}\n</tool_call>'),
+        ChatMessage("tool", "56088"),
+        ChatMessage("assistant", "Kết quả là 56088."),
+    ]
+    ids, labels = encode_chat_masked(tok, msgs)
+    assert len(ids) == len(labels)
+    # Two labeled spans: the two assistant turns (content + eos).
+    labeled = [i for i, l in enumerate(labels) if l != IGNORE_INDEX]
+    gaps = [b - a for a, b in zip(labeled, labeled[1:]) if b - a > 1]
+    assert len(gaps) == 1
+    # The tool result span is masked (runtime evidence, not model output).
+    tool_header_idx = ids.index(tok.token_to_id("<tool_result>"))
+    assert labels[tool_header_idx] == IGNORE_INDEX
+
+
 def test_rejects_bad_roles_and_empty(tok):
     with pytest.raises(ValueError):
-        ChatMessage("tool", "x")  # tool roles come with M5
+        ChatMessage("ghost", "x")
     with pytest.raises(ValueError):
         render_chat([])
     with pytest.raises(ValueError):
