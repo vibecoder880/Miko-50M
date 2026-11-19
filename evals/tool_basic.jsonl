@@ -1,0 +1,19 @@
+# Tool-calling eval (plan §25, §45). metric=tool_call scores that the model
+# emits a parseable <tool_call> with the correct tool name and arguments.
+# Full loop evaluation (execute + observe + answer) lands with the M8 runtime.
+{"id": "tool_mul_001", "format": "chat", "metric": "tool_call", "prompt": "123 nhân 456 bằng bao nhiêu?", "expected_tool": "calculator", "expected_args": {"expression": "123*456"}}
+{"id": "tool_mul_002", "format": "chat", "metric": "tool_call", "prompt": "Tính 987 × 654.", "expected_tool": "calculator", "expected_args": {"expression": "987*654"}}
+{"id": "tool_mul_003", "format": "chat", "metric": "tool_call", "prompt": "3456 * 789 bằng bao nhiêu?", "expected_tool": "calculator", "expected_args": {"expression": "3456*789"}}
+{"id": "tool_sum_001", "format": "chat", "metric": "tool_call", "prompt": "Tính tổng 45678 và 12345.", "expected_tool": "calculator", "expected_args": {"expression": "45678+12345"}}
+{"id": "tool_sum_002", "format": "chat", "metric": "tool_call", "prompt": "999999 + 888888 bằng bao nhiêu?", "expected_tool": "calculator", "expected_args": {"expression": "999999+888888"}}
+{"id": "tool_paren_001", "format": "chat", "metric": "tool_call", "prompt": "Tính (45 + 55) × 12.", "expected_tool": "calculator", "expected_args": {"expression": "(45+55)*12"}}
+{"id": "tool_pow_001", "format": "chat", "metric": "tool_call", "prompt": "12 mũ 6 bằng bao nhiêu?", "expected_tool": "calculator", "expected_args": {"expression": "12**6"}}
+{"id": "tool_pow_002", "format": "chat", "metric": "tool_call", "prompt": "Tính 25^4.", "expected_tool": "calculator", "expected_args": {"expression": "25**4"}}
+{"id": "tool_div_001", "format": "chat", "metric": "tool_call", "prompt": "7777 chia 13 bằng bao nhiêu?", "expected_tool": "calculator", "expected_args": {"expression": "7777/13"}}
+{"id": "tool_sub_001", "format": "chat", "metric": "tool_call", "prompt": "987654 trừ 123456 bằng mấy?", "expected_tool": "calculator", "expected_args": {"expression": "987654-123456"}}
+{"id": "tool_time_001", "format": "chat", "metric": "tool_call", "prompt": "Bây giờ là mấy giờ?", "expected_tool": "time"}
+{"id": "tool_time_002", "format": "chat", "metric": "tool_call", "prompt": "Hôm nay ngày mấy rồi?", "expected_tool": "time"}
+{"id": "tool_neg_001", "format": "chat", "metric": "tool_call", "prompt": "Bạn là ai?", "expected_tool": "__none__"}
+{"id": "tool_neg_002", "format": "chat", "metric": "tool_call", "prompt": "2 + 2 bằng mấy?", "expected_tool": "__none__"}
+{"id": "tool_neg_003", "format": "chat", "metric": "tool_call", "prompt": "Cảm ơn bạn nhé!", "expected_tool": "__none__"}
+{"id": "tool_neg_004", "format": "chat", "metric": "tool_call", "prompt": "Thủ đô của Việt Nam là gì?", "expected_tool": "__none__"}

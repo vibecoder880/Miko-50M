@@ -31,6 +31,7 @@ import torch
 from .chat_template import ChatMessage, encode_chat
 from .generation import GenerationConfig, generate
 from .tokenizer import MikoTokenizer
+from .tooling import parse_tool_call
 
 __all__ = [
     "EvalItem",
@@ -50,6 +51,8 @@ class EvalItem:
     category: str = "misc"
     format: str = "raw"  # "raw" = plain continuation | "chat" = chat template
     system: Optional[str] = None  # optional system turn for format=chat
+    expected_tool: Optional[str] = None       # metric=tool_call
+    expected_args: Optional[dict] = None      # metric=tool_call
 
 
 def load_eval_sets(paths: Iterable[str]) -> list[EvalItem]:
@@ -69,22 +72,36 @@ def load_eval_sets(paths: Iterable[str]) -> list[EvalItem]:
                 expected = row.get("expected")
                 if isinstance(expected, str):
                     expected = [expected]
-                if not row.get("prompt") or not expected:
-                    raise ValueError(
-                        f"{path}:{line_no}: needs 'prompt' and 'expected'"
-                    )
                 fmt = str(row.get("format", "raw"))
                 if fmt not in ("raw", "chat"):
                     raise ValueError(f"{path}:{line_no}: unsupported format {fmt!r}")
+                metric = str(row.get("metric", "contains"))
+                expected_tool = row.get("expected_tool")
+                expected_args = row.get("expected_args")
+                if metric == "tool_call":
+                    if not expected_tool:
+                        raise ValueError(
+                            f"{path}:{line_no}: metric=tool_call needs 'expected_tool'"
+                        )
+                    # tool_call items carry no textual 'expected' list.
+                    expected = expected or [""]
+                elif not row.get("prompt") or not expected:
+                    raise ValueError(
+                        f"{path}:{line_no}: needs 'prompt' and 'expected'"
+                    )
                 items.append(
                     EvalItem(
                         id=str(row.get("id", f"{category}-{line_no}")),
                         prompt=str(row["prompt"]),
                         expected=[str(e) for e in expected],
-                        metric=str(row.get("metric", "contains")),
+                        metric=metric,
                         category=str(row.get("category", category)),
                         format=fmt,
                         system=(str(row["system"]) if row.get("system") else None),
+                        expected_tool=(str(expected_tool)
+                                       if expected_tool else None),
+                        expected_args=(dict(expected_args)
+                                       if expected_args else None),
                     )
                 )
     if not items:
@@ -101,10 +118,38 @@ def normalize_text(text: str) -> str:
 
 
 def score_item(item: EvalItem, generated: str) -> bool:
-    """Score one item. Only ``contains`` is defined for the base LM v0.1."""
-    gen = normalize_text(generated)
+    """Score one item.
+
+    Metrics:
+    - ``contains``: any accepted answer appears (normalized) in the output.
+    - ``tool_call``: the output parses as exactly the expected tool call —
+      correct tool name and matching arguments (plan §45 'tool selection'
+      + 'JSON validity' + 'schema validity' in one static check).
+    """
     if item.metric == "contains":
-        return any(normalize_text(e) in gen for e in item.expected)
+        gen = normalize_text(generated)
+        return any(normalize_text(e) in gen for e in item.expected if e)
+    if item.metric == "tool_call":
+        parsed = parse_tool_call(generated)
+        if item.expected_tool == "__none__":
+            # Negative item: the model must NOT emit a (valid) tool call.
+            return not (parsed and "call" in parsed)
+        if not parsed or "call" not in parsed:
+            return False
+        call = parsed["call"]
+        if call.name != item.expected_tool:
+            return False
+        if item.expected_args is None:
+            return True
+        for key, want in item.expected_args.items():
+            got = call.arguments.get(key)
+            if isinstance(want, str) and isinstance(got, str):
+                # Whitespace-insensitive expression compare (123 * 456 vs 123*456).
+                if "".join(got.split()) != "".join(want.split()):
+                    return False
+            elif got != want:
+                return False
+        return True
     raise ValueError(f"unsupported metric: {item.metric!r}")
 
 
