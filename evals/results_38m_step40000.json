@@ -1,0 +1,291 @@
+{
+  "checkpoint": "checkpoints_38m/latest",
+  "categories": {
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " một số người."
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": " được sử dụng trong các nhà nhà nước."
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": " ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày"
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": ", và các nhà nước."
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": " sử dụng trong các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": ",, and the her her her her her her her her her her her her her her her her her her her her"
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": ", và các nhà nước."
+        }
+      ]
+    },
+    "chat_sft": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 14,
+      "items": [
+        {
+          "id": "sft_greet_001",
+          "passed": false,
+          "generated": "    def test_name = self.\n    def test_name = self.\n    def test_name ="
+        },
+        {
+          "id": "sft_id_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_cap_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_math_001",
+          "passed": false,
+          "generated": "    def test_name = self.\n    def test_name = self.\n    def test_name ="
+        },
+        {
+          "id": "sft_season_001",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_flag_001",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_code_001",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_code_002",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_thanks_001",
+          "passed": false,
+          "generated": "    def test_name = self.\n    def test_name = self.\n    def test_name ="
+        },
+        {
+          "id": "sft_bye_001",
+          "passed": false,
+          "generated": "    def test_name = self.\n    def test_name = self.\n    def test_name ="
+        },
+        {
+          "id": "sft_polite_001",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_boil_001",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_week_001",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_pi_001",
+          "passed": false,
+          "generated": "    #  #  #  #  #  #  #  #  #  #  #  #"
+        }
+      ]
+    },
+    "code_basic": {
+      "score": 0.0833,
+      "passed": 1,
+      "total": 12,
+      "items": [
+        {
+          "id": "code_py_001",
+          "passed": false,
+          "generated": " self.get_name = self.get_name(self):\n        self.get_name = self."
+        },
+        {
+          "id": "code_py_002",
+          "passed": false,
+          "generated": "self.get_name,\n    def test_name = self.get_name(self):\n    def"
+        },
+        {
+          "id": "code_py_003",
+          "passed": false,
+          "generated": " the\n        #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "code_py_004",
+          "passed": false,
+          "generated": "self):\n        self.get_name = 'ITITITITITITITITITITITIT\n"
+        },
+        {
+          "id": "code_py_005",
+          "passed": false,
+          "generated": " self.assertEqual(self,\n        self.assertEqual(self):\n        self.assertEqual(self):\n       "
+        },
+        {
+          "id": "code_sql_001",
+          "passed": false,
+          "generated": " FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM"
+        },
+        {
+          "id": "code_sql_002",
+          "passed": false,
+          "generated": ", and the the ag ag ag ag ag ag ag ag ag ag ag ag ag ag ag ag ag ag ag ag"
+        },
+        {
+          "id": "code_sh_001",
+          "passed": false,
+          "generated": ", and the first first first first first first first first first first first first first first first first first first fi"
+        },
+        {
+          "id": "code_js_001",
+          "passed": false,
+          "generated": "\n        self.get_name = self.get_name(self):\n        self.get_name ="
+        },
+        {
+          "id": "code_json_001",
+          "passed": false,
+          "generated": " def test_"
+        },
+        {
+          "id": "code_py_006",
+          "passed": false,
+          "generated": "    \n    def test_name = self.\n    def test_name = self.\n    def test_"
+        },
+        {
+          "id": "code_py_007",
+          "passed": true,
+          "generated": "\n    def test_name = self.\n    def test_name = self.get_name(self,"
+        }
+      ]
+    },
+    "vi_basic": {
+      "score": 0.0625,
+      "passed": 1,
+      "total": 16,
+      "items": [
+        {
+          "id": "vi_cap_001",
+          "passed": false,
+          "generated": " một số lượng của các nhà nước."
+        },
+        {
+          "id": "vi_cap_002",
+          "passed": false,
+          "generated": " các nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà nhà"
+        },
+        {
+          "id": "vi_cap_003",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_num_001",
+          "passed": false,
+          "generated": " bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng bằng"
+        },
+        {
+          "id": "vi_seq_001",
+          "passed": false,
+          "generated": ", và các nhà nước."
+        },
+        {
+          "id": "vi_cls_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_sea_001",
+          "passed": false,
+          "generated": " các nhà nước."
+        },
+        {
+          "id": "vi_geo_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_fes_001",
+          "passed": false,
+          "generated": ", và các nhà nước."
+        },
+        {
+          "id": "vi_idn_001",
+          "passed": false,
+          "generated": " lý lý, và các nhà nước."
+        },
+        {
+          "id": "vi_gram_001",
+          "passed": true,
+          "generated": " xe xe xe."
+        },
+        {
+          "id": "vi_gram_002",
+          "passed": false,
+          "generated": " trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời"
+        },
+        {
+          "id": "vi_cmp_001",
+          "passed": false,
+          "generated": " các nhà nước."
+        },
+        {
+          "id": "vi_abc_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_fam_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_foo_001",
+          "passed": false,
+          "generated": " các nhà nước."
+        }
+      ]
+    }
+  },
+  "val_loss": 6.9301,
+  "perplexity": 1022.58,
+  "summary": {
+    "chat_basic": 0.0,
+    "chat_sft": 0.0,
+    "code_basic": 0.0833,
+    "vi_basic": 0.0625
+  }
+}

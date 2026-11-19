@@ -103,3 +103,4 @@ Metrics: train loss, val loss, perplexity, tokens/sec, generation latency.
 |---|---|---|
 | v0.1 | 2026-11-16 | Base LM skeleton: model, tokenizer, dataset, training, checkpoint, generation. Pretraining in progress. |
 | v0.2 | 2026-11-17 | dataset-v0.2 (48M tokens, vi/en/code). Miko-38M run 1: 20000 steps / 40.96M tokens, val loss 8.23 (ppl ~3700 first-N) / 7.41 spread-sampled (ppl 1646); eval suite vi 0.06 / code 0.17. Training extended to 40000 steps. Note: CSV train-loss values in logs before commit 9db2823 are scaled by 1/grad_accum (see evals/train_38m_full.csv). |
+| v0.3 | 2026-11-19 | Miko-38M-Base step 40000 complete: 81.92M tokens (~1.7 epochs of v0.2), val 6.88 (in-training) / 6.93 spread-sampled (ppl 1023, -38% vs step 20000). Eval: vi 0.06 / code 0.08 / chat 0 — base-LM scores flat while loss falls: QA-style answering needs SFT (expected). dataset-v0.3 continuation launched (+20000 steps on 67.7M tokens, vi 56.6%). |
