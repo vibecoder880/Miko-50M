@@ -109,6 +109,108 @@ IDENTITY = [
     ("Miko có thông minh không?", "Miko nhỏ nên hiểu biết có giới hạn, nhưng Miko nhanh, chạy được trên máy yếu và sẽ tốt hơn khi có thêm dữ liệu."),
     ("Bạn có nhớ tôi không?", "Miko đọc được hội thoại trong phiên hiện tại, nhưng không lưu nhớ dài hạn giữa các phiên."),
     ("Bạn chạy trên phần cứng gì?", "Miko được thiết kế để huấn luyện và chạy trên CPU máy rất nhỏ, khoảng 1 GB RAM."),
+    ("Bạn được huấn luyện bằng gì?", "Miko được huấn luyện bằng PyTorch trên CPU thuần, không dùng GPU."),
+    ("Miko học dữ liệu gì?", "Miko học từ văn bản Wikipedia tiếng Việt, tiếng Anh và mã nguồn Python mã nguồn mở."),
+    ("Bạn là người máy thật à?", "Không, Miko là một chương trình máy tính — mình trò chuyện bằng cách dự đoán từ tiếp theo."),
+    ("Bạn có thể làm gì cho tôi?", "Miko trả lời câu hỏi cơ bản, trò chuyện, viết và giải thích code nhỏ, giúp diễn đạt lại câu văn."),
+    ("Bạn có bao nhiêu tham số?", "Miko có khoảng 38 triệu tham số — nhỏ so với các mô hình hàng tỷ tham số."),
+    ("Ai tạo ra bạn?", "Miko được xây dựng từ số không như một dự án nghiên cứu mô hình ngôn ngữ nhỏ."),
+    ("Bạn nói được mấy ngôn ngữ?", "Miko nói tiếng Việt là chính, thêm tiếng Anh ở mức cơ bản và hiểu code."),
+    ("Bạn học hỏi thêm được không?", "Không tự học trong lúc trò chuyện — Miko chỉ tốt hơn khi được huấn luyện thêm."),
+    ("Chạy Miko tốn nhiều pin không?", "Không, Miko rất nhẹ, chạy thoải mái trên máy cấu hình thấp."),
+    ("Bạn khác ChatGPT thế nào?", "Miko nhỏ hơn rất nhiều, chạy cục bộ trên CPU yếu, và tập trung vào tiếng Việt cơ bản."),
+    ("Model của bạn thuộc loại nào?", "Miko là mô hình transformer decoder-only, kiểu GPT nhỏ."),
+    ("Tokenizer là gì?", "Tokenizer là bộ chia văn bản thành các mẩu nhỏ (token) để mô hình đọc được."),
+    ("Miko dùng tokenizer bao nhiêu từ?", "Miko dùng tokenizer BPE 16 nghìn token, hỗ trợ tốt tiếng Việt có dấu."),
+    ("Vì sao Miko hay lặp chữ?", "Mô hình nhỏ chưa đủ dữ liệu nên hay lặp — giảm temperature hoặc huấn luyện thêm sẽ đỡ."),
+    ("Làm sao để Miko trả lời tốt hơn?", "Đặt câu hỏi rõ ràng, ngắn gọn; và dự án sẽ tiếp tục huấn luyện Miko với dữ liệu tốt hơn."),
+]
+
+VI_EN = [
+    ("Từ 'xin chào' tiếng Anh là gì?", "'Xin chào' tiếng Anh là 'hello' hoặc 'hi'."),
+    ("'Thank you' nghĩa là gì?", "'Thank you' nghĩa là 'cảm ơn'."),
+    ("'Good morning' nghĩa là gì?", "'Good morning' nghĩa là 'chào buổi sáng'."),
+    ("'Xin chào! Tôi là Miko' dịch sang tiếng Anh.", "'Xin chào! Tôi là Miko' dịch là 'Hello! I am Miko.'"),
+    ("'Good night' nghĩa là gì?", "'Good night' nghĩa là 'chúc ngủ ngon'."),
+    ("'Sorry' nghĩa là gì?", "'Sorry' nghĩa là 'xin lỗi'."),
+    ("'Please' nghĩa là gì?", "'Please' nghĩa là 'xin vui lòng' — thêm vào câu để lịch sự."),
+    ("'How are you?' nghĩa là gì?", "'How are you?' nghĩa là 'Bạn thế nào?'."),
+    ("'Tạm biệt' tiếng Anh là gì?", "'Tạm biệt' tiếng Anh là 'goodbye' hoặc 'bye'."),
+    ("'Family' nghĩa là gì?", "'Family' nghĩa là 'gia đình'."),
+    ("'Book' nghĩa là gì?", "'Book' nghĩa là 'quyển sách'."),
+    ("'Computer' nghĩa là gì?", "'Computer' nghĩa là 'máy tính'."),
+    ("'Học' tiếng Anh là gì?", "'Học' tiếng Anh là 'study' hoặc 'learn'."),
+    ("'Beautiful' nghĩa là gì?", "'Beautiful' nghĩa là 'đẹp'."),
+    ("'Hôm nay trời đẹp' dịch sang tiếng Anh.", "'Hôm nay trời đẹp' dịch là 'The weather is nice today.'"),
+    ("'Tôi muốn học lập trình' dịch sang tiếng Anh.", "'Tôi muốn học lập trình' dịch là 'I want to learn programming.'"),
+    ("'Where are you from?' nghĩa là gì?", "'Where are you from?' nghĩa là 'Bạn đến từ đâu?'."),
+    ("'My name is...' nghĩa là gì?", "'My name is...' nghĩa là 'Tên tôi là...'."),
+    ("'Water' nghĩa là gì?", "'Water' nghĩa là 'nước'."),
+    ("'Friend' nghĩa là gì?", "'Friend' nghĩa là 'bạn bè'."),
+    ("'Time' nghĩa là gì?", "'Time' nghĩa là 'thời gian'."),
+    ("'Happy' nghĩa là gì?", "'Happy' nghĩa là 'hạnh phúc, vui vẻ'."),
+    ("'Cảm ơn rất nhiều' dịch sang tiếng Anh.", "'Cảm ơn rất nhiều' dịch là 'Thank you very much'."),
+    ("'See you later' nghĩa là gì?", "'See you later' nghĩa là 'Hẹn gặp lại sau'."),
+    ("'Học sinh' tiếng Anh là gì?", "'Học sinh' tiếng Anh là 'student'."),
+    ("'Teacher' nghĩa là gì?", "'Teacher' nghĩa là 'giáo viên'."),
+    ("'School' nghĩa là gì?", "'School' nghĩa là 'trường học'."),
+    ("'Quyển vở' tiếng Anh là gì?", "'Quyển vở' tiếng Anh là 'notebook'."),
+]
+
+DAILY = [
+    ("Hôm nay mình hơi mệt.", "Nghe vậy đáng tiếc — nghỉ ngơi chút, uống nước ấm nhé. Mai sẽ khỏe hơn."),
+    ("Mình đói quá nhưng không biết ăn gì.", "Thử món đơn giản nào: cơm trứng, mì gói trứng hoặc bánh mì — nhanh và no."),
+    ("Trời mưa nên không đi chạy bộ được.", "Bạn có thể tập trong nhà: hít đất, squat, plank 15-20 phút cũng hiệu quả."),
+    ("Mình khó ngủ quá.", "Trước khi ngủ, tránh điện thoại 30 phút, uống nước ấm và hít thở sâu nhé."),
+    ("Sáng nay mình dậy muộn.", "Không sao — quan trọng là hôm nay làm được gì, không phải dậy lúc mấy giờ."),
+    ("Mình đang mất hứng học.", "Đổi cách học nhẹ hơn: 15 phút một bài nhỏ, xong là nghỉ. Động lực quay lại từ tiến bộ nhỏ."),
+    ("Cuối tuần nên làm gì?", "Nghỉ ngơi, đi bộ, nấu một món mới hoặc học thêm chút kiến thức nhẹ nhàng."),
+    ("Mình muốn tiết kiệm tiền.", "Ghi chi tiêu mỗi ngày, cắt vài khoản nhỏ trà cà phê, để dành phần thu nhập cố định mỗi tháng."),
+    ("Làm sao tập trung hơn khi làm việc?", "Chia việc thành khối 25 phút, tắt thông báo, và nghỉ 5 phút giữa các khối."),
+    ("Mình nên uống gì buổi sáng?", "Nước lọc ấm là tốt nhất; thêm trà hoặc cà phê nếu bạn quen."),
+    ("Nhà mình hơi bừa bộn.", "Dọn 10 phút mỗi ngày một góc nhỏ — đừng cố dọn hết một lúc."),
+    ("Mình muốn bắt đầu chạy bộ.", "Bắt đầu đi bộ nhanh 20 phút/ngày, sau 1 tuần xen vài phút chạy nhẹ."),
+    ("Làm sao học tiếng Anh hiệu quả?", "Nghe và đọc mỗi ngày 15 phút, học từ theo ngữ cảnh, và tập nói thành câu."),
+    ("Mình hay quên việc.", "Ghi việc cần làm vào sổ hoặc điện thoại ngay khi nghĩ ra, xem lại mỗi sáng."),
+    ("Nên đọc sách giấy hay sách điện tử?", "Tùy bạn — giấy dễ tập trung, điện tử tiện mang theo. Quan trọng là đọc đều đặn."),
+    ("Mình muốn học đánh máy nhanh.", "Luyện 10 phút/ngày trên các trang tập gõ phím, đúng tư thế tay từ đầu."),
+    ("Làm sao giảm stress?", "Vận động nhẹ, ngủ đủ, nói chuyện với người thân, và dành thời gian cho sở thích."),
+    ("Buổi tối nên tránh gì?", "Tránh cà phê muộn, ăn quá no và lướt mạng liên tục ngay trước khi ngủ."),
+    ("Mình muốn kiên trì hơn.", "Đặt mục tiêu nhỏ đủ làm được, duy trì mỗi ngày một chút — chuỗi nhỏ tạo thói quen lớn."),
+    ("Nghỉ giải lao nên làm gì?", "Đứng dậy đi lại, vươn vai, nhìn xa — cho mắt và lưng nghỉ đúng nghĩa."),
+]
+
+CONCEPTS = [
+    ("Machine learning là gì?", "Machine learning là cách máy tính học từ dữ liệu để dự đoán, thay vì được lập trình từng quy tắc."),
+    ("Deep learning khác machine learning thế nào?", "Deep learning dùng mạng nơ-ron nhiều tầng để tự trích chọn đặc trưng — là một nhánh của machine learning."),
+    ("Neural network là gì?", "Neural network là mô hình gồm các tầng 'nơ-ron' số học, học trọng số từ dữ liệu."),
+    ("Transformer là gì?", "Transformer là kiến trúc dùng cơ chế attention để hiểu quan hệ giữa các từ, nền tảng của các mô hình ngôn ngữ hiện đại."),
+    ("Attention là gì?", "Attention là cơ chế giúp mô hình 'chú ý' đến các phần liên quan của đầu vào khi xử lý từng từ."),
+    ("Overfitting là gì?", "Overfitting là mô hình học thuộc dữ liệu train nhưng kém trên dữ liệu mới — thường gặp khi mô hình lớn mà dữ liệu ít."),
+    ("Training và inference khác nhau thế nào?", "Training là học trọng số từ dữ liệu; inference là dùng mô hình đã học để dự đoán."),
+    ("Dataset là gì?", "Dataset là tập dữ liệu dùng để huấn luyện và đánh giá mô hình."),
+    ("Hàm loss là gì?", "Loss là số đo sai lệch giữa dự đoán và đáp án; huấn luyện là cố gắng giảm loss."),
+    ("Learning rate là gì?", "Learning rate là bước nhảy khi cập nhật trọng số — quá lớn thì dao động, quá nhỏ thì chậm."),
+    ("Epoch là gì?", "Một epoch là một lượt đi qua toàn bộ dữ liệu huấn luyện."),
+    ("Batch là gì?", "Batch là nhóm mẫu được xử lý cùng một lúc trước khi cập nhật trọng số."),
+    ("Fine-tuning là gì?", "Fine-tuning là tiếp tục huấn luyện mô hình đã có trên dữ liệu mới cho nhiệm vụ cụ thể."),
+    ("Token là gì?", "Token là mẩu văn bản nhỏ — từ, phần từ hoặc ký tự — đơn vị nhỏ nhất mô hình xử lý."),
+    ("Embedding là gì?", "Embedding là vector số biểu diễn nghĩa của từ/token để máy tính tính toán được."),
+    ("Mã nguồn mở là gì?", "Mã nguồn mở là phần mềm công khai mã nguồn cho mọi người xem, sửa và phân phối theo giấy phép."),
+    ("API là gì?", "API là giao diện cho phép hai chương trình nói chuyện với nhau qua các yêu cầu chuẩn."),
+    ("Git là gì?", "Git là hệ thống quản lý phiên bản, lưu lịch sử thay đổi của mã nguồn."),
+    ("Commit trong git là gì?", "Commit là một bản chụp các thay đổi đã lưu vào lịch sử git."),
+    ("Branch trong git là gì?", "Branch là nhánh phát triển riêng để làm tính năng mới mà không ảnh hưởng nhánh chính."),
+    ("Debug là gì?", "Debug là quá trình tìm và sửa lỗi trong chương trình."),
+    ("Biến là gì trong lập trình?", "Biến là tên đặt cho một giá trị trong bộ nhớ để dùng lại sau này."),
+    ("Vòng lặp là gì?", "Vòng lặp là cấu trúc lặp lại một khối lệnh nhiều lần."),
+    ("Điều kiện if là gì?", "if kiểm tra một điều kiện đúng/sai để quyết định chạy khối lệnh nào."),
+    ("Hàm trả về giá trị là sao?", "Hàm dùng return gửi kết quả về nơi gọi nó, ví dụ: def f(x): return x * 2."),
+    ("Comment trong code dùng để làm gì?", "Comment là ghi chú cho người đọc, máy tính bỏ qua — giúp code dễ hiểu."),
+    ("Python là ngôn ngữ thông dịch hay biên dịch?", "Python là ngôn ngữ thông dịch — chạy từng dòng qua trình thông dịch."),
+    ("Vì sao Python phổ biến?", "Python cú pháp đơn giản, thư viện nhiều, hợp cho dữ liệu, tự động hóa và web."),
+    ("SQL khác Python ở điểm nào?", "SQL là ngôn ngữ truy vấn dữ liệu trong cơ sở dữ liệu; Python là ngôn ngữ lập trình đa dụng."),
+    ("JSON là gì?", "JSON là định dạng văn bản cấu trúc để trao đổi dữ liệu: {\"ten\": \"Miko\"}."),
 ]
 
 VI_EN = [
@@ -180,6 +282,14 @@ def build_conversations(rng: random.Random) -> list[dict]:
         add(q, a)
     for q, a in VI_EN:
         add(q, a)
+        if rng.random() < 0.25:
+            add(q, a, system=None)
+    for q, a in DAILY:
+        add(q, a, system=None if rng.random() < 0.5 else SYSTEM)
+    for q, a in CONCEPTS:
+        add(q, a)
+        if rng.random() < 0.3:
+            add(f"Giải thích ngắn gọn: {q}", a.split(" — ")[0].rstrip(".") + ".")
 
     # Politeness rewrites + shortening + titles.
     for rude, polite in POLITE:
@@ -201,7 +311,7 @@ def build_conversations(rng: random.Random) -> list[dict]:
     # Verified arithmetic: several phrasings, numeric + word answers.
     for a in range(1, 21):
         for b in range(1, 21):
-            if rng.random() > 0.22:
+            if rng.random() > 0.45:
                 continue
             s = a + b
             phrase = rng.choice(MATH_PHRASES).format(a=a, b=b)

@@ -1,0 +1,46 @@
+# First real SFT run — Miko-38M base -> chat tier (plan §26-27, M4).
+# Start AFTER the v3 continuation finishes (scripts/train_sft_38m.sh
+# guards this). Resumes weights from checkpoints_38m/latest but trains
+# into checkpoints_sft_38m/ so the base stays untouched.
+#
+# LR is ~3x below pretraining peak (1e-4 vs 3e-4): fine-tuning should
+# adapt, not re-warm. 400 steps x grad_accum 8 x 128 tokens = ~410K
+# tokens = ~6 epochs over the current 533-conv seed (~65K tokens) —
+# watch val: if it rises early, cut steps.
+
+model:
+  vocab_size: 16000
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_sft/train
+  val_dir: data/shards_sft/val
+
+train:
+  optimizer: adamw        # SFT is short; AdamW is affordable at 38M
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 400
+  lr: 1.0e-4
+  min_lr_ratio: 0.1
+  warmup_pct: 0.1
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 50
+  eval_batches: 16
+  checkpoint_every: 100
+  milestone_every: 400
+  keep_last: 2
+  out_dir: checkpoints_sft_38m
+  log_csv: logs/train_sft_38m.csv
