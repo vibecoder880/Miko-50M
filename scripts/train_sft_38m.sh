@@ -45,7 +45,7 @@ fi
 
 (
   attempts=0
-  while [ "$attempts" -lt 10 ]; do
+  while [ "$attempts" -lt 30 ]; do
     nice -n 10 "$PY" tools/train.py \
       --config configs/train_sft_38m.yaml \
       --sft \

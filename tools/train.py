@@ -216,12 +216,22 @@ def main() -> None:
 
     batches = train_ds.iter_batches(batch_size=batch_size, shuffle=True)
     done = False
+    nan_streak = 0
     while not done:
         for x, y in batches:
             logits = model(x)
             ce = next_token_loss(logits, y)
             if not torch.isfinite(ce):
-                emergency_stop(f"non-finite loss at step {step}")
+                # One bad batch (common on fresh OOD data early in SFT) is
+                # skipped; a streak means real instability -> emergency stop.
+                nan_streak += 1
+                if nan_streak >= 3:
+                    emergency_stop(f"non-finite loss at step {step} "
+                                   f"({nan_streak} consecutive)")
+                opt.zero_grad(set_to_none=True)
+                accum_loss, accum_steps = 0.0, 0
+                continue
+            nan_streak = 0
             # Gradient scaling: mean over the accumulation window.
             (ce / grad_accum).backward()
             # Log the UNSCALED cross-entropy — dividing here as well made the
