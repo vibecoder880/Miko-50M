@@ -1,0 +1,53 @@
+# Tool-only SFT continuation (phase-03 failure playbook, plan §36).
+# After the 2000-step chat SFT the model emits the tool-call JSON scaffold
+# but cannot bind the question's numbers into the expression (always '7')
+# and never emits the <tool_call> id-8 token. Diagnosis: seed v0.1 had no
+# subtraction/division generators at all (eval tests both) and only 289
+# tool conversations — the copy pattern never formed.
+#
+# Remedy: tool seed v0.2 (1241 verified convs, all 6 operator families)
+# packed into data/shards_sft_tool. Continue training FROM
+# checkpoints_sft_38m/latest (step 2000) with the SAME schedule shape so
+# the cosine lands near 1e-5 at resume: max_steps 2800, warmup 700 < 2000
+# means the resumed run starts mid-decay (~1e-5) — a low-LR continuation,
+# no fresh warmup spike. 800 steps = ~4.8 epochs over 1334 windows.
+#
+# Same lineage (out_dir checkpoints_sft_38m) so 'latest' stays the single
+# artifact the eval + chat CLIs point at.
+
+model:
+  vocab_size: 16000
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_sft_tool/train
+  val_dir: data/shards_sft_tool/val
+
+train:
+  optimizer: adamw
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 2800
+  lr: 3.0e-5
+  min_lr_ratio: 0.1
+  warmup_pct: 0.25
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 100
+  eval_batches: 12       # val shard has 12 windows total
+  checkpoint_every: 25
+  milestone_every: 2800
+  keep_last: 2
+  out_dir: checkpoints_sft_38m
+  log_csv: logs/train_sft_tool.csv

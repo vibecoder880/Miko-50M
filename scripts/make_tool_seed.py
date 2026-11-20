@@ -82,8 +82,34 @@ def _sum_question(rng: random.Random) -> tuple[str, str]:
     q = rng.choice([
         f"Tính tổng {a} và {b}.",
         f"{a} + {b} bằng mấy?",
+        f"{a} cộng với {b} được bao nhiêu?",
     ])
     return q, f"{a}+{b}"
+
+
+def _sub_question(rng: random.Random) -> tuple[str, str]:
+    """Subtraction with a positive result, 4-6 digit operands."""
+    a = rng.randint(100000, 999999)
+    b = rng.randint(1000, a - 1)
+    q = rng.choice([
+        f"Tính hiệu của {a} và {b}.",
+        f"{a} trừ {b} bằng mấy?",
+        f"{a} - {b} = ?",
+    ])
+    return q, f"{a}-{b}"
+
+
+def _div_question(rng: random.Random) -> tuple[str, str]:
+    """Clean division: quotient stays integer (answer reads naturally)."""
+    b = rng.randint(2, 99)
+    q = rng.randint(11, 9999)
+    a = b * q
+    q_text = rng.choice([
+        f"Tính thương của {a} và {b}.",
+        f"{a} chia {b} bằng mấy?",
+        f"{a} / {b} = ?",
+    ])
+    return q_text, f"{a}/{b}"
 
 
 def _paren_question(rng: random.Random) -> tuple[str, str]:
@@ -105,17 +131,23 @@ def _power_question(rng: random.Random) -> tuple[str, str]:
     return q, f"{base}**{exp}"
 
 
-def build_conversations(rng: random.Random) -> list[dict]:
+def build_conversations(rng: random.Random, core_count: int = 240) -> list[dict]:
     registry = make_default_registry()
     convs: list[dict] = []
 
     def add(msgs: list[dict]) -> None:
         convs.append({"messages": msgs})
 
-    generators = [_mul_question, _sum_question, _paren_question, _power_question]
+    generators = [
+        _mul_question, _sum_question, _sub_question, _div_question,
+        _paren_question, _power_question,
+    ]
 
     # Core pattern: question -> tool_call -> tool_result -> final answer.
-    for _ in range(240):
+    # The copy-binding gap (phase-3 eval: expression always '7') needs volume
+    # AND operator coverage — v0.1 trained mul/sum/paren/pow only, yet the
+    # eval suite also tests subtraction and division.
+    for _ in range(core_count):
         gen = rng.choice(generators)
         question, expr = gen(rng)
         call = ToolCall(name="calculator", arguments={"expression": expr})
@@ -230,10 +262,12 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Generate verified tool SFT data")
     ap.add_argument("--out", default="data/sft/tool_seed_v0.1.jsonl")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--core-count", type=int, default=240,
+                    help="number of core Q->call conversations (v0.2 uses 1200)")
     args = ap.parse_args()
 
     rng = random.Random(args.seed)
-    convs = build_conversations(rng)
+    convs = build_conversations(rng, core_count=args.core_count)
 
     seen: set[str] = set()
     unique = []
