@@ -1,0 +1,379 @@
+{
+  "checkpoint": "checkpoints_38m/latest",
+  "categories": {
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " một số người."
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": " được gọi là một số lượng của các nước."
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": " nay."
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": " tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi"
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": " gọi là một số lượng của các nước."
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": ", and the her her her her her her her her her her her her her her her her her her her her her"
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": " khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá"
+        }
+      ]
+    },
+    "chat_sft": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 14,
+      "items": [
+        {
+          "id": "sft_greet_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_id_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_cap_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_math_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_season_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_flag_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_code_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_code_002",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_thanks_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_bye_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_polite_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_boil_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_week_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "sft_pi_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        }
+      ]
+    },
+    "code_basic": {
+      "score": 0.1667,
+      "passed": 2,
+      "total": 12,
+      "items": [
+        {
+          "id": "code_py_001",
+          "passed": false,
+          "generated": " self.get_name = self.get_name_name_name_name_name_name_name_"
+        },
+        {
+          "id": "code_py_002",
+          "passed": false,
+          "generated": "self.get_name,\n    def test_name = self.get_name_name_name_name"
+        },
+        {
+          "id": "code_py_003",
+          "passed": false,
+          "generated": " the\n    #    def test_name = self.get_name_name_name_name_name"
+        },
+        {
+          "id": "code_py_004",
+          "passed": false,
+          "generated": "self):\n        self.assertEqual(self.get_name)\n        self.assertEqual(self.get_"
+        },
+        {
+          "id": "code_py_005",
+          "passed": false,
+          "generated": " self.assertEqual(self, self._._._._._._._._._._._._._._._._._"
+        },
+        {
+          "id": "code_sql_001",
+          "passed": false,
+          "generated": " FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM FROM"
+        },
+        {
+          "id": "code_sql_002",
+          "passed": false,
+          "generated": "EEEEEEEEEEEEEEEEEEEEEEEE"
+        },
+        {
+          "id": "code_sh_001",
+          "passed": false,
+          "generated": ", and the first first first first first first first first first first first first first first first first first first fi"
+        },
+        {
+          "id": "code_js_001",
+          "passed": false,
+          "generated": "\n        self.get_name = self.get_name(self):\n        self.get_name ="
+        },
+        {
+          "id": "code_json_001",
+          "passed": true,
+          "generated": " 0x, and the first first first first first first first first first first first first first first first first first first"
+        },
+        {
+          "id": "code_py_006",
+          "passed": false,
+          "generated": "    \n    #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "code_py_007",
+          "passed": true,
+          "generated": "\n        self.assertEqual(self, self._._._._._._._._._._._._._._._"
+        }
+      ]
+    },
+    "tool_basic": {
+      "score": 0.25,
+      "passed": 4,
+      "total": 16,
+      "items": [
+        {
+          "id": "tool_mul_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_mul_002",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_mul_003",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_sum_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_sum_002",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_paren_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_pow_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_pow_002",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_div_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_sub_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_time_001",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_time_002",
+          "passed": false,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_neg_001",
+          "passed": true,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_neg_002",
+          "passed": true,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_neg_003",
+          "passed": true,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        },
+        {
+          "id": "tool_neg_004",
+          "passed": true,
+          "generated": "  #  #  #  #  #  #  #  #  #  #  #  #"
+        }
+      ]
+    },
+    "vi_basic": {
+      "score": 0.0625,
+      "passed": 1,
+      "total": 16,
+      "items": [
+        {
+          "id": "vi_cap_001",
+          "passed": false,
+          "generated": " một số lượng của các nước."
+        },
+        {
+          "id": "vi_cap_002",
+          "passed": false,
+          "generated": " các nước."
+        },
+        {
+          "id": "vi_cap_003",
+          "passed": false,
+          "generated": " màu."
+        },
+        {
+          "id": "vi_num_001",
+          "passed": false,
+          "generated": " cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách cách"
+        },
+        {
+          "id": "vi_seq_001",
+          "passed": false,
+          "generated": ", và các nước."
+        },
+        {
+          "id": "vi_cls_001",
+          "passed": false,
+          "generated": " của các nước."
+        },
+        {
+          "id": "vi_sea_001",
+          "passed": false,
+          "generated": " các nước."
+        },
+        {
+          "id": "vi_geo_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_fes_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_idn_001",
+          "passed": false,
+          "generated": " lý lý lý lý lý lý lý lý."
+        },
+        {
+          "id": "vi_gram_001",
+          "passed": true,
+          "generated": " xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe xe"
+        },
+        {
+          "id": "vi_gram_002",
+          "passed": false,
+          "generated": " trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời trời"
+        },
+        {
+          "id": "vi_cmp_001",
+          "passed": false,
+          "generated": " các nước."
+        },
+        {
+          "id": "vi_abc_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_fam_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_foo_001",
+          "passed": false,
+          "generated": " các nhà nước."
+        }
+      ]
+    }
+  },
+  "val_loss": 6.8209,
+  "perplexity": 916.77,
+  "summary": {
+    "chat_basic": 0.0,
+    "chat_sft": 0.0,
+    "code_basic": 0.1667,
+    "tool_basic": 0.25,
+    "vi_basic": 0.0625
+  }
+}

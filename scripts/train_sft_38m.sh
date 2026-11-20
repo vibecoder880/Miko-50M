@@ -22,10 +22,14 @@ fi
 mkdir -p logs checkpoints_sft_38m
 
 # Seed SFT lineage from the base checkpoint on first run only.
+# The base runs Adafactor; SFT uses AdamW — the saved optimizer state is
+# incompatible (col_var/row_var + beta2_decay param group pollute AdamW),
+# so it is dropped and the fine-tune starts with a fresh optimizer.
 if [ ! -f checkpoints_sft_38m/latest/model.safetensors ]; then
   echo "seeding SFT checkpoint from checkpoints_38m/latest ..."
   rm -rf checkpoints_sft_38m/latest
   cp -r checkpoints_38m/latest checkpoints_sft_38m/latest
+  rm -f checkpoints_sft_38m/latest/optimizer.pt
   "$PY" - <<'EOF'
 import json
 p = "checkpoints_sft_38m/latest/trainer_state.json"
@@ -35,7 +39,7 @@ state["step"] = 0  # SFT counts its own steps from zero
 state["metrics"] = {"seeded_from": "checkpoints_38m/latest"}
 with open(p, "w") as fh:
     json.dump(state, fh, indent=2)
-print("SFT lineage seeded at step 0 from base weights")
+print("SFT lineage seeded at step 0 from base weights (fresh optimizer)")
 EOF
 fi
 
