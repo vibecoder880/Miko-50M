@@ -26,6 +26,16 @@ fi
 (
   attempts=0
   while [ "$attempts" -lt 10 ]; do
+    # Disk guard: a checkpoint write on a full disk killed the first v3
+    # attempt (OSError 28 at step 56000). Need ~700MB free for one
+    # checkpoint pair (model.safetensors + optimizer.pt at 38M).
+    free_mb=$(df -Pm . | awk 'NR==2 {print $4}')
+    if [ "$free_mb" -lt 700 ]; then
+      echo "$(date '+%F %T') low disk (${free_mb}MB free) — waiting 5 min" \
+        >> logs/train_38m_v3.out
+      sleep 300
+      continue
+    fi
     nice -n 10 "$PY" tools/train.py \
       --config configs/train_38m_v3.yaml \
       --resume auto \
