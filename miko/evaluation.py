@@ -190,7 +190,11 @@ def evaluate_model(
         out = generate(model, torch.tensor([ids], dtype=torch.long), cfg=cfg)
         new_ids = out[0, len(ids):].tolist()
         generated = tokenizer.decode(new_ids, skip_special_tokens=True)
-        passed = score_item(item, generated)
+        # Score on the specials-visible text: skip_special_tokens=True strips
+        # the <tool_call> marker so parse_tool_call can never succeed and
+        # metric=tool_call positives are unwinnable regardless of the model.
+        scored = tokenizer.decode(new_ids, skip_special_tokens=False)
+        passed = score_item(item, scored)
 
         cat = categories.setdefault(
             item.category,

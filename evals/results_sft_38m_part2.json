@@ -1,0 +1,95 @@
+{
+  "checkpoint": "checkpoints_sft_38m/latest",
+  "categories": {
+    "tool_basic": {
+      "score": 0.25,
+      "passed": 4,
+      "total": 16,
+      "items": [
+        {
+          "id": "tool_mul_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_mul_002",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*1064"
+        },
+        {
+          "id": "tool_mul_003",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*7+8)*10 ×"
+        },
+        {
+          "id": "tool_sum_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+645 × "
+        },
+        {
+          "id": "tool_sum_002",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*7+645 × "
+        },
+        {
+          "id": "tool_paren_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*7+8)*1064"
+        },
+        {
+          "id": "tool_pow_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_pow_002",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_div_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_sub_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*7+8)*10 ×"
+        },
+        {
+          "id": "tool_time_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+645 × "
+        },
+        {
+          "id": "tool_time_002",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_neg_001",
+          "passed": true,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_neg_002",
+          "passed": true,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_neg_003",
+          "passed": true,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        },
+        {
+          "id": "tool_neg_004",
+          "passed": true,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(*9+8)*10 ×"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "tool_basic": 0.25
+  }
+}

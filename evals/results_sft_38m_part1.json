@@ -1,0 +1,133 @@
+{
+  "checkpoint": "checkpoints_sft_38m/latest",
+  "categories": {
+    "chat_sft": {
+      "score": 0.0714,
+      "passed": 1,
+      "total": 14,
+      "items": [
+        {
+          "id": "sft_greet_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_id_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_cap_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_math_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"76+64UEUEUEUE"
+        },
+        {
+          "id": "sft_season_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_flag_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_code_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"764UEUEUEUEUEUE"
+        },
+        {
+          "id": "sft_code_002",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_thanks_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_bye_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_polite_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+64UEUEUE"
+        },
+        {
+          "id": "sft_boil_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+ Muslim Muslim Muslim Muslim"
+        },
+        {
+          "id": "sft_week_001",
+          "passed": true,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"764UEUEUEUEUEUE"
+        },
+        {
+          "id": "sft_pi_001",
+          "passed": false,
+          "generated": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7 cộng 9+64UEUEUE"
+        }
+      ]
+    },
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " 22."
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": " callback callback callback callback callback callback callback callback callback callback callback callback callback ca"
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": " ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày ngày"
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": " tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi"
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": " được được được được được được được được được được được được được được được được được được được được."
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": " bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn bạn"
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": " mơ mơcomponentcomponentcomponentcomponentcomponentcomponentcomponentcomponentcomponentcomponentcomponentcomponentcompon"
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": " khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "chat_basic": 0.0,
+    "chat_sft": 0.0714
+  }
+}
