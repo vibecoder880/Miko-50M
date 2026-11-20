@@ -452,6 +452,10 @@ class SFTShardedDataset(Dataset):
             torch.from_numpy(t.astype(np.int64)),
         )
 
+    @property
+    def epoch(self) -> int:
+        return self._epoch
+
     def advance_epoch(self) -> None:
         self._epoch += 1
         self._rng = np.random.default_rng(self.seed + self._epoch)
