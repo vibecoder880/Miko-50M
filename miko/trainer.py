@@ -88,6 +88,11 @@ def evaluate(
         xs, ys = zip(*(dataset[int(j)] for j in chunk))
         x = torch.stack(xs)
         y = torch.stack(ys)
+        # Skip fully-masked windows (every label -100): cross-entropy over
+        # zero tokens is 0/0 = NaN and poisons the batch mean. SFT val
+        # shards legitimately contain context-only windows.
+        if (y != -100).sum() == 0:
+            continue
         logits = model(x)
         total += next_token_loss(logits, y).item()
         count += 1
