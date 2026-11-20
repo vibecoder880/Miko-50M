@@ -32,14 +32,38 @@ if [ ! -f checkpoints_sft_38m/latest/model.safetensors ]; then
   rm -f checkpoints_sft_38m/latest/optimizer.pt
   "$PY" - <<'EOF'
 import json
+
+import torch
+from safetensors.torch import load_file, save_file
+
+# Mean-initialize never-trained special-token embeddings (plan §9 reserve).
+# Ids 0,1 (pad/unk) and 4-9 (chat/tool) never appear in pretraining data,
+# so their embedding rows are random noise the SFT must learn from
+# scratch — a major drag (val plateaued ~33 for hundreds of steps).
+# bos/eos (2,3) WERE trained (document packing) and are kept.
+w_path = "checkpoints_sft_38m/latest/model.safetensors"
+sd = load_file(w_path)
+emb = sd["tok_emb.weight"]
+never_trained = [0, 1, 4, 5, 6, 7, 8, 9]
+mean_row = emb[10:].mean(dim=0)
+for i in never_trained:
+    emb[i] = mean_row
+# lm_head was saved as a separate (tied) clone — patch both identically
+# so load_state_dict leaves the tied parameter consistent.
+sd["tok_emb.weight"] = emb
+sd["lm_head.weight"] = emb.clone()
+save_file(sd, w_path)
+
 p = "checkpoints_sft_38m/latest/trainer_state.json"
 with open(p) as fh:
     state = json.load(fh)
 state["step"] = 0  # SFT counts its own steps from zero
-state["metrics"] = {"seeded_from": "checkpoints_38m/latest"}
+state["metrics"] = {"seeded_from": "checkpoints_38m/latest",
+                    "special_emb_mean_init": never_trained}
 with open(p, "w") as fh:
     json.dump(state, fh, indent=2)
-print("SFT lineage seeded at step 0 from base weights (fresh optimizer)")
+print("SFT lineage seeded: fresh optimizer + mean-init special embeddings",
+      never_trained)
 EOF
 fi
 
