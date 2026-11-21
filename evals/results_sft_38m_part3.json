@@ -2,8 +2,8 @@
   "checkpoint": "checkpoints_sft_38m/latest",
   "categories": {
     "vi_basic": {
-      "score": 0.125,
-      "passed": 2,
+      "score": 0.0,
+      "passed": 0,
       "total": 16,
       "items": [
         {
@@ -14,17 +14,17 @@
         {
           "id": "vi_cap_002",
           "passed": false,
-          "generated": "uriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuriesuries"
+          "generated": "2."
         },
         {
           "id": "vi_cap_003",
           "passed": false,
-          "generated": " historians historians historians historians historians historians historians historians historians historians historian"
+          "generated": " routes routes routes routes routes routes routes routes routes routes routes routes routes routes routes routes routes "
         },
         {
           "id": "vi_num_001",
-          "passed": true,
-          "generated": " 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22"
+          "passed": false,
+          "generated": " 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16"
         },
         {
           "id": "vi_seq_001",
@@ -39,12 +39,12 @@
         {
           "id": "vi_sea_001",
           "passed": false,
-          "generated": "tokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentokentoken"
+          "generated": "2."
         },
         {
           "id": "vi_geo_001",
           "passed": false,
-          "generated": " Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam"
+          "generated": " Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam Nam"
         },
         {
           "id": "vi_fes_001",
@@ -58,18 +58,18 @@
         },
         {
           "id": "vi_gram_001",
-          "passed": true,
-          "generated": " xe xe."
+          "passed": false,
+          "generated": "."
         },
         {
           "id": "vi_gram_002",
           "passed": false,
-          "generated": " trời trời trời trời trời trời trời crick crick crick crick crick crick crick crick crick crick crick crick crick crick "
+          "generated": " trời trời “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “ “"
         },
         {
           "id": "vi_cmp_001",
           "passed": false,
-          "generated": "bergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergbergberg"
+          "generated": "2."
         },
         {
           "id": "vi_abc_001",
@@ -79,24 +79,24 @@
         {
           "id": "vi_fam_001",
           "passed": false,
-          "generated": " người người người người người người người người người người người người người người người người người kill kill kill ki"
+          "generated": " người người người ngườiiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyiblyibly"
         },
         {
           "id": "vi_foo_001",
           "passed": false,
-          "generated": " Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua Qua"
+          "generated": "2."
         }
       ]
     },
     "code_basic": {
-      "score": 0.1667,
-      "passed": 2,
+      "score": 0.0833,
+      "passed": 1,
       "total": 12,
       "items": [
         {
           "id": "code_py_001",
           "passed": false,
-          "generated": "."
+          "generated": " routes routes routes routes routes routes routes routes routes routes routes routes routes routes routes routes routes "
         },
         {
           "id": "code_py_002",
@@ -106,12 +106,12 @@
         {
           "id": "code_py_003",
           "passed": false,
-          "generated": "lovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlov"
+          "generated": "lovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlovlov"
         },
         {
           "id": "code_py_004",
           "passed": false,
-          "generated": "."
+          "generated": " dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung dung"
         },
         {
           "id": "code_py_005",
@@ -131,7 +131,7 @@
         {
           "id": "code_sh_001",
           "passed": false,
-          "generated": "qqqqqqqqqqqqqqqqqqqqqqqq"
+          "generated": "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
         },
         {
           "id": "code_js_001",
@@ -140,8 +140,8 @@
         },
         {
           "id": "code_json_001",
-          "passed": true,
-          "generated": " × 109\"}}\n</tool_call>"
+          "passed": false,
+          "generated": " × 9+4\"}}\n</tool_call>"
         },
         {
           "id": "code_py_006",
@@ -157,7 +157,7 @@
     }
   },
   "summary": {
-    "code_basic": 0.1667,
-    "vi_basic": 0.125
+    "code_basic": 0.0833,
+    "vi_basic": 0.0
   }
 }
