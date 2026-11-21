@@ -94,8 +94,12 @@ def encode_chat(
         ids.extend(tokenizer.encode(msg.content, add_special_tokens=False))
         ids.append(eos)
     if add_generation_prompt:
+        # Header only — matches encode_chat_masked exactly, where the
+        # assistant turn is [<assistant>, *content, <eos>] with NO newline
+        # after the header. Appending a newline here created a transition
+        # the SFT data never contains, and the model fell back to
+        # degenerate continuations (phase-3 root cause, 2026-11-20).
         ids.append(tokenizer.token_to_id("<assistant>"))
-        ids.append(tokenizer.backend.encode("\n", add_special_tokens=False).ids[0])
     return ids
 
 

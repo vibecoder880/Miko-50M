@@ -45,11 +45,9 @@ def make_generate_fn(model, tokenizer: MikoTokenizer,
 
     def generate_fn(messages: list[ChatMessage]) -> str:
         ids = encode_for_model(tokenizer, list(messages), max_tokens=max_context)
-        # End with an assistant generation prompt.
-        ids = ids + [
-            tokenizer.token_to_id("<assistant>"),
-            tokenizer.backend.encode("\n", add_special_tokens=False).ids[0],
-        ]
+        # End with an assistant generation prompt — header only, matching
+        # the SFT data (encode_chat_masked has no newline after the header).
+        ids = ids + [tokenizer.token_to_id("<assistant>")]
         input_ids = torch.tensor([ids], dtype=torch.long)[..., -model.config.context_length:]
         out = generate(model, input_ids, cfg=gen_cfg)
         new_ids = out[0, input_ids.shape[1]:].tolist()
