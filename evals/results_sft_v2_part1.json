@@ -1,0 +1,133 @@
+{
+  "checkpoint": "checkpoints_sft_v2/latest",
+  "categories": {
+    "chat_sft": {
+      "score": 0.0714,
+      "passed": 1,
+      "total": 14,
+      "items": [
+        {
+          "id": "sft_greet_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 4 bằng 10."
+        },
+        {
+          "id": "sft_id_001",
+          "passed": false,
+          "generated": "5 cộng 4 bằng mườioliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaol"
+        },
+        {
+          "id": "sft_cap_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 10."
+        },
+        {
+          "id": "sft_math_001",
+          "passed": false,
+          "generated": "5 cộng 4 bằng mườioliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaol"
+        },
+        {
+          "id": "sft_season_001",
+          "passed": true,
+          "generated": "2 cộng 4 bằng mườioliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaol"
+        },
+        {
+          "id": "sft_flag_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 10."
+        },
+        {
+          "id": "sft_code_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mườioliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaol"
+        },
+        {
+          "id": "sft_code_002",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 10."
+        },
+        {
+          "id": "sft_thanks_001",
+          "passed": false,
+          "generated": "2 cộng 4 bằng mườiẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵnẵn"
+        },
+        {
+          "id": "sft_bye_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 10."
+        },
+        {
+          "id": "sft_polite_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mườioliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaoliaol"
+        },
+        {
+          "id": "sft_boil_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 10."
+        },
+        {
+          "id": "sft_week_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 10."
+        },
+        {
+          "id": "sft_pi_001",
+          "passed": false,
+          "generated": "Kết quả là 8 bằng mười cộng 10."
+        }
+      ]
+    },
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " 10."
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": " move move move move move move move move move move move move move move move move move move move move move move move move"
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": ", Miko."
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": "endpointendpointendpointendpointendpointendpointendpointendpointendpointendpointendpointendpointendpointendpointendpoint"
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": " extended extended extended extended extended extended extended extended extended extended extended extended extended ex"
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": "VersionVersionVersionVersionVersionVersionVersionVersionVersionVersionVersionVersionVersionVersionVersionVersionVersionV"
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": " khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá khá"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "chat_basic": 0.0,
+    "chat_sft": 0.0714
+  }
+}

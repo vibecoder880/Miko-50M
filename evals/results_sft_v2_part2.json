@@ -1,0 +1,95 @@
+{
+  "checkpoint": "checkpoints_sft_v2/latest",
+  "categories": {
+    "tool_basic": {
+      "score": 0.25,
+      "passed": 4,
+      "total": 16,
+      "items": [
+        {
+          "id": "tool_mul_001",
+          "passed": false,
+          "generated": "Để tính (67 + 93 × 3 = 59156*264+44520ornornornornornornornornornornornornornornornornornornornornornornornornornornorno"
+        },
+        {
+          "id": "tool_mul_002",
+          "passed": false,
+          "generated": "Để tính (67 + 4 = 5*9156iriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiri"
+        },
+        {
+          "id": "tool_mul_003",
+          "passed": false,
+          "generated": "Để tính (67 + 4 = 5*915 cộng 620+264ATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATE"
+        },
+        {
+          "id": "tool_sum_001",
+          "passed": false,
+          "generated": "Để tính (915 + 4 = 52 × 32520+6*ATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEATEA"
+        },
+        {
+          "id": "tool_sum_002",
+          "passed": false,
+          "generated": "Để tính (67 medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic "
+        },
+        {
+          "id": "tool_paren_001",
+          "passed": false,
+          "generated": "Để tính 9367 medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic"
+        },
+        {
+          "id": "tool_pow_001",
+          "passed": false,
+          "generated": "Để tính (67 + 4 = 5*9156 × 3258-264+54520ublishublishublishublishublishublishublishublishublishublishublishublishublishu"
+        },
+        {
+          "id": "tool_pow_002",
+          "passed": false,
+          "generated": "Để tính (67 + 4 = 2259156 × 3 marriage marriage marriage marriage marriage marriage marriage marriage marriage marriage "
+        },
+        {
+          "id": "tool_div_001",
+          "passed": false,
+          "generated": "Để tính (67 + 4 = 5*9156 × 3258-264+5iriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriiriir"
+        },
+        {
+          "id": "tool_sub_001",
+          "passed": false,
+          "generated": "Để tính 5 + 4 = 22520+2 × 3 marriage marriage marriage marriage marriage marriage marriage marriage marriage marriage ma"
+        },
+        {
+          "id": "tool_time_001",
+          "passed": false,
+          "generated": "Để tính (67 + 4 = 59156 × 3 marriage marriage marriage marriage marriage marriage marriage marriage marriage marriage ma"
+        },
+        {
+          "id": "tool_time_002",
+          "passed": false,
+          "generated": "Để tính (67 + 4 = 5*9156 × 3 marriage marriage marriage marriage marriage marriage marriage marriage marriage marriage m"
+        },
+        {
+          "id": "tool_neg_001",
+          "passed": true,
+          "generated": "Để tính (67 + 4 = 2209156 × 3 marriage marriage marriage marriage marriage marriage marriage marriage marriage marriage "
+        },
+        {
+          "id": "tool_neg_002",
+          "passed": true,
+          "generated": "Để tính (67 medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic medic "
+        },
+        {
+          "id": "tool_neg_003",
+          "passed": true,
+          "generated": "Để tính (67 + 4 = 59156 × 3 marriage marriage marriage marriage marriage marriage marriage marriage marriage marriage ma"
+        },
+        {
+          "id": "tool_neg_004",
+          "passed": true,
+          "generated": "Để tính (67 + 4 = 59156 × 3 marriage marriage marriage marriage marriage marriage marriage marriage marriage marriage ma"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "tool_basic": 0.25
+  }
+}
