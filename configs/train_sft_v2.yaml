@@ -1,0 +1,52 @@
+# SFT cycle v2 (phase-03 playbook, post-mortem design).
+# Fresh lineage from the step-55500 base — the v0.4 lineage carried
+# catastrophic forgetting from the tool-only cycle (base-val 37.8).
+#
+# Two mitigations vs v0.4:
+# 1. Mixed data (scripts/make_sft_mix_v2.py): 70% SFT conversations
+#    (chat 618 + tool 1237 restate-then-call) + 30% pretraining
+#    full-LM windows — text statistics keep receiving gradient.
+# 2. Restate-then-call prefaces: the assistant preface restates the
+#    expression so the JSON copies adjacent context (the direct
+#    question->expression copy never formed at 38M).
+#
+# 2000 steps x 1024 tokens = 2.05M tokens = ~5.5 epochs over 2907 windows.
+# Mean-init seeding for never-trained special embeddings is done by the
+# launcher (scripts/train_sft_v2.sh), same as the first SFT run.
+
+model:
+  vocab_size: 16000
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_sft_v2/train
+  val_dir: data/shards_sft_v2/val
+
+train:
+  optimizer: adamw
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 2000
+  lr: 3.0e-5
+  min_lr_ratio: 0.1
+  warmup_pct: 0.25
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 100
+  eval_batches: 24
+  checkpoint_every: 100
+  milestone_every: 2000
+  keep_last: 2
+  out_dir: checkpoints_sft_v2
+  log_csv: logs/train_sft_v2.csv

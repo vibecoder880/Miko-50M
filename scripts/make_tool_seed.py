@@ -131,7 +131,14 @@ def _power_question(rng: random.Random) -> tuple[str, str]:
     return q, f"{base}**{exp}"
 
 
-def build_conversations(rng: random.Random, core_count: int = 240) -> list[dict]:
+def _display_expr(expr: str) -> str:
+    """Human-readable operator forms for the restate-then-call preface."""
+    return (expr.replace("**", "^").replace("*", " × ")
+                .replace("/", " ÷ ").replace("+", " + ").replace("-", " − "))
+
+
+def build_conversations(rng: random.Random, core_count: int = 240,
+                        restate_pct: float = 0.0) -> list[dict]:
     registry = make_default_registry()
     convs: list[dict] = []
 
@@ -156,8 +163,15 @@ def build_conversations(rng: random.Random, core_count: int = 240) -> list[dict]
             continue  # skip degenerate draws (e.g. division by zero patterns)
 
         assistant_call = _call_block(expr)
-        if rng.random() < 0.3:
-            # With a short "let me compute" preamble.
+        if rng.random() < restate_pct:
+            # Restate-then-call scaffold: the preface carries the numbers so
+            # the JSON expression copies from adjacent, just-emitted context
+            # instead of the distant question (v0.2 showed the direct
+            # question->expression copy never formed at this scale).
+            assistant_call = (f"Để tính {_display_expr(expr)} chính xác, "
+                              "Miko dùng máy tính.\n" + assistant_call)
+        elif rng.random() < 0.3:
+            # With a short generic "let me compute" preamble.
             assistant_call = "Để tính chính xác, Miko dùng máy tính.\n" + assistant_call
 
         add([
@@ -264,10 +278,14 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--core-count", type=int, default=240,
                     help="number of core Q->call conversations (v0.2 uses 1200)")
+    ap.add_argument("--restate-pct", type=float, default=0.0,
+                    help="fraction of core convs using the restate-then-call "
+                    "preface (v0.3: 0.7)")
     args = ap.parse_args()
 
     rng = random.Random(args.seed)
-    convs = build_conversations(rng, core_count=args.core_count)
+    convs = build_conversations(rng, core_count=args.core_count,
+                                restate_pct=args.restate_pct)
 
     seen: set[str] = set()
     unique = []
