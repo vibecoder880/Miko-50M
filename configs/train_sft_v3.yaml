@@ -1,0 +1,48 @@
+# SFT cycle v3 — copy-gym curriculum (chosen path after v0.4/v0.5 gates).
+#
+# Evidence from two failed cycles: the model learns every surface pattern
+# but never binds digits from the question into the slot it emits; and a
+# 30% LM mix at lr 3e-5 does not prevent forgetting (base-val 6.93->31.96).
+# v3 attacks the mechanism directly:
+#   - copy gym (7999 convs): echo / display->compact / transcribe /
+#     restate in the tool system prompt — dedicated copy-slot gradient
+#   - tool seed v0.4: 5736 convs (6000 core, restate 70%)
+#   - 50/50 SFT/LM mix at lr 1e-5 (halved) — strongest forgetting guard
+# 3000 steps x 1024 tokens = 3.07M tokens ~= 1.15 epochs of unique data.
+
+model:
+  vocab_size: 16000
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_sft_v3/train
+  val_dir: data/shards_sft_v3/val
+
+train:
+  optimizer: adamw
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 3000
+  lr: 1.0e-5
+  min_lr_ratio: 0.1
+  warmup_pct: 0.15
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 100
+  eval_batches: 24
+  checkpoint_every: 100
+  milestone_every: 3000
+  keep_last: 2
+  out_dir: checkpoints_sft_v3
+  log_csv: logs/train_sft_v3.csv
