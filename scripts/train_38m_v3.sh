@@ -16,6 +16,13 @@ if pgrep -f "configs/train_38m_v3.yaml" > /dev/null; then
   exit 0
 fi
 
+# Any other trainer (SFT cycles included) holds the box — refuse.
+if pgrep -f "tools/train[.]py" > /dev/null; then
+  echo "another training run is still active — wait for it first:"
+  pgrep -af "tools/train[.]py"
+  exit 1
+fi
+
 # If the v2 run is still going, refuse (both write checkpoints_38m/).
 if pgrep -f "configs/train_38m_v2.yaml" > /dev/null; then
   echo "v2 base run is still active — wait for step 40000 first:"
