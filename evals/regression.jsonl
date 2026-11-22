@@ -1,34 +1,11 @@
-# Regression suite (plan §49). Cheap behavioral invariants that must hold
-# on EVERY future checkpoint — born from the v0.4/v0.5 post-mortems:
-# 1. the assistant must speak Vietnamese text, never newline-only babble
-# 2. with the tools system prompt, math asks must carry the <tool_call>
-#    special token (the 07d8fd9 generation-prompt fix must not regress)
-# 3. no-tool asks must NOT emit tool calls (negatives stay negative)
-# Scoring uses the specials-visible text, so "<tool_call>" is matchable.
-{"id": "reg_greet_001", "format": "chat", "metric": "contains",
- "system": "Bạn là Miko, một trợ lý nhỏ nói tiếng Việt.",
- "prompt": "Xin chào!", "expected": ["chào"]}
-{"id": "reg_greet_002", "format": "chat", "metric": "contains",
- "system": "Bạn là Miko, một trợ lý nhỏ nói tiếng Việt.",
- "prompt": "Bạn là ai?", "expected": ["miko"]}
-{"id": "reg_toolfmt_001", "format": "chat", "metric": "contains",
- "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>",
- "prompt": "Tính 7 cộng 8.", "expected": ["<tool_call>"]}
-{"id": "reg_toolfmt_002", "format": "chat", "metric": "contains",
- "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>",
- "prompt": "987 × 654 bằng bao nhiêu?", "expected": ["<tool_call>"]}
-{"id": "reg_toolfmt_003", "format": "chat", "metric": "contains",
- "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>",
- "prompt": "45678 + 12345 = ?", "expected": ["<tool_call>"]}
-{"id": "reg_noneg_001", "format": "chat", "metric": "tool_call",
- "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>",
- "prompt": "Cảm ơn nhé!", "expected_tool": "__none__"}
-{"id": "reg_noneg_002", "format": "chat", "metric": "tool_call",
- "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>",
- "prompt": "Bạn có thích nhạc không?", "expected_tool": "__none__"}
-{"id": "reg_copy_001", "format": "chat", "metric": "contains",
- "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>",
- "prompt": "Nhắc lại biểu thức: 4787*2458", "expected": ["4787", "2458"]}
-{"id": "reg_copy_002", "format": "chat", "metric": "contains",
- "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>",
- "prompt": "Viết biểu thức 123 × 456 dưới dạng gọn.", "expected": ["123*456"]}
+# Regression suite (plan §49) — behavioral invariants from the
+# v0.4/v0.5 post-mortems. One JSON object per line.
+{"id": "reg_greet_001", "format": "chat", "metric": "contains", "system": "Bạn là Miko, một trợ lý nhỏ nói tiếng Việt.", "prompt": "Xin chào!", "expected": ["chào"]}
+{"id": "reg_greet_002", "format": "chat", "metric": "contains", "system": "Bạn là Miko, một trợ lý nhỏ nói tiếng Việt.", "prompt": "Bạn là ai?", "expected": ["miko"]}
+{"id": "reg_toolfmt_001", "format": "chat", "metric": "contains", "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>", "prompt": "Tính 7 cộng 8.", "expected": ["<tool_call>"]}
+{"id": "reg_toolfmt_002", "format": "chat", "metric": "contains", "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>", "prompt": "987 × 654 bằng bao nhiêu?", "expected": ["<tool_call>"]}
+{"id": "reg_toolfmt_003", "format": "chat", "metric": "contains", "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>", "prompt": "45678 + 12345 = ?", "expected": ["<tool_call>"]}
+{"id": "reg_noneg_001", "format": "chat", "metric": "tool_call", "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>", "prompt": "Cảm ơn nhé!", "expected_tool": "__none__"}
+{"id": "reg_noneg_002", "format": "chat", "metric": "tool_call", "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>", "prompt": "Bạn có thích nhạc không?", "expected_tool": "__none__"}
+{"id": "reg_copy_001", "format": "chat", "metric": "contains", "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>", "prompt": "Nhắc lại biểu thức: 4787*2458", "expected": ["4787", "2458"]}
+{"id": "reg_copy_002", "format": "chat", "metric": "contains", "system": "Bạn là Miko. Khi cần tính toán chính xác, hãy dùng công cụ:\n<tool_call>\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"...\"}}\n</tool_call>", "prompt": "Viết biểu thức 123 × 456 dưới dạng gọn.", "expected": ["123*456"]}

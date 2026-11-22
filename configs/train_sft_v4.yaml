@@ -1,0 +1,50 @@
+# SFT cycle v4 — copy-gym VOLUME (synthesis of v0.4/v2/v3 evidence).
+#
+# Lesson per cycle:
+#   v0.4 (lr 3e-5, 2M tok, tool-only):  surface format learned, copy absent,
+#                                       other tiers forgot (base-val 37.8)
+#   v2   (lr 3e-5, 2M tok, 70/30 mix):  val 11.2, same gaps (31.96)
+#   v3   (lr 1e-5, 2.7M tok, 50/50+gym):val 21.9, WORSE surface ("Để tính"+
+#                                       garbage everywhere) — too little
+#                                       gradient movement to stabilize
+#                                       patterns; 1.15 epoch of gym not enough
+# v4: 5x gym volume (49977 convs), lr 2e-5 (between v2 and v3), 6000 steps
+# over 90737 windows (~11.6M tokens, ~0.53 epoch — fresh data each step).
+# Fresh lineage from the base; mean-init seeding in the launcher.
+
+model:
+  vocab_size: 16000
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_sft_v4/train
+  val_dir: data/shards_sft_v4/val
+
+train:
+  optimizer: adamw
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 6000
+  lr: 2.0e-5
+  min_lr_ratio: 0.1
+  warmup_pct: 0.08
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 200
+  eval_batches: 24
+  checkpoint_every: 100
+  milestone_every: 6000
+  keep_last: 2
+  out_dir: checkpoints_sft_v4
+  log_csv: logs/train_sft_v4.csv

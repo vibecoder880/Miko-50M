@@ -1,0 +1,216 @@
+{
+  "checkpoint": "checkpoints_sft_v3/latest",
+  "categories": {
+    "vi_basic": {
+      "score": 0.0625,
+      "passed": 1,
+      "total": 16,
+      "items": [
+        {
+          "id": "vi_cap_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_cap_002",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_cap_003",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_num_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_seq_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_cls_001",
+          "passed": false,
+          "generated": " cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối cuối"
+        },
+        {
+          "id": "vi_sea_001",
+          "passed": false,
+          "generated": " Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il Il"
+        },
+        {
+          "id": "vi_geo_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_fes_001",
+          "passed": false,
+          "generated": " http http http http http http http http http http http http http http http http http http http http http http http http"
+        },
+        {
+          "id": "vi_idn_001",
+          "passed": false,
+          "generated": "wellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwellwell"
+        },
+        {
+          "id": "vi_gram_001",
+          "passed": true,
+          "generated": " xe."
+        },
+        {
+          "id": "vi_gram_002",
+          "passed": false,
+          "generated": "SystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystemSystem"
+        },
+        {
+          "id": "vi_cmp_001",
+          "passed": false,
+          "generated": " Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant Kant"
+        },
+        {
+          "id": "vi_abc_001",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "vi_fam_001",
+          "passed": false,
+          "generated": "��������������������������������������������������������"
+        },
+        {
+          "id": "vi_foo_001",
+          "passed": false,
+          "generated": "izersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizersizers"
+        }
+      ]
+    },
+    "code_basic": {
+      "score": 0.0833,
+      "passed": 1,
+      "total": 12,
+      "items": [
+        {
+          "id": "code_py_001",
+          "passed": false,
+          "generated": "NQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQ"
+        },
+        {
+          "id": "code_py_002",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "code_py_003",
+          "passed": false,
+          "generated": " northern northern northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "code_py_004",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "code_py_005",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "code_sql_001",
+          "passed": false,
+          "generated": "aoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoao"
+        },
+        {
+          "id": "code_sql_002",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "code_sh_001",
+          "passed": true,
+          "generated": ", Miko dùng máy tính."
+        },
+        {
+          "id": "code_js_001",
+          "passed": false,
+          "generated": ""
+        },
+        {
+          "id": "code_json_001",
+          "passed": false,
+          "generated": "aoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoaoao"
+        },
+        {
+          "id": "code_py_006",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "code_py_007",
+          "passed": false,
+          "generated": ", Miko dùng máy tính."
+        }
+      ]
+    },
+    "regression": {
+      "score": 0.2222,
+      "passed": 2,
+      "total": 9,
+      "items": [
+        {
+          "id": "reg_greet_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "reg_greet_002",
+          "passed": false,
+          "generated": "Để tính chính xác, final final final final final final final final final final final final final final final final final"
+        },
+        {
+          "id": "reg_toolfmt_001",
+          "passed": false,
+          "generated": "Để tínhệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệ"
+        },
+        {
+          "id": "reg_toolfmt_002",
+          "passed": false,
+          "generated": "Để tínhệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệ"
+        },
+        {
+          "id": "reg_toolfmt_003",
+          "passed": false,
+          "generated": "Để tínhệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệ"
+        },
+        {
+          "id": "reg_noneg_001",
+          "passed": true,
+          "generated": "Để tínhệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệ"
+        },
+        {
+          "id": "reg_noneg_002",
+          "passed": true,
+          "generated": "Để tínhệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệ"
+        },
+        {
+          "id": "reg_copy_001",
+          "passed": false,
+          "generated": "Để tínhệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệ"
+        },
+        {
+          "id": "reg_copy_002",
+          "passed": false,
+          "generated": "Để tínhệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệệ"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "code_basic": 0.0833,
+    "regression": 0.2222,
+    "vi_basic": 0.0625
+  }
+}

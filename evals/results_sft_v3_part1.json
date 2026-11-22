@@ -1,0 +1,133 @@
+{
+  "checkpoint": "checkpoints_sft_v3/latest",
+  "categories": {
+    "chat_sft": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 14,
+      "items": [
+        {
+          "id": "sft_greet_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_id_001",
+          "passed": false,
+          "generated": "Để tính chính xác, final final final final final final final final final final final final final final final final final"
+        },
+        {
+          "id": "sft_cap_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_math_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_season_001",
+          "passed": false,
+          "generated": "Để tính chính xác, final final final final final final final final final final final final final final final final final"
+        },
+        {
+          "id": "sft_flag_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_code_001",
+          "passed": false,
+          "generated": "Để tính chính xác, final final final final final final final final final final final final final final final final final"
+        },
+        {
+          "id": "sft_code_002",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_thanks_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_bye_001",
+          "passed": false,
+          "generated": "Để tính chính xác, final final final final final final final final final final final final final final final final final"
+        },
+        {
+          "id": "sft_polite_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_boil_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_week_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        },
+        {
+          "id": "sft_pi_001",
+          "passed": false,
+          "generated": "Để tính chính xác, northern northern northern northern northern northern northern northern northern northern northern no"
+        }
+      ]
+    },
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": "jobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobsjobs"
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": " tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng tạng"
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": " cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô cô"
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": " tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi tôi"
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": " được được được."
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": " bạn bạn bạn bạn bạnalsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealsealse"
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": "."
+        }
+      ]
+    }
+  },
+  "summary": {
+    "chat_basic": 0.0,
+    "chat_sft": 0.0
+  }
+}
