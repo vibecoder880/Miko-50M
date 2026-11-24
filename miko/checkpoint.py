@@ -165,7 +165,17 @@ def load_model(dir_path: str, config: Optional[MikoConfig] = None) -> MikoModel:
 
 
 def latest_checkpoint(root: str = "checkpoints") -> Optional[str]:
-    """Path of the newest ``step-*`` checkpoint under ``root`` (``latest`` excluded)."""
+    """Path of the newest checkpoint under ``root``.
+
+    Prefers the ``latest`` pointer dir (what launchers seed and maintain)
+    and falls back to the newest ``step-*`` dir. Before this fix the
+    pointer was skipped, so ``--resume auto`` saw a freshly-seeded
+    lineage as empty and trained from random init — the root cause of
+    the v0.4/v2/v3/v4 SFT cycles all starting at ~340 nats (2026-11-23).
+    """
+    latest = os.path.join(root, "latest")
+    if os.path.isfile(os.path.join(latest, WEIGHTS)):
+        return latest
     if not os.path.isdir(root):
         return None
     candidates = sorted(

@@ -85,5 +85,15 @@ def test_latest_checkpoint_finder(tmp_path):
     model = tiny_model()
     save_checkpoint(str(tmp_path / "step-000100"), model, step=100)
     save_checkpoint(str(tmp_path / "step-000200"), model, step=200)
-    (tmp_path / "latest").mkdir()
+    (tmp_path / "latest").mkdir()  # empty pointer dir -> step dirs win
     assert latest_checkpoint(str(tmp_path)) == str(tmp_path / "step-000200")
+
+
+def test_latest_checkpoint_prefers_seeded_pointer(tmp_path):
+    """The launcher seeds ONLY latest/ (no step dirs yet); --resume auto
+    must see it. Regression: latest was skipped and the trainer started
+    from random init (v0.4/v2/v3/v4 SFT cycles, root cause fixed 2026-11-23).
+    """
+    model = tiny_model()
+    save_checkpoint(str(tmp_path / "latest"), model, step=0)
+    assert latest_checkpoint(str(tmp_path)) == str(tmp_path / "latest")

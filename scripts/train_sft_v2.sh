@@ -35,6 +35,12 @@ sd = load_file(w_path)
 emb = sd["tok_emb.weight"]
 never_trained = [0, 1, 4, 5, 6, 7, 8, 9]
 mean_row = emb[10:].mean(dim=0)
+# Norm-matched mean-init: the plain mean vector has norm ~0.7 while
+# ordinary rows sit at ~19.4 — invisible in the residual stream, the
+# model routed around the specials (never emitted <tool_call>). Scale
+# the mean direction up to the median ordinary norm instead.
+target_norm = emb[10:].norm(dim=1).median()
+mean_row = mean_row * (target_norm / mean_row.norm())
 for i in never_trained:
     emb[i] = mean_row
 sd["tok_emb.weight"] = emb
