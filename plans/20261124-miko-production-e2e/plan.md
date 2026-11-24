@@ -6,7 +6,7 @@ mode: fast
 goal: Miko chạy như sản phẩm: HTTP API chat + tool thật, bundle model
       versioned, e2e test chứng minh full path HTTP → model → tool → answer
 owner: single
-status: in_progress
+status: completed
 ```
 
 ## Brainstorm contract
