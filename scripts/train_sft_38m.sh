@@ -46,14 +46,16 @@ sd = load_file(w_path)
 emb = sd["tok_emb.weight"]
 never_trained = [0, 1, 4, 5, 6, 7, 8, 9]
 mean_row = emb[10:].mean(dim=0)
-# Norm-matched mean-init: the plain mean vector has norm ~0.7 while
-# ordinary rows sit at ~19.4 — invisible in the residual stream, the
-# model routed around the specials (never emitted <tool_call>). Scale
-# the mean direction up to the median ordinary norm instead.
+# Random-direction norm-matched init: (1) plain mean vector norm ~0.7 vs
+# ~19.4 ordinary -> invisible, model routed around specials; (2) sharing
+# ONE direction for all 8 specials made them indistinguishable — the
+# model emitted <pad> where <tool_call> belongs. Give each special its
+# own random unit direction scaled to the median ordinary norm.
 target_norm = emb[10:].norm(dim=1).median()
-mean_row = mean_row * (target_norm / mean_row.norm())
+gen = torch.Generator().manual_seed(7)
 for i in never_trained:
-    emb[i] = mean_row
+    d = torch.randn(emb.shape[1], generator=gen)
+    emb[i] = d * (target_norm / d.norm())
 # lm_head was saved as a separate (tied) clone — patch both identically
 # so load_state_dict leaves the tied parameter consistent.
 sd["tok_emb.weight"] = emb
