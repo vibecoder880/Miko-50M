@@ -1,0 +1,10 @@
+# Miko E2E demo transcript — 2026-11-24 03:42:34
+# bundle: dist/miko-sft-v2 (miko-sft-v2-2026-11-24-step1100)
+### GET /health
+{"status": "ok", "step": 1100}
+### GET /v1/info
+{"name": "miko", "version": "miko-sft-v2-2026-11-24-step1100", "step": 1100, "params": 38004096, "context_length": 512, "tools": ["calculator", "time"]}
+### POST /v1/chat
+{"reply": "Kết quả là 10 chính xác, Miko dùng máy tính.\n Tàu2304 × 61515.<eos>", "tool_calls": [], "stopped_reason": "final", "usage": {"prompt_tokens": 11, "new_tokens": 48, "elapsed_s": 26.8}}
+### POST /v1/chat
+{"reply": "Kết quả là 22 22.<eos>", "tool_calls": [], "stopped_reason": "final", "usage": {"prompt_tokens": 11, "new_tokens": 96, "elapsed_s": 6.92}}
