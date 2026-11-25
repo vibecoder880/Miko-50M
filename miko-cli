@@ -38,7 +38,7 @@ wire_api = "responses"
 EOF
 
 OMP_NUM_THREADS=2 nice -n 10 "$PY" -m miko.server --bundle dist/miko-sft-v2 \
-    --port "$PORT" --bundles-root dist &
+    --port "$PORT" --bundles-root dist --temperature 0.0 &
 SERVER_PID=$!
 trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
 

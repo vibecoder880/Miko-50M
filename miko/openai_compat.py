@@ -58,9 +58,14 @@ def _read_version(bundle_dir: str) -> tuple[str, int]:
 class OpenAICompatService:
     """Model registry + chat-completion engine for the OpenAI wire format."""
 
-    def __init__(self, bundles_root: str = "dist", threads: int = 2) -> None:
+    def __init__(self, bundles_root: str = "dist", threads: int = 2,
+                 default_temperature: Optional[float] = None) -> None:
         torch.set_num_threads(threads)
         seed_everything(42)
+        # None = honor request temperature (default 0.7); a float forces
+        # greedy/deterministic serving regardless of what clients send
+        # (Codex sends temperature=None, so 0.0 here gives clean demos).
+        self.default_temperature = default_temperature
         self.bundles_root = bundles_root
         self.registry = make_default_registry()
         self._lock = __import__("threading").Lock()
@@ -160,7 +165,11 @@ class OpenAICompatService:
             return 400, {"error": {"message": "max_tokens/temperature must be numeric",
                                    "type": "invalid_request_error"}}, None
         max_new = min(max(8, max_new), 256)
-        temperature = 0.0 if temperature is None else min(max(0.0, temperature), 2.0)
+        if temperature is None:
+            temperature = 0.7
+        if self.default_temperature is not None:
+            temperature = self.default_temperature
+        temperature = min(max(0.0, temperature), 2.0)
 
         use_tools = bool(payload.get("tools")) and payload.get("tool_choice") != "none"
         prompt_tokens = len(encode_for_model(self.tokenizer, list(messages),
@@ -292,12 +301,16 @@ class OpenAICompatService:
         try:
             max_new = int(payload.get("max_output_tokens") or 64)
             temperature = payload.get("temperature")
-            temperature = 0.7 if temperature is None else float(temperature)
+            temperature = None if temperature is None else float(temperature)
         except (TypeError, ValueError):
             return 400, {"error": {"message": "max_output_tokens/temperature"
                                    " must be numeric",
                                    "type": "invalid_request_error"}}, None
         max_new = min(max(8, max_new), 256)
+        if temperature is None:
+            temperature = 0.7
+        if self.default_temperature is not None:
+            temperature = self.default_temperature
         temperature = min(max(0.0, temperature), 2.0)
 
         resp_id = f"resp-{uuid.uuid4().hex[:12]}"

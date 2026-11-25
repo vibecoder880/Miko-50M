@@ -215,6 +215,9 @@ def make_handler(service: MikoService,
                                                "type": "invalid_request_error"}})
                     return
                 t0 = time.time()
+                logger.info("responses payload keys: %s temperature=%s max_output_tokens=%s",
+                            sorted(k for k in payload.keys()),
+                            payload.get("temperature"), payload.get("max_output_tokens"))
                 status, body, stream_fn = compat.responses(payload)
                 logger.info("POST /v1/responses -> %d (%.0f ms)",
                             status, (time.time() - t0) * 1000)
@@ -277,6 +280,9 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--threads", type=int, default=2)
     ap.add_argument("--bundles-root", default="dist",
                     help="dir holding serving bundles (OpenAI /v1/models)")
+    ap.add_argument("--temperature", type=float, default=None,
+                    help="force a serving temperature for all requests "
+                         "(e.g. 0.0 = greedy; overrides client values)")
     args = ap.parse_args(argv)
 
     ckpt, tok, version = resolve_paths(args)
@@ -285,7 +291,8 @@ def main(argv: Optional[list[str]] = None) -> int:
         return 1
     service = MikoService(ckpt, tok, version=version, threads=args.threads)
     compat = OpenAICompatService(bundles_root=args.bundles_root,
-                                 threads=args.threads)
+                                 threads=args.threads,
+                                 default_temperature=args.temperature)
     httpd = ThreadingHTTPServer(
         (args.host, args.port), make_handler(service, compat))
     logger.info("miko %s (step %d) serving on http://%s:%d — /health /v1/info /v1/chat /v1/models /v1/chat/completions",
