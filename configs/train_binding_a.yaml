@@ -1,0 +1,47 @@
+# Binding epochs (plan 20261125-binding-and-base60k phase 01).
+# CONTINUATION of the gym lineage — NOT a fresh seed. The launcher copies
+# checkpoints_sft_v3/latest (step 3000, val 4.44) into this lineage once;
+# --resume auto must then report step 3000 (acceptance guard against the
+# random-init bug of v0.4-v4).
+#
+# Data: shards_sft_v4 (90737 windows: copy-gym 50K + tool 5.7K + chat 618
+# + 50/50 LM mix) — the tool-heavy pool the gym cycle never got to use.
+# 6000 max steps counts CONTINUATION steps: the resumed trainer starts at
+# 3000 and adds up to 3000 more (lr 2e-5 cosine, warmup 5%).
+
+model:
+  vocab_size: 16000
+  hidden_size: 384
+  num_layers: 12
+  num_heads: 6
+  ffn_size: 1792
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_sft_v4/train
+  val_dir: data/shards_sft_v4/val
+
+train:
+  optimizer: adamw
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 6000
+  lr: 2.0e-5
+  min_lr_ratio: 0.1
+  warmup_pct: 0.05
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 250
+  eval_batches: 24
+  checkpoint_every: 250
+  milestone_every: 500
+  keep_last: 2
+  out_dir: checkpoints_binding_a
+  log_csv: logs/train_binding_a.csv
