@@ -1,0 +1,24 @@
+14:30:02 | INFO    | miko.server | miko miko-sft-v2-2026-11-24-step1100 (step 1100) serving on http://127.0.0.1:8891 — /health /v1/info /v1/chat /v1/models /v1/chat/completions
+Reading additional input from stdin...
+OpenAI Codex v0.172.0
+--------
+workdir: /home/khanh/.zcode/workspace/8f4cac62-0b0f-468d-9db8-e31092d957e2/Miko-50M
+model: miko-sft-gym
+provider: miko
+approval: never
+sandbox: read-only
+reasoning effort: none
+reasoning summaries: none
+session id: 01a2131d-1bee-7d60-be70-b80c971ea9d6
+--------
+user
+Nói xin chào bằng tiếng Việt
+warning: Model metadata for `miko-sft-gym` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+14:30:05 | INFO    | miko.server | responses payload keys: ['client_metadata', 'include', 'input', 'model', 'parallel_tool_calls', 'prompt_cache_key', 'reasoning', 'store', 'stream', 'tool_choice', 'tools'] temperature=None max_output_tokens=None
+14:30:06 | INFO    | miko.openai | loaded model miko-sft-gym
+14:30:06 | INFO    | miko.server | POST /v1/responses -> 200 (1545 ms)
+codex
+Để tính (5 + 8) × 8 = 79.<eos>
+tokens used
+305
+Để tính (5 + 8) × 8 = 79.<eos>

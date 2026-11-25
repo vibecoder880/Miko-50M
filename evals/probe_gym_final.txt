@@ -1,0 +1,12 @@
+echo     : 'Để tính (2 + 8) × 8 chính xác, Miko dùng máy tính.<eos>'
+           eos=True tool_call_id8=False
+disp2cmp : 'Để tính 87 × 89 chính xác, Miko dùng máy tính.<eos>'
+           eos=True tool_call_id8=False
+tool-new : 'Để tính (2 + 8) × 8 chính xác, Miko dùng máy tính.<eos>'
+           eos=True tool_call_id8=False
+tool-sum : 'Để tính (4 + 8) × 8 chính xác, Miko dùng máy tính.<eos>'
+           eos=True tool_call_id8=False
+no-tool  : 'Để tính 87 × 89 chính xác, Miko dùng máy tính.<eos>'
+           eos=True tool_call_id8=False
+greet    : 'Để tính (, Miko dùng máy tính.<eos>'
+           eos=True tool_call_id8=False

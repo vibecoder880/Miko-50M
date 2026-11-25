@@ -1,0 +1,186 @@
+{
+  "checkpoint": "checkpoints_sft_v3/latest",
+  "categories": {
+    "chat_sft": {
+      "score": 0.1429,
+      "passed": 2,
+      "total": 14,
+      "items": [
+        {
+          "id": "sft_greet_001",
+          "passed": true,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_id_001",
+          "passed": true,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_cap_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_math_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_season_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_flag_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_code_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_code_002",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_thanks_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_bye_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_polite_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_boil_001",
+          "passed": false,
+          "generated": "Để tính."
+        },
+        {
+          "id": "sft_week_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "sft_pi_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        }
+      ]
+    },
+    "chat_basic": {
+      "score": 0.0,
+      "passed": 0,
+      "total": 8,
+      "items": [
+        {
+          "id": "chat_001",
+          "passed": false,
+          "generated": " 8."
+        },
+        {
+          "id": "chat_002",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_003",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_004",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_005",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_006",
+          "passed": false,
+          "generated": ",, and the the =üüô financial d to"
+        },
+        {
+          "id": "chat_007",
+          "passed": false,
+          "generated": "."
+        },
+        {
+          "id": "chat_008",
+          "passed": false,
+          "generated": "."
+        }
+      ]
+    },
+    "regression": {
+      "score": 0.3333,
+      "passed": 3,
+      "total": 9,
+      "items": [
+        {
+          "id": "reg_greet_001",
+          "passed": false,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_greet_002",
+          "passed": true,
+          "generated": "Để tính (, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_toolfmt_001",
+          "passed": false,
+          "generated": "Để tính (2 + 8) × 8 chính xác, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_toolfmt_002",
+          "passed": false,
+          "generated": "Để tính (2 + 7) × 8 chính xác, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_toolfmt_003",
+          "passed": false,
+          "generated": "Để tính (2 + 8) × 8 chính xác, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_noneg_001",
+          "passed": true,
+          "generated": "Để tính 87 × 89 chính xác, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_noneg_002",
+          "passed": true,
+          "generated": "Để tính 87 × 89 chính xác, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_copy_001",
+          "passed": false,
+          "generated": "Để tính (2 + 8) × 8 chính xác, Miko dùng máy tính."
+        },
+        {
+          "id": "reg_copy_002",
+          "passed": false,
+          "generated": "Để tính 87 × 89 chính xác, Miko dùng máy tính."
+        }
+      ]
+    }
+  },
+  "summary": {
+    "chat_basic": 0.0,
+    "chat_sft": 0.1429,
+    "regression": 0.3333
+  }
+}
