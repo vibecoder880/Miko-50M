@@ -43,8 +43,8 @@ req() { # method path [json-body]
   echo "# bundle: $BUNDLE ($(cat "$BUNDLE/VERSION" 2>/dev/null | head -1))"
   req GET /health
   req GET /v1/info
-  req POST /v1/chat '{"messages":[{"role":"user","content":"Xin chào, bạn là ai?"}],"max_new_tokens":48}'
-  req POST /v1/chat '{"messages":[{"role":"user","content":"123*456 bằng bao nhiêu?"}],"tools":true,"max_new_tokens":96}'
+  req POST /v1/chat '{"messages":[{"role":"user","content":"Xin chào, bạn là ai?"}],"max_new_tokens":48,"temperature":0.0}'
+  req POST /v1/chat '{"messages":[{"role":"user","content":"123*456 bằng bao nhiêu?"}],"tools":true,"max_new_tokens":96,"temperature":0.0}'
 } > "$OUT" 2>&1
 
 echo "transcript -> $OUT"

@@ -116,6 +116,7 @@ class MikoService:
         tools = bool(payload.get("tools", False))
         try:
             max_new = int(payload.get("max_new_tokens", 96))
+            # temperature 0.0 = greedy (generate() maps <= 0 to greedy)
             temperature = float(payload.get("temperature", 0.7))
         except (TypeError, ValueError):
             return 400, {"error": "max_new_tokens/temperature must be numeric"}
