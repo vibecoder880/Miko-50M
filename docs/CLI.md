@@ -72,3 +72,13 @@ model mạnh tới đâu, agent tới đó.
 
 Transcript e2e chuẩn: `evals/codex_cli_transcript.txt` (0 protocol
 error, tokens used 305).
+
+## Bundles hiện có
+
+| Bundle | Nguồn | Ghi chú |
+|---|---|---|
+| `miko-sft-v2` | SFT 1100 steps (chat+tool mix) | lần đầu emit `<tool_call>` |
+| `miko-gym-interim` | gym cycle step-600 (tạm, frozen) | chỉ để so sánh tiến trình |
+
+Sau khi chu kỳ gym 3000 steps hoàn tất, bundle cuối sẽ thay thế làm
+mặc định (`dist/miko-sft-gym`).
