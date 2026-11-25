@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miko Web — test console</title>
+<style>
+  :root { --bg:#0f1115; --panel:#171a21; --line:#262a33; --txt:#e6e9ef; --dim:#8a93a6; --acc:#7aa2f7; --ok:#9ece6a; --warn:#e0af68; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font:14px/1.5 system-ui,Segoe UI,Roboto,sans-serif; }
+  header { display:flex; align-items:center; gap:12px; padding:10px 16px; border-bottom:1px solid var(--line); background:var(--panel); }
+  header h1 { font-size:15px; margin:0; font-weight:600; }
+  header .st { font-size:12px; color:var(--dim); }
+  select, input[type=text], textarea, button { background:#1c2029; color:var(--txt); border:1px solid var(--line); border-radius:6px; padding:6px 10px; font:inherit; }
+  select:focus, textarea:focus { outline:1px solid var(--acc); }
+  main { display:grid; grid-template-columns: 1fr 300px; gap:0; height:calc(100vh - 49px); }
+  #chat { overflow-y:auto; padding:16px 16px 8px; }
+  .msg { margin:0 0 10px; max-width:78%; padding:8px 12px; border-radius:10px; white-space:pre-wrap; word-break:break-word; }
+  .user { background:#243049; margin-left:auto; }
+  .bot  { background:var(--panel); border:1px solid var(--line); }
+  .tool { color:var(--warn); font-size:13px; font-family:ui-monospace,monospace; margin:4px 0 10px 12px; }
+  .meta { color:var(--dim); font-size:11px; margin:2px 0 12px 12px; }
+  form { display:flex; gap:8px; padding:10px 16px 14px; }
+  #inp { flex:1; resize:none; height:64px; }
+  aside { border-left:1px solid var(--line); padding:14px; display:flex; flex-direction:column; gap:12px; background:var(--panel); }
+  aside label { font-size:12px; color:var(--dim); display:block; margin-bottom:4px; }
+  aside textarea { width:100%; height:72px; font-size:12px; }
+  .row { display:flex; align-items:center; gap:8px; font-size:13px; }
+  #send { background:var(--acc); color:#0b1020; font-weight:600; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; }
+  #send[disabled] { opacity:.5; cursor:default; }
+  .kv { font-size:12px; color:var(--dim); }
+  .kv b { color:var(--txt); }
+</style>
+</head>
+<body>
+<header>
+  <h1>🐦 Miko Web</h1>
+  <span class="st" id="status">connecting…</span>
+  <span style="flex:1"></span>
+  <label style="font-size:12px;color:var(--dim)">model</label>
+  <select id="model"></select>
+</header>
+<main>
+  <section style="display:flex;flex-direction:column">
+    <div id="chat"></div>
+    <form id="f">
+      <textarea id="inp" placeholder="Hỏi Miko… (Enter gửi, Shift+Enter xuống dòng)"></textarea>
+      <button id="send">Gửi</button>
+    </form>
+  </section>
+  <aside>
+    <div>
+      <label>System prompt</label>
+      <textarea id="sys">Bạn là Miko, một trợ lý nhỏ nói tiếng Việt. Khi cần tính toán chính xác, hãy dùng công cụ:
+<tool_call>
+{"name": "calculator", "arguments": {"expression": "..."}}
+</tool_call></textarea>
+    </div>
+    <div class="row"><input type="checkbox" id="tools" checked> <span>Dùng tool calculator (chạy server-side)</span></div>
+    <div>
+      <label>Temperature: <span id="tv">0.0</span> (0 = greedy)</label>
+      <input type="range" id="temp" min="0" max="2" step="0.1" value="0" style="width:100%">
+    </div>
+    <div>
+      <label>Max tokens</label>
+      <input type="text" id="maxtok" value="64">
+    </div>
+    <div class="kv" id="info">…</div>
+    <div style="flex:1"></div>
+    <div class="kv">Endpoints: /v1/models · /v1/chat/completions · /v1/responses (SSE)<br>Miko 38M — CPU box, trả lời vài chục giây.</div>
+  </aside>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const chat = $('chat');
+
+function add(cls, text) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + cls;
+  d.textContent = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+  return d;
+}
+
+async function boot() {
+  try {
+    const h = await (await fetch('/health')).json();
+    $('status').textContent = 'ok · step ' + h.step;
+    const m = await (await fetch('/v1/models')).json();
+    for (const x of m.data) {
+      const o = document.createElement('option');
+      o.value = x.id; o.textContent = x.id;
+      $('model').appendChild(o);
+    }
+    const i = await (await fetch('/v1/info')).json();
+    $('info').innerHTML = `params <b>${(i.params/1e6).toFixed(1)}M</b> · ctx <b>${i.context_length}</b> · tools <b>${i.tools.join(', ')}</b>`;
+  } catch (e) { $('status').textContent = 'error: ' + e.message; }
+}
+
+$('temp').oninput = e => $('tv').textContent = e.target.value;
+
+let busy = false;
+$('f').onsubmit = async ev => {
+  ev.preventDefault();
+  if (busy) return;
+  const q = $('inp').value.trim();
+  if (!q) return;
+  $('inp').value = '';
+  add('user', q);
+  busy = true; $('send').disabled = true;
+  const t0 = performance.now();
+  const bot = add('bot', '…');
+  try {
+    const res = await fetch('/v1/responses', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: $('model').value,
+        instructions: $('sys').value,
+        input: q,
+        temperature: parseFloat($('temp').value),
+        max_output_tokens: parseInt($('maxtok').value) || 64,
+        stream: true,
+      }),
+    });
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '', text = '';
+    for (;;) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, {stream: true});
+      const lines = buf.split('\n'); buf = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const payload = line.slice(6);
+        if (payload === '[DONE]') continue;
+        let j; try { j = JSON.parse(payload); } catch { continue; }
+        if (j.type === 'response.output_text.delta') { text += j.delta; bot.textContent = text; chat.scrollTop = chat.scrollHeight; }
+        if (j.type === 'response.completed' && j.response?.miko?.tool_calls?.length) {
+          for (const c of j.response.miko.tool_calls)
+            add('tool', `[tool] ${c.name}(${JSON.stringify(c.arguments)}) -> ${c.result}`);
+        }
+      }
+    }
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.textContent = `${secs}s · temperature ${$('temp').value}`;
+    chat.appendChild(meta);
+  } catch (e) {
+    bot.textContent = 'Lỗi: ' + e.message;
+  }
+  busy = false; $('send').disabled = false;
+};
+
+boot();
+</script>
+</body>
+</html>

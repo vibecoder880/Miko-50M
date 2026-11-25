@@ -171,7 +171,24 @@ def make_handler(service: MikoService,
             self.end_headers()
             self.wfile.write(data)
 
+        def _serve_index(self) -> None:
+            index = os.path.join(os.path.dirname(
+                os.path.dirname(os.path.abspath(__file__))), "web", "index.html")
+            try:
+                with open(index, "rb") as fh:
+                    data = fh.read()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+            except OSError:
+                self._send(404, {"error": "web/index.html missing"})
+
         def do_GET(self) -> None:  # noqa: N802 (stdlib naming)
+            if self.path in ("/", "/index.html", "/web"):
+                self._serve_index()
+                return
             if self.path == "/health":
                 self._send(200, {"status": "ok", "step": service.step})
             elif self.path == "/v1/info":
