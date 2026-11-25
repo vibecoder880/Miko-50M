@@ -7,7 +7,7 @@ goal: CLI agent như Codex/Claude Code chạy trên model Miko — KHÔNG viết
       lại từ đầu: mượn @openai/codex làm frontend, Miko server nói
       giao thức OpenAI-compatible làm backend; ./miko wrapper gắn 2 bên
 owner: single
-status: in-progress
+status: completed
 ```
 
 ## Brainstorm contract (pivot 2026-11-25)
