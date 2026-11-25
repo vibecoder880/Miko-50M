@@ -27,6 +27,10 @@ class GenerationConfig:
     repetition_penalty: float = 1.1
     greedy: bool = False
     eos_token_id: Optional[int] = None
+    # Streaming hook: called with each newly chosen token id (batch 0 only).
+    # Lets callers (SSE server, CLI) emit output token-by-token without
+    # changing the sampling math.
+    on_token: Optional[callable] = None
 
 
 def _sample_logits(
@@ -97,6 +101,8 @@ def generate(
             tok = _sample_logits(logits[b, -1], cfg, generated=seq[b].tolist())
             next_ids.append(tok)
         nxt = torch.tensor(next_ids, dtype=torch.long, device=seq.device).unsqueeze(1)
+        if cfg.on_token is not None and not done[0]:
+            cfg.on_token(int(next_ids[0]))
         seq = torch.cat([seq, nxt], dim=1)
         if cfg.eos_token_id is not None:
             done |= nxt.squeeze(1) == cfg.eos_token_id

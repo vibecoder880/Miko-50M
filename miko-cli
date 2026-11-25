@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# ./miko-cli — Codex-style agent CLI on the Miko model (plan 20261125).
+#
+# Boots the Miko OpenAI-compatible server (bundles under dist/), then
+# launches the vendored OpenAI Codex CLI pointed at it via a repo-local
+# CODEX_HOME. Exiting the CLI shuts the server down cleanly.
+#
+# Usage:
+#   ./miko-cli                       # interactive agent (default model)
+#   ./miko-cli exec "prompt"         # codex subcommands pass through
+#   MIKO_PORT=8800 ./miko-cli        # fixed port
+set -euo pipefail
+cd "$(dirname "$0")"
+
+PY=.venv/bin/python
+PORT="${MIKO_PORT:-8877}"
+CODEX_BIN=.miko-codex-cli/node_modules/.bin/codex
+export CODEX_HOME="$PWD/.miko-codex"
+export MIKO_API_KEY="miko-local"
+
+[ -x "$CODEX_BIN" ] || { echo "installing codex cli..."; npm install --prefix .miko-codex-cli @openai/codex >/dev/null 2>&1; }
+[ -x "$CODEX_BIN" ] || { echo "missing $CODEX_BIN - npm install failed"; exit 1; }
+[ -f dist/miko-sft-v2/checkpoint/model.safetensors ] || {
+  echo "no serving bundle - exporting from checkpoints_sft_v2/latest"
+  "$PY" scripts/export_bundle.py --checkpoint checkpoints_sft_v2/latest --out dist/miko-sft-v2
+}
+
+mkdir -p "$CODEX_HOME"
+cat > "$CODEX_HOME/config.toml" <<EOF
+model = "miko-sft-v2"
+model_provider = "miko"
+
+[model_providers.miko]
+name = "Miko local"
+base_url = "http://127.0.0.1:${PORT}/v1"
+env_key = "MIKO_API_KEY"
+wire_api = "responses"
+EOF
+
+OMP_NUM_THREADS=2 nice -n 10 "$PY" -m miko.server --bundle dist/miko-sft-v2 \
+    --port "$PORT" --bundles-root dist &
+SERVER_PID=$!
+trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+for i in $(seq 1 60); do
+  curl -sf "http://127.0.0.1:$PORT/health" >/dev/null 2>&1 && break
+  sleep 2
+done
+
+exec "$CODEX_BIN" "$@"

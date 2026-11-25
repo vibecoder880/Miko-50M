@@ -1,0 +1,23 @@
+01:33:19 | INFO    | miko.server | miko miko-sft-v2-2026-11-24-step1100 (step 1100) serving on http://127.0.0.1:8882 — /health /v1/info /v1/chat /v1/models /v1/chat/completions
+Reading additional input from stdin...
+OpenAI Codex v0.172.0
+--------
+workdir: /home/khanh/.zcode/workspace/8f4cac62-0b0f-468d-9db8-e31092d957e2/Miko-50M
+model: miko-sft-v2
+provider: miko
+approval: never
+sandbox: read-only
+reasoning effort: none
+reasoning summaries: none
+session id: 01a21055-fde8-7110-b4b0-cfff5b279124
+--------
+user
+Nói xin chào bằng tiếng Việt
+warning: Model metadata for `miko-sft-v2` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+01:33:26 | INFO    | miko.openai | loaded model miko-sft-v2
+01:33:27 | INFO    | miko.server | POST /v1/responses -> 200 (5684 ms)
+codex
+Kết quả là 10 server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server
+tokens used
+305
+Kết quả là 10 server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server server

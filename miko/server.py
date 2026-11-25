@@ -30,6 +30,7 @@ from typing import Any, Optional
 import torch
 
 from .agent import AgentConfig, encode_for_model, run_agent
+from .openai_compat import OpenAICompatService
 from .chat_template import ChatMessage
 from .checkpoint import load_model
 from .generation import GenerationConfig, generate
@@ -157,7 +158,8 @@ class MikoService:
         return 200, body
 
 
-def make_handler(service: MikoService) -> type[BaseHTTPRequestHandler]:
+def make_handler(service: MikoService,
+                 compat: OpenAICompatService) -> type[BaseHTTPRequestHandler]:
     class Handler(BaseHTTPRequestHandler):
         server_version = "MikoHTTP/1"
 
@@ -174,10 +176,60 @@ def make_handler(service: MikoService) -> type[BaseHTTPRequestHandler]:
                 self._send(200, {"status": "ok", "step": service.step})
             elif self.path == "/v1/info":
                 self._send(200, service.info())
+            elif self.path == "/v1/models":
+                self._send(200, {"object": "list", "data": compat.list_models()})
             else:
                 self._send(404, {"error": "not found"})
 
         def do_POST(self) -> None:  # noqa: N802
+            if self.path == "/v1/chat/completions":
+                try:
+                    length = int(self.headers.get("Content-Length", "0"))
+                    payload = json.loads(self.rfile.read(length) or b"{}")
+                except (ValueError, json.JSONDecodeError):
+                    self._send(400, {"error": {"message": "invalid JSON body",
+                                               "type": "invalid_request_error"}})
+                    return
+                t0 = time.time()
+                status, body, stream_fn = compat.complete(payload)
+                logger.info("POST /v1/chat/completions -> %d (%.0f ms)",
+                            status, (time.time() - t0) * 1000)
+                if stream_fn is not None:
+                    self.send_response(status)
+                    self.send_header("Content-Type",
+                                     "text/event-stream; charset=utf-8")
+                    self.send_header("Cache-Control", "no-cache")
+                    self.end_headers()
+                    for chunk in stream_fn():
+                        self.wfile.write(chunk.encode("utf-8"))
+                        self.wfile.flush()
+                    return
+                self._send(status, body)
+                return
+            if self.path == "/v1/responses":
+                try:
+                    length = int(self.headers.get("Content-Length", "0"))
+                    payload = json.loads(self.rfile.read(length) or b"{}")
+                except (ValueError, json.JSONDecodeError):
+                    self._send(400, {"error": {"message": "invalid JSON body",
+                                               "type": "invalid_request_error"}})
+                    return
+                t0 = time.time()
+                status, body, stream_fn = compat.responses(payload)
+                logger.info("POST /v1/responses -> %d (%.0f ms)",
+                            status, (time.time() - t0) * 1000)
+                if stream_fn is not None:
+                    self.send_response(status)
+                    self.send_header("Content-Type",
+                                     "text/event-stream; charset=utf-8")
+                    self.send_header("Cache-Control", "no-cache")
+                    self.end_headers()
+                    for chunk in stream_fn():
+                        self.wfile.write(chunk.encode("utf-8"))
+                        self.wfile.flush()
+                    return
+                self._send(status, body)
+                return
             if self.path != "/v1/chat":
                 self._send(404, {"error": "not found"})
                 return
@@ -223,6 +275,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8000)
     ap.add_argument("--threads", type=int, default=2)
+    ap.add_argument("--bundles-root", default="dist",
+                    help="dir holding serving bundles (OpenAI /v1/models)")
     args = ap.parse_args(argv)
 
     ckpt, tok, version = resolve_paths(args)
@@ -230,8 +284,11 @@ def main(argv: Optional[list[str]] = None) -> int:
         logger.error("no model at %s — export a bundle or pass --checkpoint", ckpt)
         return 1
     service = MikoService(ckpt, tok, version=version, threads=args.threads)
-    httpd = ThreadingHTTPServer((args.host, args.port), make_handler(service))
-    logger.info("miko %s (step %d) serving on http://%s:%d — /health /v1/info /v1/chat",
+    compat = OpenAICompatService(bundles_root=args.bundles_root,
+                                 threads=args.threads)
+    httpd = ThreadingHTTPServer(
+        (args.host, args.port), make_handler(service, compat))
+    logger.info("miko %s (step %d) serving on http://%s:%d — /health /v1/info /v1/chat /v1/models /v1/chat/completions",
                 version, service.step, args.host, args.port)
     try:
         httpd.serve_forever()

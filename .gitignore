@@ -31,3 +31,5 @@ miko_tokenizer/
 .vscode/
 .idea/
 .DS_Store
+.miko-codex-cli/
+.miko-codex/
