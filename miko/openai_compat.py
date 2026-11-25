@@ -108,7 +108,14 @@ class OpenAICompatService:
 
     # -- generation -----------------------------------------------------
     def _generate_fn(self, max_new_tokens: int, temperature: float,
-                     on_token=None):
+                     on_token=None, clean_specials: bool = False):
+        """Build a generate_fn for this lineage.
+
+        clean_specials=True strips the special tokens (<eos>, <pad>, ...)
+        from the returned text — for display paths. The tools/agent path
+        needs them (parse_tool_call reads the <tool_call> marker), so it
+        keeps the raw decode.
+        """
         model, tok = self._model, self._tokenizer
         cfg = GenerationConfig(
             max_new_tokens=max_new_tokens,
@@ -126,7 +133,7 @@ class OpenAICompatService:
                 ..., -model.config.context_length:]
             out = generate(model, input_ids, cfg=cfg)
             new_ids = out[0, input_ids.shape[1]:].tolist()
-            return tok.decode(new_ids, skip_special_tokens=False)
+            return tok.decode(new_ids, skip_special_tokens=clean_specials)
 
         return generate_fn
 
@@ -230,7 +237,8 @@ class OpenAICompatService:
                     yield "data: [DONE]\n\n"
                 return 200, None, stream_fn
             with self._lock:
-                gen = self._generate_fn(max_new, temperature)
+                gen = self._generate_fn(max_new, temperature,
+                                        clean_specials=True)
                 msgs = list(messages)
                 if msgs[0].role != "system":
                     msgs = [ChatMessage("system", DEFAULT_SYSTEM), *msgs]
@@ -346,7 +354,7 @@ class OpenAICompatService:
                 msgs = [ChatMessage("system", DEFAULT_SYSTEM), *messages]
             else:
                 msgs = list(messages)
-            gen = self._generate_fn(max_new, temperature)
+            gen = self._generate_fn(max_new, temperature, clean_specials=True)
             return gen(msgs)
 
         if stream:
@@ -375,13 +383,16 @@ class OpenAICompatService:
                 parts: list[str] = []
 
                 def collect(tok_id: int) -> None:
+                    # Display path: strip specials (<eos>/<pad>/...).
                     text = self.tokenizer.decode([tok_id],
-                                                 skip_special_tokens=False)
+                                                 skip_special_tokens=True)
                     if text:
                         parts.append(text)
 
                 with self._lock:
-                    gen = self._generate_fn(max_new, temperature, on_token=collect)
+                    gen = self._generate_fn(max_new, temperature,
+                                            on_token=collect,
+                                            clean_specials=True)
                     if messages[0].role != "system":
                         msgs = [ChatMessage("system", DEFAULT_SYSTEM), *messages]
                     else:
