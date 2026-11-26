@@ -1,0 +1,46 @@
+# Miko-75M pretraining config (scale-up decision pending bench_75m.py
+# numbers on the real box). Same recipe as train_38m_v3.yaml, scaled:
+# h384→512, L12→16, ffn1792→2048, heads 6→8 (head_dim 64 kept).
+# Adafactor REQUIRED on this box: AdamW state ~1.8GB vs Adafactor ~0.1GB.
+#
+# Corpus: data/shards_v3 (67.7M tokens, vi 56.6%).
+# Budget: 3 epochs ≈ 203M tokens; at measured 38M-throughput scaling
+# (~114 tok/s est.) that is ~3 weeks of shared-box time — launch only
+# after scripts/bench_75m.py confirms throughput and the user signs off.
+
+model:
+  vocab_size: 16000
+  hidden_size: 512
+  num_layers: 16
+  num_heads: 8
+  ffn_size: 2048
+  context_length: 512
+  activation: swiglu
+  use_rope: true
+  tie_embeddings: true
+
+data:
+  train_dir: data/shards_v3/train
+  val_dir: data/shards_v3/val
+
+train:
+  optimizer: adafactor
+  seq_len: 128
+  batch_size: 1
+  grad_accum: 16
+  max_steps: 24000          # ~203M tokens at seq128 x accum16
+  lr: 2.0e-4                # slightly lower than 38M (bigger model)
+  min_lr_ratio: 0.1
+  warmup_pct: 0.02
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  clip_grad: 1.0
+  seed: 42
+  log_every: 10
+  eval_every: 500
+  eval_batches: 16
+  checkpoint_every: 500
+  milestone_every: 6000
+  keep_last: 2
+  out_dir: checkpoints_75m
+  log_csv: logs/train_75m.csv
